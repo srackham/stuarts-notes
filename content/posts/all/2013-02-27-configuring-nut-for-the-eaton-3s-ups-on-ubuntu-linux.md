@@ -9,7 +9,7 @@ categories:
 - UPS
 ---
 
-**Note**: Since this post was published I've installed and tests on Ubuntu Server 14.04 and have highlighted the difference between Ubuntu 14.04 and 12.04 [at the end of this post](/posts/configuring-nut-for-the-eaton-3s-ups-on-ubuntu-linux/#ubuntu-1404).
+**Note**: Since this post was published I've installed and tests on Ubuntu Server 14.04 and have highlighted the difference between Ubuntu 14.04 and 12.04 at the end of this post.
 
 This post explains how to configure [Network UPS Tools (NUT)](http://www.networkupstools.org/) to work with an [Eaton 3S UPS](http://powerquality.eaton.com/Products-services/Backup-Power-UPS/3S.aspx) on a stand-alone Ubuntu 12.04 PC (Nut version 2.6.3).
 
@@ -183,7 +183,7 @@ The key to using a UPS with NUT is getting a UPS that is fully supported by the 
   4. Other users report [it works with Ubuntu 12.04](http://askubuntu.com/questions/107883/how-to-use-a-eaton-3s-700va-ups-with-ubuntu-server). 
 
 
-## Ubuntu 14.04 <a name="ubuntu-1404"></a>
+## Ubuntu 14.04
 Since this post was originally published I've installed and tested Nut on Ubuntu Server 14.04 (Nut version 2.7.1) where I encountered an intermittent startup error viz. about one boot in six the UPS driver failed to connect leaving the following error in the _syslog_:
 
     Poll UPS [eaton3s@localhost] failed - Driver not connected

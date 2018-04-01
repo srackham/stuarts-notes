@@ -346,4 +346,4 @@ As of writing this article most eBook readers (with the notable exception of Ama
 ## Non-fiction Books and Manuals
 
 
-AsciiDoc supports a rich set of markup conventions and can generate reference works and technical manuals complete with tables, illustrations, indexes, bibliographies and appendices. All the examples on the [AsciiDoc web site](http:///www.methods.co.nz/asciidoc/) can be formatted as EPUB eBooks.
+AsciiDoc supports a rich set of markup conventions and can generate reference works and technical manuals complete with tables, illustrations, indexes, bibliographies and appendices. All the examples on the [AsciiDoc web site](http://www.methods.co.nz/asciidoc/) can be formatted as EPUB eBooks.
