@@ -1,0 +1,11 @@
+{{template "header" .}}
+<h1>All Blog Posts</h1>
+<ul class="docslist">
+    {{range .docs}}
+    <li>
+        <h2 style="margin-top:0.5rem"><a href="{{.url}}">{{.title}}</a></h2>
+    </li>
+    {{end}}
+</ul>
+<p> {{.count}} posts</p>
+{{template "footer" .}}
