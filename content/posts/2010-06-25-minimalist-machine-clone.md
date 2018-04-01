@@ -1,0 +1,239 @@
+---
+date: 2010-06-25 03:57:47+00:00
+slug: minimalist-machine-clone
+title: Minimalist Machine Clone
+categories:
+- Linux
+- System Administration
+---
+
+
+I was faced with the problem of cloning one Ubuntu server box to another.  My solution is purposefully minimalist, requiring only a bootable Linux CD-ROM (I used the Xubuntu 10.04 Desktop CD-ROM) and an external USB drive to transfer the HDD data.
+
+<!--more-->
+
+The procedure involves backing up and restoring the MBR, partition table and partition image files then manually tweaking hardware configuration differences. The examples are for HDD `/dev/sda` with a single ext3 partition and external USB backup drive `/dev/sdb` with an ext3 partition `/dev/sdb1` -- you need to adjust the drive and partition device names to match your environment.
+
+  * The MBR is reinstalled by the GRUB boot loader instead of backing up and restoring the raw 512 byte MRB sector because the existing MBR will only work if the target HDD has exactly the same geometry as the source drive. 
+  * The target HDD's geometry doesn't need to match the source drive but the target drive's capacity cannot not be less that the source drive. You can use hdparm(1) to view the drive's parameters:
+    
+    hdparm -gi /dev/sda
+
+
+ 
+  * Because raw partitions are involved this procedure should also work for non-Linux operating systems, but you will need to use the tools recommended by your operating system to regenerate the MBR and tweak the hardware configuration differences. 
+  * This procedure can be used to upgrade to a larger HDD. After you've restored to the new disk run _gparted_ and resize your primary partition (on the Xubuntu 10.04 Live CD you will find _gparted_ in the _Applications->System_ menu). 
+  * Most of the commands require superuser privilege -- logon as root or apply a sudo command prefix. 
+
+
+
+## Backup
+
+  1. Mount the USB backup drive:
+    
+        mount /dev/sdb1 /mnt
+
+
+ 
+  2. Backup partition table:
+    
+        sfdisk -d /dev/sda > /mnt/sda-partition-table
+
+
+ 
+  3. Backup partition -- the partition must be unmounted to copy it so at this point you need to running off the Live CD.
+
+  4. Copy the partition to a file sda1-image on the USB drive:
+    
+        dd if=/dev/sda1 of=/mnt/sda1-image bs=1K
+
+
+ 
+
+Instead of the last command you could reduce the partition size by first zero filling unused space and then compressing with gzip(1):
+    
+    dd if=/dev/zero of=zerofill bs=1M
+    rm zerofill
+    dd if=/dev/sda1 bs=1K | gzip -c > /mnt/sda1-image.gz
+
+
+ 
+
+
+
+**_Note_**:
+I found that compression saved about 40% (will vary depending on free space) but was almost 50% slower. I have plenty of space on the USB backup drive so I didn't bother with compression.
+ 
+
+
+**_Tip_**:
+
+  * The file system on the partition image can be viewed and modified just like a partition by mounting it using the loop option, for example:
+    
+        mount -o loop sda1-image /mnt
+
+
+ 
+  * You can also directly check the partition image integrity, for example:
+    
+        e2fsck -f sda1-image
+
+
+ 
+
+
+
+
+## Restore
+
+  1. Go to the target PC and boot the Live CD. 
+  2. Mount the USB backup drive:
+    
+        mount -o ro /dev/sdb1 /mnt
+
+
+ 
+  3. Restore partition table:
+    
+        sfdisk /dev/sda < /mnt/sda-partition-table
+
+
+ 
+
+
+**_Note_**:
+If there was already a swap partition on the target HDD the Live CD may be using it and you will get a _device busy_ message (you can check by running the swapon -s command). Use swapoff(8) to umount the swap, for example: swapoff /dev/sda5
+
+  1. Restore partition:
+    
+        dd if=/mnt/sda1-image of=/dev/sda1 bs=1K
+
+
+ 
+
+  2. Or if you compressed the partition:
+    
+        gzip -cd /mnt/sda1-image.gz | dd of=/dev/sda1 bs=1K
+
+
+ 
+  3. Write a new MBR using [GRUB](http://www.gnu.org/software/grub/). You need to use the version of GRUB (GRUB Legacy or GRUB 2) used by the cloned machine. The easiest way to do this is to change root to the cloned root partition and then run GRUB in it's native environment:
+    
+        mount /dev/sda1 /mnt
+        chroot /mnt
+
+
+ 
+
+If you have GRUB Legacy (version 0.9x) run these commands:
+    
+    grub
+    > root (hd0,0)
+    > setup (hd0)
+    > quit
+
+If you have GRUB 2 then do:
+    
+    grub-install /dev/sda
+
+
+ 
+
+You can find some nice Ubuntu GRUB2 documentation [here](https://help.ubuntu.com/community/Grub2).
+
+It's a good idea to check your restored drive with fsck:
+    
+    e2fsck -f /dev/sda1
+
+
+ 
+
+
+
+## Updating the target drive
+
+Creating partition images involves taking the source PC down and is time consuming. Instead of maintaining up to date  partition images I update the restored target with the latest [rsnapshot](http://rsnapshot.org/) backups from an external USB drive and use rsync to restore the latest snapshot, for example:
+    
+    mount -o ro /dev/sdb1 /mnt
+    mkdir /sda1
+    mount /dev/sda1 /sda1
+    rsync -aHxv --delete --exclude /var/local/backups/ \
+          /mnt/backups/hosts/kestrel/hourly.0/ /sda1/
+
+
+ 
+
+The updating is done from the Live CD as it may be undesirable to boot the target machine until it has been completely updated.
+
+
+
+
+**_Note_**:
+
+  * The rsync command uses the potentially dangerous --delete option  -- it's always a good idea to do a dry run with the -n option first. 
+  * The rsync -x ensures that files in the mounted USB drive are not deleted. 
+  * The rsync --exclude option ensures that files not included in the backup snapshot will not be deleted from the target file system. 
+  * The rsync -H option is used to preserve hard links and should also be included in your rsnapshot /etc/rsnapshot.conf configuration file:
+    
+        rsync_short_args      -aH
+
+
+ 
+  * rsnapshot(1) uses the rsync -x option when creating snapshots, this excludes the contents of the volatile kernel file systems (e.g. /sys, /proc, /dev, /var/run, /var/lock). 
+  * If you were to restore to the live target the rsync -x option ensures you won't delete the contents of the kernel file systems. 
+
+
+
+
+## Initializing swap space
+
+Before rebooting you need to initialize the target swap partition and update the swap UUID in /etc/fstab. If you don't initialize the swap it won't be  mounted and you will get boot errors like _unable to canonicalize swap_ (check for mounted swap with swapon -s). Use mkswap(8) to initialize the swap partition, for example:
+    
+    mkswap /dev/sda5
+
+
+ 
+
+mkswap(8) will print a UUID, note it down and then edit the swap entry in the target machine's /etc/fstab file. Alternatively you could just replace the UUID name with the swap device partition name (/dev/sda5 in our example). If your fstab doesn't use UUIDs you won't need to change anything. You can print the partition UUID using the vol_id(8) command, for example:
+    
+    vol_id /dev/sda5
+
+
+ 
+
+You can now reboot the target machine.  If your cloned drive is installed on different hardware you will need to read the next section.
+
+
+
+## Installing the cloned drive different hardware
+
+Here are post restoration configuration tweaks I had to make in order to get my cloned Ubuntu 7.10 server fully operational.
+
+Even if the target machine is be exactly the same make and model as the original the MAC address will be different. I my case the CD-ROM drive was also different. When I booted the target machine the _eth0_ network interface failed to come up (check this with ifconfig -a). To regenerate the correct network configuration delete the file
+    
+    /etc/udev/rules.d/70-persistent-net.rules
+
+
+ 
+
+and reboot.
+
+
+
+
+**_Note_**:
+This procedure varies depending on which Linux distribution you are using (see also [this blog entry](http://muffinresearch.co.uk/archives/2008/07/13/vmware-siocsifaddr-no-such-device-eth0-after-cloning/)).
+
+
+Similarly, to regenerate the CD-ROM drive parameters delete the file
+    
+    /etc/udev/rules.d/70-persistent-cd.rules
+
+
+ 
+
+then reboot.
+
+The only other configuration problem I had was an _unable to iterate IDE devices: missing file or directory_ message when halting the PC. The problem is benign and is caused by a missing /proc/ide directory (no idea why it's missing though). The error can be suppressed by removing the halt(8) command -h option in the /etc/init.d/halt script.  My guess is that this oddity is distribution dependent.
+
+Finally, don't forget to exclude the modified configuration files from any subsequent rsnapshot updates you make to the cloned machine.

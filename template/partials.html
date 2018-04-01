@@ -1,0 +1,74 @@
+{{define "header"}}
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{.title}}</title>
+<meta name="viewport" content="width=device-width"/>
+<link type="text/css" rel="stylesheet" href="{{.site.urlprefix}}/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="{{.site.urlprefix}}/index.html">{{.user.banner}}</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="{{.site.urlprefix}}/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="{{.site.urlprefix}}/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="{{.site.urlprefix}}/indexes/newsletters/docs-1.html">News</a></li>
+  <li><a href="{{.site.urlprefix}}/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+{{end}}
+
+{{define "footer"}}
+    </div>
+</div>
+</body>
+</html>
+{{end}}
+
+{{define "doctags"}}
+<span class="doctags">
+    {{range .}}
+    ・ <a href="{{.url}}">{{.tag}}</a>
+    {{end}}
+</span>
+{{end}}
+
+{{define "docfooter"}}
+<div class="docsfooter">
+    <span class="left">
+        {{if .prev.url}}
+        « <a href="{{.prev.url}}">Previous</a>
+        {{else}}
+        <span class="disabled">« Previous</span>
+        {{end}}
+    </span>
+    <span class="right">
+        {{if .next.url}}
+        <a href="{{.next.url}}">Next</a> »
+        {{else}}
+        <span class="disabled">Next »</span>
+        {{end}}
+    </span>
+</div>
+{{end}}
+
+{{define "docsfooter"}}
+<div class="docsfooter">
+    <span class="left">
+        {{if .prev.url}}
+        « <a href="{{.first.url}}">First</a> &nbsp;&nbsp; « <a href="{{.prev.url}}">Newer</a>
+        {{else}}
+        <span class="disabled">« First &nbsp;&nbsp; « Newer</span>
+        {{end}}
+    </span>
+    <span class="right">
+        {{if .next.url}}
+        <a href="{{.next.url}}">Older</a> » &nbsp;&nbsp; <a href="{{.last.url}}">Last</a> »
+        {{else}}
+        <span class="disabled">Older » &nbsp;&nbsp; Last »</span>
+        {{end}}
+    </span>
+</div>
+{{end}}
