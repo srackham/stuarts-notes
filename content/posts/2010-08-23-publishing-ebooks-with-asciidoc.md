@@ -245,7 +245,7 @@ This book includes a front cover image and a customized page design. To generate
 Here’s a screenshot of the first page of the first chapter (rendered by the [Firefox EPUBReader addon](http://www.epubread.com/en/)):
 
 
-![images/epub.png](/images/epub.png)
+![images/epub.png](./images/epub.png)
 
 
 The [AsciiDoc source Zip file](http://www.methods.co.nz/misc/examples/books/adventures-of-sherlock-holmes.zip) contains the following files:

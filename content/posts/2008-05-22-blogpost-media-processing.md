@@ -13,9 +13,9 @@ _blogpost_ 0.9.0 adds lots of new features to the previous 0.1.0 release.  The m
 
 <!--more-->
 
-This blog post along with this inline image ![smallnew.png](/images/smallnew.png) and this block image:
+This blog post along with this inline image ![smallnew.png](./images/smallnew.png) and this block image:
 
-![tiger.png](/images/tiger.png)
+![tiger.png](./images/tiger.png)
 
 Were uploaded by using this _blogpost_ create command:
 

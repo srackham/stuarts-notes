@@ -21,28 +21,28 @@ Throughout this post I use the word _delete_ to mean removing both the snapshot 
 The technique to delete snapshots involves grafting an empty snapshot at the point you want to delete to; merging snapshots down to that point; and finally merging the empty snapshot to its parent. The following screenshots should make the process a bit clearer:
 
   1. Here's our starting point -- the goal is to delete snapshots 3 and 4. <br>
-![deleting-vbox-snapshots-1.png](/images/deleting-vbox-snapshots-1.png)
+![deleting-vbox-snapshots-1.png](./images/deleting-vbox-snapshots-1.png)
 
   2. Restore to snapshot 2. <br>
-![deleting-vbox-snapshots-2.png](/images/deleting-vbox-snapshots-2.png)
+![deleting-vbox-snapshots-2.png](./images/deleting-vbox-snapshots-2.png)
 
   3. Graft a snapshot (snapshot 5) to snapshot 2. <br>
-![deleting-vbox-snapshots-3.png](/images/deleting-vbox-snapshots-3.png)
+![deleting-vbox-snapshots-3.png](./images/deleting-vbox-snapshots-3.png)
 
   4. Restore back to snapshot 4. <br>
-![deleting-vbox-snapshots-4.png](/images/deleting-vbox-snapshots-4.png)
+![deleting-vbox-snapshots-4.png](./images/deleting-vbox-snapshots-4.png)
 
   5. Merge snapshot 4 (i.e. use the VirtualBox _Delete Snapshot_ command). <br>
-![deleting-vbox-snapshots-5.png](/images/deleting-vbox-snapshots-5.png)
+![deleting-vbox-snapshots-5.png](./images/deleting-vbox-snapshots-5.png)
 
   6. Merge snapshot 3 (i.e. use the VirtualBox _Delete Snapshot_ command). <br>
-![deleting-vbox-snapshots-6.png](/images/deleting-vbox-snapshots-6.png)
+![deleting-vbox-snapshots-6.png](./images/deleting-vbox-snapshots-6.png)
 
   7. Restore to the empty snapshot 5. <br>
-![deleting-vbox-snapshots-7.png](/images/deleting-vbox-snapshots-7.png)
+![deleting-vbox-snapshots-7.png](./images/deleting-vbox-snapshots-7.png)
 
   8. Merge the empty snapshot 5 (i.e. use the VirtualBox _Delete Snapshot_ command). This last step effectively deletes snapshots 3 and 4 disk state from snapshot 2. <br>
-![deleting-vbox-snapshots-8.png](/images/deleting-vbox-snapshots-8.png)
+![deleting-vbox-snapshots-8.png](./images/deleting-vbox-snapshots-8.png)
 
 That's it!
 

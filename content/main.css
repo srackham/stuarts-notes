@@ -49,7 +49,7 @@ h2 {
 }
 img {
     max-width: 100%;
-    width: 90%;
+    /* width: 90%; */
     margin-top: 1rem;
     margin-bottom: 1rem;
     border-radius: 5px;

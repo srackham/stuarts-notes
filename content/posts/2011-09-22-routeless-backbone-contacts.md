@@ -37,15 +37,15 @@ A second version of this tutorial application [has been posted], it builds on th
 
 ### ListContactView
 
-![contacts-list.png](/images/contacts-list.png)
+![contacts-list.png](./images/contacts-list.png)
 
 ### ShowContactView
 
-![contacts-show.png](/images/contacts-show.png)
+![contacts-show.png](./images/contacts-show.png)
 
 ### EditContactView
 
-![contacts-edit.png](/images/contacts-edit.png)
+![contacts-edit.png](./images/contacts-edit.png)
 
 
 

@@ -29,7 +29,7 @@ _Routeless Backbone.js Contacts_ is a totally client-side CRUD tutorial applicat
 
 ## User Interface
 
-![contacts2-screenshot.png](/images/contacts2-screenshot.png)
+![contacts2-screenshot.png](./images/contacts2-screenshot.png)
 
 The single page user interface combines four [Backbone.js views](http://documentcloud.github.com/backbone/#View). The views subscribe to, and are updated by, [events](http://documentcloud.github.com/backbone/#Events) emitted by the contacts collection (_add_, _remove_, _change_, _reset_, _filter_, _select_).
 
@@ -54,19 +54,19 @@ The _ContactsCollection_ [collection](http://documentcloud.github.com/backbone/#
 
 ### RibbonView
 
-![contacts2-ribbon.png](/images/contacts2-ribbon.png)
+![contacts2-ribbon.png](./images/contacts2-ribbon.png)
 
 ### StatusView
 
-![contacts2-status.png](/images/contacts2-status.png)
+![contacts2-status.png](./images/contacts2-status.png)
 
 ### ListView
 
-![contacts2-list.png](/images/contacts2-list.png)
+![contacts2-list.png](./images/contacts2-list.png)
 
 ### DetailView
 
-![contacts2-detail.png](/images/contacts2-detail.png)
+![contacts2-detail.png](./images/contacts2-detail.png)
 
 
 

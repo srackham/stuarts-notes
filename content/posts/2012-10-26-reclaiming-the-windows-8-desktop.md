@@ -19,7 +19,7 @@ Here's what we are going to do:
 
 Here is a screenshot of the reconfigured Windows 8 desktop (note the Start Menu and the Quick Launch toolbar at the bottom left):
 
-![win8-desktop.png](/images/win8-desktop.png)
+![win8-desktop.png](./images/win8-desktop.png)
 
 
 
