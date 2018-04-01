@@ -24,3 +24,7 @@ serve: build
 .PHONY: watch
 watch:
 	(find ./content && find ./template) | entr hindsite build .
+
+.PHONY: validate
+validate: build
+	for f in $$(find ./build -name "*.html"); do echo $$f; html-validator --verbose --format=text --file=$$f; done
