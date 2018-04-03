@@ -11,19 +11,19 @@ SHELL := bash
 
 .PHONY: build
 build:
-	hindsite build . -v
+	hindsite build .
 
 .PHONY: clean
 clean:
-	hindsite build . -v -clean
+	hindsite build .
 
 .PHONY: serve
 serve: build
-	hindsite serve . -v
+	hindsite serve .
 
 .PHONY: watch
 watch:
-	(find ./content && find ./template) | entr hindsite build .
+	watch-hindsite.sh .
 
 .PHONY: validate
 validate: build

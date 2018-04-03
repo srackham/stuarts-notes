@@ -1,5 +1,7 @@
+exclude = "config.rmu"
 homepage = "indexes/posts/docs-1.html"
 longdate = "Jan 2, 2006"
+urlprefix = "/blog"
 
 [user]
 banner = "srackham | blog"
