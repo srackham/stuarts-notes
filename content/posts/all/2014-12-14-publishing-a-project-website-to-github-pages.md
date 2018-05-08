@@ -2,7 +2,7 @@
 date: 2014-12-14 02:10:13+00:00
 slug: publishing-a-project-website-to-github-pages
 title: Publishing a project website to Github Pages
-categories:
+tags:
 - Github
 ---
 

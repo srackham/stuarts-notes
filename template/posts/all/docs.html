@@ -1,11 +1,8 @@
 {{template "header" .}}
-<h1>All Blog Posts</h1>
-<ul class="docslist">
+<h1>All {{.count}} Blog Posts</h1>
+<div class="docslist">
     {{range .docs}}
-    <li>
-        <h2 style="margin-top:0.5rem"><a href="{{.url}}">{{.title}}</a></h2>
-    </li>
+        <h3 style="margin-top:0.5rem"><a href="{{.url}}">{{.shortdate}} ・ {{.title}}</a></h3>
     {{end}}
-</ul>
-<p> {{.count}} posts</p>
+</div>
 {{template "footer" .}}

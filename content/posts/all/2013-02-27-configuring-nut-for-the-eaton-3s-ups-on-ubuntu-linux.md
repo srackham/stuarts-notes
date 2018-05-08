@@ -2,7 +2,7 @@
 date: 2013-02-27 00:54:22+00:00
 slug: configuring-nut-for-the-eaton-3s-ups-on-ubuntu-linux
 title: Configuring NUT for the Eaton 3S UPS on Ubuntu Linux
-categories:
+tags:
 - Linux
 - NUT
 - Ubuntu

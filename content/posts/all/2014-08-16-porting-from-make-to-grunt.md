@@ -2,7 +2,7 @@
 date: 2014-08-16 03:14:00+00:00
 slug: porting-from-make-to-grunt
 title: Porting from Make to Grunt
-categories:
+tags:
 - grunt
 - JavaScript
 - Make

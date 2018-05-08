@@ -2,7 +2,7 @@
 date: 2011-11-01 02:37:46+00:00
 slug: bash-completion-for-cake-files
 title: Bash completion for cake files
-categories:
+tags:
 - bash
 - cake
 - coffeescript

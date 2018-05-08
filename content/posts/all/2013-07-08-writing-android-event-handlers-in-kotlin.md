@@ -2,7 +2,7 @@
 date: 2013-07-08 09:07:03+00:00
 slug: writing-android-event-handlers-in-kotlin
 title: Writing Android event handlers in Kotlin
-categories:
+tags:
 - Android
 - Kotlin
 ---

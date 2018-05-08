@@ -2,7 +2,7 @@
 date: 2011-07-08 02:19:37+00:00
 slug: coffeescript-for-command-line-apps
 title: CoffeeScript for Command-line Apps
-categories:
+tags:
 - clickatell
 - coffeescript
 - commandline

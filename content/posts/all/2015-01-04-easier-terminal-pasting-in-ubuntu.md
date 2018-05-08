@@ -1,10 +1,12 @@
----
-date: 2015-01-04T19:58:37+13:00
-title: Easier Terminal pasting in Ubuntu
-slug: easier-terminal-pasting-in-ubuntu
-categories:
-- Ubuntu
----
++++
+draft = false
+date = "2015-01-04T19:58:37+13:00"
+title = "Easier Terminal pasting in Ubuntu"
+slug = "easier-terminal-pasting-in-ubuntu"
+tags = ["Ubuntu"]
+templates = ""
+author = ""
++++
 
 Everyone knows about the traditional clipboard where you explicitly
 copy the text selection using the application's _Copy_ command, but

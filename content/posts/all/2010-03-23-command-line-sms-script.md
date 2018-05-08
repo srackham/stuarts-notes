@@ -2,7 +2,7 @@
 date: 2010-03-23 03:11:39+00:00
 slug: command-line-sms-script
 title: Command-line SMS script
-categories:
+tags:
 - clickatell
 - commandline
 - python

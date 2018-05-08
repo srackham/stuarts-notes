@@ -2,7 +2,7 @@
 date: 2012-06-17 20:41:05+00:00
 slug: bash-completion-for-jake-files
 title: Bash completion for Jake files
-categories:
+tags:
 - bash
 - jake
 ---

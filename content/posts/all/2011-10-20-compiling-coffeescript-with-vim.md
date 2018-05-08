@@ -2,7 +2,7 @@
 date: 2011-10-20 00:06:02+00:00
 slug: compiling-coffeescript-with-vim
 title: Compiling CoffeeScript with Vim
-categories:
+tags:
 - coffeescript
 - Less
 - Stylus

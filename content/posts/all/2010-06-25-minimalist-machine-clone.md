@@ -2,7 +2,7 @@
 date: 2010-06-25 03:57:47+00:00
 slug: minimalist-machine-clone
 title: Minimalist Machine Clone
-categories:
+tags:
 - Linux
 - System Administration
 ---

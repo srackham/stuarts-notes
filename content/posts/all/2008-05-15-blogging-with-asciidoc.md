@@ -2,19 +2,14 @@
 date: 2008-05-15 02:33:24+00:00
 slug: blogging-with-asciidoc
 title: Blogging with AsciiDoc
-categories:
+tags:
 - AsciiDoc
 - blogpost
 - Weblog client
 - WordPress
 ---
 
-
-
-
 > Since this blog was written many new features have been added to `blogpost` -- see [blogpost media processing](/posts/blogpost-media-processing/)
-
-
 
 I make lots of notes using [AsciiDoc](http://www.methods.co.nz/asciidoc/), the sort of stuff that's to minor and/or not rigorous enough for formal publication, but possibly useful to others.
 

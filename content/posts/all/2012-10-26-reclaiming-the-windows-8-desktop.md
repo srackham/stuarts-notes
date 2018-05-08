@@ -2,7 +2,7 @@
 date: 2012-10-26 22:19:01+00:00
 slug: reclaiming-the-windows-8-desktop
 title: Reclaiming the Windows 8 Desktop
-categories:
+tags:
 - Start8
 - Windows 8
 ---
@@ -19,7 +19,7 @@ Here's what we are going to do:
 
 Here is a screenshot of the reconfigured Windows 8 desktop (note the Start Menu and the Quick Launch toolbar at the bottom left):
 
-![win8-desktop.png](./images/win8-desktop.png)
+![win8-desktop.png](/images/win8-desktop.png)
 
 
 

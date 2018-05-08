@@ -2,7 +2,7 @@
 date: 2011-08-30 03:02:03+00:00
 slug: fossil-backend-for-asciidoc
 title: Fossil Backend for AsciiDoc
-categories:
+tags:
 - AsciiDoc
 - fossil
 ---

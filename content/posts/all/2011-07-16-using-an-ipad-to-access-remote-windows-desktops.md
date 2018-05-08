@@ -2,7 +2,7 @@
 date: 2011-07-16 05:32:45+00:00
 slug: using-an-ipad-to-access-remote-windows-desktops
 title: Using an iPad to access remote Windows desktops
-categories:
+tags:
 - ipad
 - rdp
 - vnc

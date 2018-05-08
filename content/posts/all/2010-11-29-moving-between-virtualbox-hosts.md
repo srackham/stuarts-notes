@@ -2,7 +2,7 @@
 date: 2010-11-29 00:22:55+00:00
 slug: moving-between-virtualbox-hosts
 title: Moving between VirtualBox Hosts
-categories:
+tags:
 - VirtualBox
 ---
 

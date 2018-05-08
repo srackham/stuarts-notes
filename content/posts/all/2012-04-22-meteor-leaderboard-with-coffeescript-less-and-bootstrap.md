@@ -2,7 +2,7 @@
 date: 2012-04-22 22:27:05+00:00
 slug: meteor-leaderboard-with-coffeescript-less-and-bootstrap
 title: TypesScript and CoffeeScript ports of the Meteor Leaderboard
-categories:
+tags:
 - Bootstrap
 - coffeescript
 - Less

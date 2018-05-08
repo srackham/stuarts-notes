@@ -2,7 +2,7 @@
 date: 2012-11-20 23:19:15+00:00
 slug: building-heterogeneous-typescript-libraries
 title: Building heterogeneous TypeScript libraries
-categories:
+tags:
 - TypeScript
 ---
 

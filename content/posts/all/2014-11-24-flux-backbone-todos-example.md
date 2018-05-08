@@ -2,7 +2,7 @@
 date: 2014-11-24 20:34:41+00:00
 slug: flux-backbone-todos-example
 title: Flux Backbone Todos Example
-categories:
+tags:
 - Backbone
 - Flux
 - React

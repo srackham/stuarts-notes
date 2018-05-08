@@ -2,7 +2,7 @@
 date: "2014-12-30T19:31:33+13:00"
 slug: porting-my-blog-with-hugo
 title: "Porting my blog with Hugo"
-categories:
+tags:
 - "Hugo"
 - "Github"
 - "Jekyll"

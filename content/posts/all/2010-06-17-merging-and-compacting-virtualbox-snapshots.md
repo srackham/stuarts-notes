@@ -2,7 +2,7 @@
 date: 2010-06-17 03:34:21+00:00
 slug: merging-and-compacting-virtualbox-snapshots
 title: Merging and Compacting VirtualBox Snapshots
-categories:
+tags:
 - python
 - VirtualBox
 ---

@@ -2,7 +2,7 @@
 date: 2014-03-15 09:28:53+00:00
 slug: hello-world-written-in-kotlin-using-android-studio
 title: Hello World written in Kotlin using Android Studio
-categories:
+tags:
 - Android
 - Kotlin
 ---

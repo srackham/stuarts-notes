@@ -2,7 +2,7 @@
 date: 2011-10-25 02:53:01+00:00
 slug: testing-coffeescript-apps-with-selenium
 title: Testing CoffeeScript apps with Selenium
-categories:
+tags:
 - coffeescript
 - Selenium
 ---

@@ -2,7 +2,7 @@
 date: 2011-08-31 04:15:39+00:00
 slug: switching-from-the-ipad-to-the-asus-transformer
 title: Switching from the iPad to the Asus Transformer
-categories:
+tags:
 - Android
 - ipad
 - tablet

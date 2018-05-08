@@ -2,7 +2,7 @@
 date: 2012-11-10 21:46:17+00:00
 slug: bash-completion-for-grunt-files
 title: Bash completion for Grunt files
-categories:
+tags:
 - bash
 - grunt
 ---

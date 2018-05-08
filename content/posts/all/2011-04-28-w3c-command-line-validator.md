@@ -2,7 +2,7 @@
 date: 2011-04-28 22:59:05+00:00
 slug: w3c-command-line-validator
 title: W3C Command-line Validator
-categories:
+tags:
 - python
 - validator
 - W3C

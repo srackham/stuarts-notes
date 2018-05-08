@@ -2,7 +2,7 @@
 date: 2011-01-06 20:00:48+00:00
 slug: android-development-with-virtualbox-and-the-lg-p500-phone
 title: Android Development with VirtualBox and the LG P500 phone
-categories:
+tags:
 - Android
 - VirtualBox
 ---

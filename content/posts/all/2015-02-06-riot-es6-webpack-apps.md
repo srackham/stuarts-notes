@@ -3,14 +3,7 @@ draft: false
 date: 2015-02-10T10:49:00+13:00
 title: Building Apps with Riot, ES6 and Webpack
 slug: riot-es6-webpack-apps
-categories:
-- 6to5
-- ES6
-- Flux
-- Riot
-- Riotjs
-- Webpack
-
+tags: [6to5, ES6, Flux, Riot, Riotjs, Webpack]
 ---
 
 I arrived at [Riot](https://muut.com/riotjs/)  after reading the Muut [Frameworkless JavaScript](https://muut.com/blog/technology/frameworkless-javascript.html) blog post -- read this first!  The Muut programmers have put their money where their mouths are and built Riot, a minimalist [Reactjs-like library](https://muut.com/blog/technology/riot-2.0/) called [Riot](https://muut.com/riotjs/) for building reactive UI components.

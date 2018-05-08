@@ -2,7 +2,7 @@
 date: 2011-10-16 07:15:09+00:00
 slug: getters-and-setters-for-backbone-model-attributes
 title: Getters and Setters for Backbone Model attributes
-categories:
+tags:
 - Backbone.js
 - coffeescript
 ---

@@ -2,7 +2,7 @@
 date: 2014-08-23 01:48:19+00:00
 slug: switching-from-grunt-to-jake
 title: Switching from Grunt to Jake
-categories:
+tags:
 - grunt
 - jake
 - JavaScript
