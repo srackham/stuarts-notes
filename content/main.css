@@ -123,10 +123,7 @@ pre {
 .light-background {
     background-color: var(--code-background);
     border: none;
-    white-space: pre;
-}
-*:not(pre) > code {
-    white-space: nowrap;
+    white-space: pre-wrap;
 }
 .dl-horizontal > dd {
     margin-top: 1.0rem;
@@ -173,7 +170,7 @@ div.sidebar *:first-child {
     text-align: right;
 }
 .preserve-breaks {
-    white-space: pre;
+    white-space: pre-wrap;
 }
 .line-breaks {
     white-space: pre-wrap;
