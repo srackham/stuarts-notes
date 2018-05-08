@@ -3,6 +3,7 @@ homepage = "indexes/posts/docs-1.html"
 longdate = "Jan 2, 2006"
 urlprefix = "/blog"
 author = "Stuart Rackham"
+templates = ".md"
 
 [user]
 banner = "srackham | blog"

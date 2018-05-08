@@ -7,7 +7,6 @@ tags:
 - Windows 8
 ---
 
-Window 8 has a touch-screen user interface designed for media consumption on small-screen devices (phones and tablets) -- the default Metro user interface is [unusable for content creation tasks](http://youtu.be/WTYet-qf1jo) on desktop PCs.  If you are new to Windows 8 and  you plan to use it on a desktop PC with existing desktop applications you will find the out-of-the-box experience miserably frustrating. This article will help you transform your Windows 8 desktop into a sane Windows 7 style desktop.
 
 <!--more-->
 
@@ -19,7 +18,7 @@ Here's what we are going to do:
 
 Here is a screenshot of the reconfigured Windows 8 desktop (note the Start Menu and the Quick Launch toolbar at the bottom left):
 
-![win8-desktop.png](/images/win8-desktop.png)
+![win8-desktop.png]({{.urlprefix}}/images/win8-desktop.png)
 
 
 
