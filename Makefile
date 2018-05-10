@@ -11,20 +11,16 @@ SHELL := bash
 
 .PHONY: build
 build:
-	hindsite build .
-
-.PHONY: clean
-clean:
-	hindsite build .
+	hindsite build . -build docs
 
 .PHONY: serve
-serve: build
-	hindsite serve .
-
-.PHONY: watch
-watch:
-	watch-hindsite.sh .
+serve:
+	hindsite serve . -build docs -launch -v
 
 .PHONY: validate
 validate: build
-	for f in $$(find ./build -name "*.html"); do echo $$f; html-validator --verbose --format=text --file=$$f; done
+	for f in $$(find ./docs -name "*.html"); do echo $$f; html-validator --verbose --format=text --file=$$f; done
+
+.PHONY: push
+push:
+	git push -u --tags origin master
