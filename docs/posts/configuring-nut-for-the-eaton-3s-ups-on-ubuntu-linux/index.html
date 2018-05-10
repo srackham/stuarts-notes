@@ -1,0 +1,258 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Configuring NUT for the Eaton 3S UPS on Ubuntu Linux</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Configuring NUT for the Eaton 3S UPS on Ubuntu Linux</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Feb 27, 2013</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/linux-1.html">Linux</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/nut-1.html">NUT</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/ubuntu-1.html">Ubuntu</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/ups-1.html">UPS</a>
+    
+</span>
+
+</div>
+<p><strong>Note</strong>: Since this post was published I&rsquo;ve installed and tests on Ubuntu Server 14.04 and have highlighted the difference between Ubuntu 14.04 and 12.04 at the end of this post.</p>
+
+<p>This post explains how to configure <a href="http://www.networkupstools.org/">Network UPS Tools (NUT)</a> to work with an <a href="http://powerquality.eaton.com/Products-services/Backup-Power-UPS/3S.aspx">Eaton 3S UPS</a> on a stand-alone Ubuntu 12.04 PC (Nut version 2.6.3).</p>
+
+<p><a href="http://www.networkupstools.org/">Network UPS Tools (NUT)</a> seems to be the most widely supported and used UPS management package for Linux. It is extremely flexible and caters for a wide range of UPS makes, models and deployment scenarios. The sheer scope and flexibility of NUT makes UPS selection and configuration daunting. The purpose of this article is to illustrate a minimal configuration to achieve stand-alone UPS management of a single Ubuntu 12.04 based PC.</p>
+
+<h2>NUT configuration</h2>
+
+<p>Here&rsquo;s how this configuration works: when power has dropped out for more than 3 minutes NUT triggers a shutdown. The shutdown sequence closes down Ubuntu; commands the UPS to commence shutdown; and then turns off the PC. Once the PC is off the UPS turns off to conserve the UPS battery. When power is reestablished the UPS powers up and reapplies power to the PC (whether your PC turns on automatically at power resumption is determined by it&rsquo;s BIOS settings).</p>
+
+<p>Here are the minimal NUT configuration files:</p>
+
+<p><strong>/etc/nut/nut.conf</strong></p>
+
+<pre><code># Set MODE=none to disable UPS monitoring, MODE=standalone to enable UPS monitoring.
+MODE=standalone
+</code></pre>
+
+<p><strong>/etc/nut/ups.conf</strong></p>
+
+<pre><code>[eaton3s]
+driver=usbhid-ups
+port=auto
+</code></pre>
+
+<p><strong>/etc/nut/upsd.conf</strong></p>
+
+<pre>
+</pre>
+
+<p><strong>/etc/nut/upsmon.conf</strong></p>
+
+<pre><code>MONITOR eaton3s@localhost 1 monuser pass master
+SHUTDOWNCMD &quot;/sbin/shutdown -P now&quot;
+POWERDOWNFLAG /etc/killpower
+
+NOTIFYFLAG ONBATT SYSLOG+WALL+EXEC
+NOTIFYFLAG ONLINE SYSLOG+WALL+EXEC
+NOTIFYCMD &quot;/etc/nut/notifycmd&quot;
+</code></pre>
+
+<p><strong>/etc/nut/upssched.conf</strong></p>
+
+<pre>
+</pre>
+
+<p><strong>/etc/nut/upsd.users</strong></p>
+
+<pre><code>[monuser]
+password=pass
+upsmon master
+</code></pre>
+
+<p>The following <code>notifycmd</code> bash script handles NUT <em>ONBATT</em> and <em>ONLINE</em> events. Put it in <code>/etc/nut</code>, it is executed when NUT detects power resumption (prior to the 3 minute timeout) and when NUT detects the UPS has switched to battery (power outage). Don&rsquo;t forget to make this script executable (<code>sudo chmod +x /etc/nut/notifycmd</code>).</p>
+
+<p><strong>/etc/nut/notifycmd</strong></p>
+
+<pre><code>#!/bin/bash
+#
+# NUT NOTIFYCMD script
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin
+
+trap &quot;exit 0&quot; SIGTERM
+
+if [ &quot;$NOTIFYTYPE&quot; = &quot;ONLINE&quot; ]
+then
+        echo $0: power restored | wall
+        # Cause all instances of this script to exit.
+        killall -s SIGTERM `basename $0`
+fi
+
+if [ &quot;$NOTIFYTYPE&quot; = &quot;ONBATT&quot; ]
+then
+        echo $0: 3 minutes till system powers down... | wall
+        # Loop with one second interval to allow SIGTERM reception.
+        let &quot;n = 180&quot;
+        while [ $n -ne 0 ]
+        do
+                sleep 1
+                let &quot;n--&quot;
+        done
+        echo $0: commencing shutdown | wall
+        upsmon -c fsd
+fi
+</code></pre>
+
+<h2>Testing the UPS</h2>
+
+<ul>
+<li><p>Check NUT status:</p>
+
+<pre><code>  $ sudo service nut status
+  Checking status of Network UPS Tools
+  * upsd is running
+  * upsmon is running
+</code></pre></li>
+
+<li><p>If necessary start NUT:</p>
+
+<pre><code>  $ sudo service nut start
+</code></pre></li>
+
+<li><p>Plug in USB cable and check it&rsquo;s been detected:</p>
+
+<pre><code>  $ lsusb
+    :
+  Bus 005 Device 003: ID 0463:ffff MGE UPS Systems UPS
+</code></pre></li>
+
+<li><p>Check the UPS status:</p>
+
+<pre><code>  $ sudo upsc eaton3s
+
+
+  battery.charge: 100
+  battery.charge.low: 20
+  battery.runtime: 3000
+  battery.type: PbAc
+  device.mfr: EATON
+  device.model: Eaton 3S 700
+    :
+  ups.status: OL CHRG
+  ups.timer.shutdown: -1
+  ups.timer.start: -1
+  ups.vendorid: 0463
+</code></pre></li>
+
+<li><p>Check power off/on status by unplugging the power to the UPS until it beeps a few times then plug it back in. You will get the following console messages:</p>
+
+<pre><code>Broadcast Message from nut@nas1
+        (somewhere) at 13:23 ...
+
+
+UPS eaton3s@localhost on battery
+
+
+Broadcast Message from nut@nas1
+        (somewhere) at 13:23 ...
+
+
+/etc/nut/notifycmd: 3 minutes till system powers down...
+
+
+Broadcast Message from nut@nas1
+        (somewhere) at 13:23 ...
+
+
+UPS eaton3s@localhost on line power
+
+
+Broadcast Message from nut@nas1
+        (somewhere) at 13:23 ...
+
+
+/etc/nut/notifycmd: power restored
+</code></pre></li>
+
+<li><p>The <code>/var/log/syslog</code> should have two messages like:</p>
+
+<pre><code>Feb 19 11:37:54 nas1 upsmon[3044]: UPS eaton3s@localhost on battery
+Feb 19 11:38:14 nas1 upsmon[3044]: UPS eaton3s@localhost on line power
+</code></pre></li>
+
+<li><p>Simulate a power outage (NOTE: this will take the PC to shutdown <strong>immediately</strong>):</p>
+
+<pre><code>  $ sudo upsmon -c fsd
+</code></pre></li>
+
+<li><p>Test the <code>/etc/nut/notifycmd</code> script fully by unplugging the power from the UPS and waiting until the full shutdown sequence is played out (takes 3 minutes). Look for the message:</p>
+
+<pre><code>  /etc/nut/notifycmd: 3 minutes till system powers down...
+</code></pre></li>
+</ul>
+
+<h2>UPS selection</h2>
+
+<p>The key to using a UPS with NUT is getting a UPS that is fully supported by the NUT version you are using (Ubuntu 12.04 has NUT 2.6.3).  Here&rsquo;s why I chose the Eaton 3S:</p>
+
+<ol>
+<li>It is <a href="http://www.networkupstools.org/stable-hcl.html">fully supported by NUT UPS Tools 2.6.3</a> on Unbuntu 12.04 with the <em>usbhid-ups</em> driver.</li>
+<li>The vendor has a Linux commitment &ndash; they provide their own <a href="http://pqsoftware.eaton.com/explore/eng/ipp/default.htm?lang=en">Intelligent Power Protector</a> (IPP) software for Linux (I didn&rsquo;t use it, choosing NUT instead).</li>
+<li>Readily available replacement battery.</li>
+<li>Other users report <a href="http://askubuntu.com/questions/107883/how-to-use-a-eaton-3s-700va-ups-with-ubuntu-server">it works with Ubuntu 12.04</a>.</li>
+</ol>
+
+<h2>Ubuntu 14.04</h2>
+
+<p>Since this post was originally published I&rsquo;ve installed and tested Nut on Ubuntu Server 14.04 (Nut version 2.7.1) where I encountered an intermittent startup error viz. about one boot in six the UPS driver failed to connect leaving the following error in the <em>syslog</em>:</p>
+
+<pre><code>Poll UPS [eaton3s@localhost] failed - Driver not connected
+</code></pre>
+
+<p>I tried unsuccessfully to find the root of the problem by changing the startup order, in the end I worked around it by starting the Nut server at the end of the boot from <code>/etc/rc.local</code>:</p>
+
+<pre><code># If UPS server driver is not connected then restart the server.
+/bin/upsc eaton3s || /usr/sbin/service nut-server restart
+</code></pre>
+
+<p><strong>NOTE</strong>: NUT in 14.04 has two startup services (replacing the single <code>nut</code> in 12.04): <code>nut-client</code> and <code>nut-server</code> &ndash; they are both started at reboot, aside from the startup error I have encountered no other differences in the move from Ubuntu 12.04 to 14.04.</p>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/writing-android-event-handlers-in-kotlin/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/building-heterogeneous-typescript-libraries/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

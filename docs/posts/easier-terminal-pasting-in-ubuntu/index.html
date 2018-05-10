@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Easier Terminal pasting in Ubuntu</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Easier Terminal pasting in Ubuntu</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Jan 4, 2015</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/ubuntu-1.html">Ubuntu</a>
+    
+</span>
+
+</div>
+<p>Everyone knows about the traditional clipboard where you explicitly
+copy the text selection using the application&rsquo;s <em>Copy</em> command, but
+few know that there is a second called the <em>primary selection</em> that
+always holds the current text selection i.e. you don&rsquo;t have to copy to
+it.</p>
+
+<p>This reduces <em>select-&gt;copy-&gt;paste</em> to <em>select-&gt;paste</em> which I find
+incredibly helpful as I spend much of my computer time inside a
+terminal am constantly copying and pasting text.</p>
+
+<p>You can paste the primary selection by clicking the middle button on the
+mouse. The Terminal application also assigns the <em>Shift+Insert</em>
+keyboard shortcut to paste the primary selection.</p>
+
+<p>So, if you&rsquo;re in the Terminal and want to paste the text selection to
+the cursor just middle-click the mouse or press <em>Shift+Insert</em> (a lot
+less tedious than <em>Ctrl+Shift+C</em> plus <em>Ctrl+Shift+V</em>).</p>
+
+<p>Here&rsquo;s another tip: Use <code>xclip(1)</code> to copy and paste between the
+terminal and Desktop applications (first you&rsquo;ll need to install <code>xclip</code>
+with <code>sudo apt-get install xclip</code>).</p>
+
+<p>Example usage:</p>
+
+<pre><code>    cat pages.html | xclip -sel clip  # Copy file to clipboard.
+    xclip -sel clip -o &gt; foo.txt      # Write clipboard to file.
+</code></pre>
+
+<p>By default <code>xclip(1)</code> uses the primary selection (not the clipboard)
+so I&rsquo;ve added the following alias in my <code>~/.bashrc</code> file:</p>
+
+<pre><code>    alias xclip='xclip -sel clip'
+</code></pre>
+
+<p>This makes working with the clipboard less verbose:</p>
+
+<pre><code>    cat pages.html | xclip    # Copy file to clipboard.
+    xclip -o &gt; foo.txt        # Write clipboard to file.
+</code></pre>
+
+<p><strong>Bonus tip</strong>: To select text column-wise hold down the <em>Ctrl</em> key then select the
+text with the mouse.</p>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/riot-es6-webpack-apps/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/porting-my-blog-with-hugo/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

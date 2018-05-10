@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Bottle &#43; MongoDB Example</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Bottle &#43; MongoDB Example</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Mar 17, 2011</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/bottle-1.html">Bottle</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/mongodb-1.html">MongoDB</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/python-1.html">python</a>
+    
+</span>
+
+</div>
+<p>A didactic Web application written in Python to illustrate how to use the <a href="http://bottlepy.org/">Bottle</a> web-framework with the <a href="http://www.mongodb.org">MongoDB</a> database.</p>
+
+<p>It&rsquo;s a port I made of Mike Dirolf&rsquo;s <a href="https://github.com/mdirolf/djanMon">DjanMon</a> application (how to use Django with MongoDB).</p>
+
+<p><a href="http://bottlepy.org/">Bottle</a> is a wonderful micro web-framework, it&rsquo;s beautifully written and documented and has that &ldquo;just right&rdquo; feel about it.  Bottle has support for multiple webservers and template engines &ndash; I&rsquo;m really enjoying it after working with Django.</p>
+
+<p><a href="http://www.mongodb.org">MongoDB</a> is a schemaless document-oriented database designed for the Web.  For me, working with MongoDB has been a revelation. Database creation, administration and migration (long the bane of database developers) is trivial in comparison with traditional SQL databases.  Document storage management is baked into MongoDB and is used in many web applications (document storage has always been awkward and slow with relational databases).</p>
+
+<p>You can find the source on <a href="https://github.com/srackham/bottle-mongodb-example">GitHub</a>.</p>
+
+<p>Here&rsquo;s a screenshot:</p>
+
+<p><img src="http://blog.srackham.com/images/bottle-mongodb-example.png" alt="bottle-mongodb-example.png" /></p>
+
+<p>To run the application install the prerequisite packages then:</p>
+
+<pre><code>git clone https://github.com/srackham/bottle-mongodb-example.git
+cd bottle-mongodb-example
+python bottle-mongodb-example.py
+</code></pre>
+
+<p>The application creates and displays a paged list of user created messages which are stored in a MongoDB database along with uploaded images (no file system management required it&rsquo;s all in the database) &ndash; not bad for 93 lines of Python code and a 79 line HTML template.  The really neat thing is that you don&rsquo;t have to create the database, tables or schema &ndash; it all happens automatically.</p>
+
+<h2>Prerequisites</h2>
+
+<ul>
+<li><p>Python.</p></li>
+
+<li><p>MongoDB (see the <a href="http://www.mongodb.org/">MongoDB</a> website for install instructions).</p></li>
+
+<li><p>PyMongo, the Python MongoDB driver:</p>
+
+<pre><code>sudo easy_install pymongo
+</code></pre></li>
+
+<li><p>The Bottle web-framework:</p>
+
+<pre><code>git clone https://github.com/defnull/bottle.git
+cd bottle
+python setup.py install
+</code></pre></li>
+</ul>
+
+<p>I&rsquo;m running in this environment &ndash; it works for me but your mileage may vary:</p>
+
+<ul>
+<li>Xubuntu 10.04</li>
+<li>Bottle 0.9dev</li>
+<li>Python 2.6.5</li>
+<li>MongoDB 1.6.5</li>
+<li>PyMongo 1.9</li>
+</ul>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/w3c-command-line-validator/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/android-development-with-virtualbox-and-the-lg-p500-phone/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

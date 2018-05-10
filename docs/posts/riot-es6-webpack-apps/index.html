@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Building Apps with Riot, ES6 and Webpack</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Building Apps with Riot, ES6 and Webpack</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Feb 10, 2015</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/6to5-1.html">6to5</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/es6-1.html">ES6</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/flux-1.html">Flux</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/riot-1.html">Riot</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/riotjs-1.html">Riotjs</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/webpack-1.html">Webpack</a>
+    
+</span>
+
+</div>
+<p>I arrived at <a href="https://muut.com/riotjs/">Riot</a>  after reading the Muut <a href="https://muut.com/blog/technology/frameworkless-javascript.html">Frameworkless JavaScript</a> blog post &ndash; read this first!  The Muut programmers have put their money where their mouths are and built Riot, a minimalist <a href="https://muut.com/blog/technology/riot-2.0/">Reactjs-like library</a> called <a href="https://muut.com/riotjs/">Riot</a> for building reactive UI components.</p>
+
+<p>Reading the Riot documentation the thing that struck me was how easy Riot is to understand &ndash; there are very few new terms and concepts to learn compared to React (which, to be fair, is also straight-forward compared to e.g. Polymer and Angular).</p>
+
+<p>To help me learn Riot I ported my React <a href="https://github.com/srackham/flux-backbone-todo">Flux Backbone Todos Example</a> to a <a href="https://github.com/srackham/riot-todo">Riot Todo app</a>. This post is a compilation of notes I made documenting the experience.</p>
+
+<p>The <a href="http://en.wikipedia.org/wiki/Wikipedia:Too_long;_didn%27t_read">tl;dr</a> answers are:</p>
+
+<ol>
+<li><p>Riot really does live up to its minimalist motto. The (unminified) Riot version of the Todo weighs in at a tiny 32KB compared to 964KB for the React version (600KB after subtracting Backbone and JQuery which are not used in the Riot version). However you look at it that&rsquo;s a huge difference.</p></li>
+
+<li><p>Riot has that rare Goldilocks &ldquo;just right&rdquo; feel about it and is a joy to use.</p></li>
+
+<li><p>Riot is a relatively new project, I was unable to find statistics on how it scales performance-wise in larger projects. How it fares alongside the Rect juggernaut is an open question &ndash; I hope it does well.</p></li>
+</ol>
+
+<p>If you&rsquo;re not familiar with Riot take a look at the <a href="https://muut.com/riotjs/">Riot website</a> &ndash; the documentation is first class. So rather than discussing how Riot works I&rsquo;ll just list things I&rsquo;ve learnt that may not be obvious reading the documentation.</p>
+
+<h2>Using ES6 with Riot</h2>
+
+<p>The <a href="https://github.com/srackham/riot-todo">example app</a> is written in ES6, I use the <a href="http://6to5.org/">6to5</a> transpiler to convert it to ES5 and <a href="http://webpack.github.io/">Webpack</a> to bundle the compiled code along with required libraries. This approach necessitates combining JavaScript modules &ndash; working in ES6 is particularly nice as you get to take advantage of the new ES6 import and export statements (see <a href="https://github.com/srackham/riot-todo/blob/master/src/index.js">this example</a>).</p>
+
+<p>Webpack <a href="https://github.com/srackham/riot-todo/blob/master/webpack.config.js">is configured</a> to use the <code>6to5-loader</code> which automatically converts ES6 source to CommonJS formatted ES5 modules that are then bundled into the single <code>bundle.js</code> distributable file.</p>
+
+<h2>Why I don&rsquo;t use Riot .tag files</h2>
+
+<p>Riot tag files are HTML templates containing HTML markup along with JavaScript UI logic.
+If you&rsquo;ve looked at the <a href="https://github.com/srackham/riot-todo">Todo app</a> app you are probably wondering where the tag files are &ndash; the answer is that I no longer use them, preferring JavaScript instead. By eliminating <code>.tag</code> files I&rsquo;ve simplified my coding, tooling and workflow. For me, tag file complexity and limitations outweigh any perceived benefits.</p>
+
+<p>This is not a criticism of Riot, the neat thing about tag files is that they&rsquo;re entirely optional and I&rsquo;m documenting why I don&rsquo;t use them.</p>
+
+<p>When you examine the compiled JavaScript you see that Riot tag files are a thin layer of syntactic sugar.</p>
+
+<ul>
+<li><p>They add an additional conceptual layer &ndash; new(ish) syntax and semantics have to be learned.</p></li>
+
+<li><p>They add an additional compilation step.</p></li>
+
+<li><p>The tag file compiler dictates the languages and templates you can use (CoffeeScript, ES6, Jade) contradicting the &ldquo;Use your favorite tools&rdquo; mantra.</p></li>
+
+<li><p>The tag constructor-body logic is out of context:</p>
+
+<ul>
+<li>It is not amenable to editor/IDE linting and other tooling.</li>
+<li>Referencing <code>this</code> out of context means the code is not legal JavaScript and generates errors in editors/IDEs.</li>
+</ul></li>
+
+<li><p>There is currently no support for module formats (CommonJS, AMD) &ndash; tag files compile to plain JavaScript .</p></li>
+
+<li><p>Tag files require tag loaders to be used directly in build tools such as Webpack and Browserify.</p></li>
+
+<li><p>The &ldquo;ES6-like&rdquo; constructor methods are nice but they are not legal JavaScript and are likely to always be a source of ongoing confusion (syntax and semantics). You can use <em>ES6 arrow functions</em> to achieve the same semantics (lexically bound <code>this</code>) with almost the same brevity, for example:</p></li>
+</ul>
+
+<pre><code>this.add = (e) =&gt; {
+  var input = e.target[0]
+  this.items.push(input.value)
+  input.value = ''
+};
+</code></pre>
+
+<p>Here&rsquo;s <a href="https://github.com/srackham/riot-todo/blob/0.1.1/src/tags.js">an example of an ES6 JavaScript tags file</a> using ES6 template strings and arrow functions.</p>
+
+<p>ES6 Template Strings aid the readability of tag HTML templates. Similarly, if you are using CoffeeScript you can use CoffeeScript Block Strings. <a href="http://facebook.github.io/jsx/">JSX</a> is another possibility &ndash; React&rsquo;s JSX transformer could be modified to emit a string literal and you could then take advantage of existing JSX tooling support.</p>
+
+<h2>The fundamental difference between Riot and React</h2>
+
+<p>The most significant difference lies in how the UI markup templates are declared:</p>
+
+<ul>
+<li>In React the UI template markup is baked in your JavaScript source (using the JSX language extension).</li>
+<li>Riot inverts the React model by putting the markup and logic in an HTML (tag) file.</li>
+</ul>
+
+<p>The upshot of this inversion is that the React template DSL language is JavaScript whereas Riot relies on a custom template DSL (implemented with custom tags). Here are two simplified examples that generate a list from an array of todo items: the first is React JavaScript the second is the equivalent Riot tag markup:</p>
+
+<pre><code>&lt;ul&gt;
+  todos.map(todo =&gt;
+    &lt;li&gt;&lt;TodoItemComponent todo={todo} /&gt;&lt;/li&gt;)
+&lt;/ul&gt;
+</code></pre>
+
+<pre><code>&lt;ul&gt;
+  &lt;li each=&quot;{todo in todos}&quot;&gt;
+    &lt;todo-item todo=&quot;{todo}&quot;&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+
+<p>The first example uses JavaScript&rsquo;s <code>map</code> function to generate a list of <code>&lt;li&gt;</code> elements; the second uses Riot&rsquo;s custom <code>each</code> template attribute.</p>
+
+<p>Steve Luscher explains why he thinks JavaScript is better than custom template DSLs <a href="https://www.youtube.com/watch?v=rI0GQc__0SM#t=1325">towards the end of this video</a> &ndash; not only do you have to learn a custom DSL you are also constrained by the features the DSL offers. For small common use-case examples like ones above there is little to choose between the two approaches, but when it comes to larger highly dynamic UI compositions the power and flexibility of React&rsquo;s JavaScript approach is clearly superior.</p>
+
+<h2>Tips</h2>
+
+<h3>Avoid self-closing XHTML style tags</h3>
+
+<p>Do not close tags with <code>/&gt;</code> as it does not always immediately close the tag.  When dealing with HTML5 elements <code>&lt;foo /&gt;</code> means <code>&lt;foo&gt;</code> (whereas in XHTML <code>&lt;foo /&gt;</code> means <code>&lt;foo&gt;&lt;/foo&gt;</code>) i.e. HTML5 ignores the <code>/</code> character. See this <a href="http://stackoverflow.com/a/9845124/1136455">Stackoverflow post</a> on the subject. See also:</p>
+
+<ul>
+<li><p><a href="https://muut.com/riotjs/forum/#!/using:closing-html5-tags-with-">Closing HTML5 tags with /&gt; can produce unexpected results</a>.</p></li>
+
+<li><p><a href="https://muut.com/riotjs/forum/#!/using:misplaced-form-end-tag">Misplaced form end-tags</a>.</p></li>
+</ul>
+
+<h3>Bind tag event handlers to this</h3>
+
+<p>Bind tag event handlers to <code>this</code> to ensure they are always fired with the tag context (alternatively use the <code>var self = this</code> idiom). For example:</p>
+
+<pre><code>this.clear = function(e) {
+  dispatcher.trigger(dispatcher.CLEAR_TODOS);
+}.bind(this);
+</code></pre>
+
+<p>With ES6 you can achieve the same thing with lexically bound ES6 <em>arrow functions</em>:</p>
+
+<pre><code>this.clear = (e) =&gt; {
+  dispatcher.trigger(dispatcher.CLEAR_TODOS);
+};
+</code></pre>
+
+<h3>Referencing Loop items</h3>
+
+<p>Use the <code>each=&quot;{item in items}&quot;</code> construct to pass the current looped item to a child custom tag. In the following example the code in the custom <code>todo-item</code> tag can refer to the current todo item with <code>opts.todo</code>:</p>
+
+<pre><code>&lt;ul&gt;
+ &lt;li each=&quot;{todo in opts.store.todos}&quot;&gt;
+   &lt;todo-item store=&quot;{parent.opts.store}&quot; todo=&quot;{todo}&quot;&gt;
+ &lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+
+<h3>Namespace event names</h3>
+
+<p>Use the colon namespacing convention to group application event names e.g. <code>admin:edit</code>, <code>admin:delete</code>, <code>admin:new</code>.</p>
+
+<h3>You can use custom tag names in CSS files</h3>
+
+<p>Custom tags are rendered into the DOM and so they can be used for CSS selection and DOM interrogation, here&rsquo;s <a href="https://github.com/srackham/riot-todo/blob/master/dist/index.css">an example</a>.</p>
+
+<h2>Debugging</h2>
+
+<p>When bundling with Webpack you need to use the <a href="https://github.com/srackham/riot-todo/blob/master/webpack.config.js">devtool source-map configuration option</a> to produce a <a href="http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/">source map</a> file for you bundled app. This allows you to debug from the ES6 source code files.</p>
+
+<p>To browse and debug the source code open your browser&rsquo;s <em>Sources window</em> and navigate to the folder <code>webpack:///.</code>:</p>
+
+<ul>
+<li>In Firefox: open the Debugger (Ctrl+Shift+S).</li>
+<li>In Google Chrome: open the Console (Ctrl+Shift+J) then click on the <em>Sources</em> tab to view the Sources panel.</li>
+</ul>
+
+<p>I&rsquo;m not big on debuggers and break points &ndash; most of the time I just put strategically placed temporary <code>console.log()</code> statements in the code.</p>
+
+<h2>The Big Picture</h2>
+
+<p>Riot (like React) is a UI library, not a framework. This is good (I prefer a small set of focused libraries to an all encompassing framework) but non-trivial applications need a coherent high-level structure (an architecture) to ease scalability, evolution and maintainability. <a href="https://www.npmjs.com/package/flux">Flux</a> is increasing the architecture of choice for React-like apps. I like Flux because it&rsquo;s easy to understand and because it makes intuitive sense (not out of any theoretical conviction). The <a href="https://github.com/srackham/riot-todo">Riot Todo app</a> uses the <a href="https://github.com/jimsparkman/RiotControl">RiotControl</a> flux-style dispatcher (slightly modified) to implement the Flux architecture.</p>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        <span class="disabled">« Previous</span>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/easier-terminal-pasting-in-ubuntu/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Testing CoffeeScript apps with Selenium</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Testing CoffeeScript apps with Selenium</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Oct 25, 2011</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/coffeescript-1.html">coffeescript</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/selenium-1.html">Selenium</a>
+    
+</span>
+
+</div>
+<p>This blog entry describes how to write functional tests for CoffeeScript web apps using <a href="http://seleniumhq.org/">Selenium</a>. By way of example I&rsquo;ll describe how I added Selenium tests to the <a href="/posts/routeless-backbone-contacts-2-0/">Routeless Backbone Contacts</a> tutorial app and automated it&rsquo;s execution with a <a href="http://jashkenas.github.com/coffee-script/#cake">Cakefile</a>.</p>
+
+<p>The source is <a href="https://github.com/srackham/routeless-backbone-contacts">on Github</a>, the tests described in this post are at the <em>3.0</em> tag.</p>
+
+<p>Unit testing frameworks such as <a href="http://docs.jquery.com/Qunit">QUnit</a> work well for testing libraries, APIs and computational logic but fall short when it comes to testing user interface intensive browser applications, this is where <a href="http://seleniumhq.org/">Selenium</a> comes in.  The Selenium IDE provides an easy way to functionally test an application user interface in a real browser with exactly the same mouse and keyboard input that a user would enter.</p>
+
+<p>At it&rsquo;s core &ldquo;Selenium automates browsers&rdquo; with a macro-like scripting language called Selenese and a Firefox IDE for recording and playing Selenese scripts.  Selenium tests the actual user interface so you record your tests after the user interface has been implemented.</p>
+
+<p>The primary purpose of functional user interface tests is to catch future user interface regressions. The likelihood of user interface regressions at each release increases with the size of the application.</p>
+
+<p><strong>Selenese</strong></p>
+
+<p>Selenese is the Selenium IDE scripting language, it is surprisingly powerful:</p>
+
+<ul>
+<li>Variables can be stored and manipulated.</li>
+<li>You can run JavaScript snippets with the <em>runScript</em> and <em>waitForCondition</em> commands.</li>
+<li>The Selenese native format is an HTML table but it can also be exported to languages with Selenium binding (<em>Python</em>, <em>Java</em>, <em>C#</em>).</li>
+</ul>
+
+<h2>Requisites</h2>
+
+<p>To use the Selenium IDE you will need to install:</p>
+
+<ul>
+<li>The <a href="http://www.mozilla.org/">Firefox</a> web browser.</li>
+<li>The <a href="http://seleniumhq.org/docs/02_selenium_ide.html#installing-the-ide">Selenium IDE</a>. Once installed you open the IDE with the Firefox <em>Tools-&gt;Selenium IDE</em> menu command.</li>
+<li>I also installed the <a href="https://addons.mozilla.org/en-US/firefox/addon/highlight-elements-selenium-id/">Highlight Elements</a> IDE plugin.</li>
+</ul>
+
+<p>This post is based on Firefox 7.0.1 (Ubuntu) with Selenium IDE 1.3.0.</p>
+
+<h2>Creating a test</h2>
+
+<p>Creating a Selenese test script is a two step process:</p>
+
+<ol>
+<li><a href="http://seleniumhq.org/docs/02_selenium_ide.html#recording">Record</a> a sequence of user interface interactions (mouse and keyboard inputs).</li>
+<li>Add <a href="http://seleniumhq.org/docs/02_selenium_ide.html#adding-verifications-and-asserts-with-the-context-menu">asserts and verifications</a> to the test sequence. This is the step that transforms the browser automation sequence into a test.</li>
+</ol>
+
+<p>The Selenium IDE documentation also explains how to <a href="http://seleniumhq.org/docs/02_selenium_ide.html#running-test-cases">run</a>, <a href="http://seleniumhq.org/docs/02_selenium_ide.html#opening-and-saving-a-test-case">save</a> and <a href="http://seleniumhq.org/docs/02_selenium_ide.html#editing">edit</a> tests.</p>
+
+<p><a href="https://github.com/srackham/routeless-backbone-contacts/blob/3.0/test/test.html">Here&rsquo;s the test</a> for the tutorial application.</p>
+
+<p><strong><em>Note</em></strong>:
+To run the tests you will need to open the application in a web server (file based URLs won&rsquo;t work). I use the <a href="http://code.google.com/p/mongoose/">Mongoose</a> web server for app testing.</p>
+
+<h3>Mongoose web server</h3>
+
+<p>The <a href="http://code.google.com/p/mongoose/">Mongoose</a> web server is a neat little configurationless cross-platform web server that&rsquo;s ideal for testing web apps.</p>
+
+<p>To install Mongoose on Linux:</p>
+
+<ol>
+<li><p>Unpack and make the source distribution:</p>
+
+<pre><code>tar -xzf mongoose-3.0.tgz
+cd mongoose
+make linux
+</code></pre></li>
+
+<li><p>Copy the <em>mongoose</em> executable to somewhere in your <em>PATH</em>.</p></li>
+</ol>
+
+<p>To use:</p>
+
+<ol>
+<li><p>Change to your app directory.</p></li>
+
+<li><p>Run mongoose:</p>
+
+<pre><code>mongoose [-i &lt;index-files&gt;]
+</code></pre></li>
+
+<li><p>Open your browser at localhost:8080, if an index file exists it will be displayed else you&rsquo;ll be presented with a file browser interface.</p></li>
+</ol>
+
+<h2>Running tests from the command-line</h2>
+
+<p>There&rsquo;s no easy way to open the Selenium IDE and get it to execute a test from the command-line (at least I couldn&rsquo;t find one), but you can export the tests to Python (or Java or C#) and then run them from the command-line. Apparently a JavaScript driver is in the works but not here yet, so I opted for Python.</p>
+
+<p>I like being able to run Python tests from the command-line but I prefer developing the tests using the IDE. Keeping both in sync can be a challenge but being able to copy commands from the Selenium IDE to the Python source is a real help (set the IDE <em>Options-&gt;Clipboard Format-&gt;Python 2 (WebDriver)</em> option and you will be able to copy-and-paste IDE commands as Python code).</p>
+
+<ol>
+<li><p>In addition to the Selenium IDE you will need to install the Python bindings for Selenium:</p>
+
+<p>sudo pip install selenium</p></li>
+
+<li><p>Now export the test from the Selenium IDE to a Python test file using the IDE <em>File-&gt;Export Test Case As-&gt;Python 2 (WebDriver)</em> menu command.</p></li>
+</ol>
+
+<p>The exported Python scripts make use of the Python <a href="http://docs.python.org/library/unittest.html">unit testing framework</a>.</p>
+
+<h3>Export anomalies and omissions</h3>
+
+<p>The export of Selenese to Python is not perfect, here are some of the manual edits I had to do:</p>
+
+<ul>
+<li><p>Replace:  <code># ERROR: Caught exception [ERROR: Unsupported command [getConfirmation]]</code>     with this: <code>driver.switch_to_alert().accept()</code>.     See also the <a href="http://code.google.com/p/selenium/wiki/FrequentlyAskedQuestions#Q:_Does_WebDriver_support_Javascript_alerts_and_prompts?">Selenium FAQ</a>.</p></li>
+
+<li><p>Moved the focus from the search box to fire the search box <em>change</em> event (used <em>click</em> command as <em>focus</em> is not supported by Python WebDriver API):</p>
+
+<pre><code>driver.find_element_by_css_selector(&quot;input.search&quot;).send_keys(&quot;sm&quot;)
+driver.find_element_by_name(&quot;name&quot;).click()   # Fire search 'change' event.
+</code></pre></li>
+</ul>
+
+<p>See Dynamic UI controls below.</p>
+
+<p><a href="https://github.com/srackham/routeless-backbone-contacts/blob/3.0/test/test.py">Here&rsquo;s the Python test</a> for the tutorial.</p>
+
+<h3>Dynamic user interface controls</h3>
+
+<p>Incremental search boxes and auto-completing drop-down lists typically emit keystroke events (up/down/press) to dynamically update other elements in response to user keyboard entry. The Selenese <em>type</em> command will not work in this situation.</p>
+
+<ul>
+<li>The <em>typeKeys</em> command is designed for these situations but I was unable to get it to work.</li>
+<li>Nor did the <em>fireEvent</em> command on <em>keyup</em> work.</li>
+</ul>
+
+<p>The only reliable work-around I could find for testing the incremental <em>Search</em> was to add the <em>change</em> event to the search box and use:</p>
+
+<pre><code>driver.find_element_by_css_selector(&quot;input.search&quot;).send_keys(&quot;sm&quot;)
+driver.find_element_by_name(&quot;name&quot;).click()
+</code></pre>
+
+<p>The <em>click</em> command moves the focus from the search box to trigger a search box DOM <em>change</em> event.</p>
+
+<h2>Setup and Teardown</h2>
+
+<p>At the start of testing you will typically create test fixtures to put the application in a known state. For data oriented apps this means means populating the database with fixed data, the <a href="/posts/routeless-backbone-contacts-2-0/">Routeless Backbone Contacts</a> application has built-in <em>Clear All</em> and <em>Import Data</em> commands that serve this purpose.</p>
+
+<p>Built-in <em>data fixture</em> commands are not normally part of an application but there&rsquo;s no reason not to implement <em>hidden</em> or <em>debug only</em> fixture commands.  Alternatively, if you have moved exclusively to Python scripts for Selenium testing then, you could setup and teardown fixtures in the traditional fashion using Python <a href="http://docs.python.org/library/unittest.html#class-and-module-fixtures">unittest class and module fixtures</a>.</p>
+
+<h2>Cakefile automation</h2>
+
+<p>The <a href="/posts/routeless-backbone-contacts-2-0/">Routeless Backbone Contacts</a> application is written in <a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a> so it made sense to automate the tests with a <a href="http://jashkenas.github.com/coffee-script/#cake">Cakefile</a>. Because <em>cake</em> runs under <a href="http://nodejs.org/">Node.js</a> you have a <a href="http://search.npmjs.org/">wealth of modules</a> available.</p>
+
+<p>The tutorial <a href="https://github.com/srackham/routeless-backbone-contacts/blob/3.0/Cakefile">Cakefile</a> implements two tasks:</p>
+
+<pre><code>cake server
+     Start the Mongoose server.
+cake test
+     Run the Python Selenium test.
+</code></pre>
+
+<p><strong>Cakefile</strong></p>
+
+<pre><code>{exec,spawn} = require 'child_process'
+
+task 'server', 'Start mongoose server', -&gt;
+    console.log 'starting mongoose web server...'
+    server = spawn 'mongoose', [],
+        customFds: [process.stdin, process.stdout, process.stderr]
+    process.exit()
+
+task 'test', 'Run tests', -&gt;
+    console.log 'starting mongoose web server...'
+    server = spawn 'mongoose'
+    console.log 'starting tests...'
+    exec 'python test/test.py', (err, stdout, stderr) -&gt;
+        throw err if err
+        console.log stdout + stderr
+        server.kill()   # and exit cake.
+</code></pre>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/bash-completion-for-cake-files/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/compiling-coffeescript-with-vim/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

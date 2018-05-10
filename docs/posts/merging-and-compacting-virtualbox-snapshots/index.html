@@ -1,0 +1,334 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Merging and Compacting VirtualBox Snapshots</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Merging and Compacting VirtualBox Snapshots</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Jun 17, 2010</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/python-1.html">python</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/virtualbox-1.html">VirtualBox</a>
+    
+</span>
+
+</div>
+<p>Using the VirtualBox GUI to manually merge lots of snapshots is time consuming and fiddly so I wrote a Python script called <code>vboxmerge.py</code> to do this automatically. The script merges a snapshot branch into the base VDI with a single command (it also illustrates how easy it is to script VirtualBox using Python).</p>
+
+<p><strong><em>Important</em></strong>:
+<strong>This post is obsolete</strong>: a much easier way is to use the VirtualBox VM <em>Clone</em> command &ndash; see <em>Update December 2013: An easier way to merge snapshots</em> in my <a href="http://srackham.wordpress.com/cloning-and-copying-virtualbox-virtual-machines/">Cloning and Copying VirtualBox virtual machines</a> blog post.</p>
+
+<p>The more VirtualBox snapshots you have the more disk space you consume. Snapshot VDIs grow with every previously unallocated guest OS write and it&rsquo;s not long before the total size of a machine&rsquo;s base VDI plus snapshots exceeds than the machines logical HDD size (this is a very good reason why it&rsquo;s not a good idea to oversize your hard disks).</p>
+
+<p>Here&rsquo;s an example of the savings on one of my Windows XP guests (it has a 50GB logical HDD):</p>
+
+<p><em>Before merge</em>:
+     Base VDI plus 13 snapshots totaling 90.1GB</p>
+
+<p><em>After merge</em>:
+     Base VDI 46.0GB</p>
+
+<p><em>After zeroing and compacting</em>:
+     8.1GB (see <em>Compacting VDIs</em> below).</p>
+
+<p>The merge almost halved the size; the compaction brought it to to below 10% of the original total size.</p>
+
+<p>Compacting without first zeroing out free space on the guest file system generally provides no or very little benefit.</p>
+
+<p>If you&rsquo;re unfamiliar with the workings of VirtualBox snapshots and VDIs there is a great set of FAQs and <a href="http://forums.virtualbox.org/viewtopic.php?p=29272#29272">Tutorial: All about VDIs</a> in the VBox forums.</p>
+
+<h2>Merging the Snapshots</h2>
+
+<ul>
+<li>Snapshots are merged starting with the current snapshot, then moving through the parents, until all parent snapshots have been merged into the base VDI. The <code>--skip=N</code> and <code>--count=N</code> options limit the merge to a snapshot subset.</li>
+<li>Snapshots with multiple child VDIs will not be merged, processing will stop if this situation is encountered. In this context the <em>Current State</em> is counted as a child which explains why you can&rsquo;t merge the current snapshot if it has a child snapshot. To continue merging <em>Restore</em> the blocking branch&rsquo;s most recent snapshot and rerun <em>vboxmerge</em>.</li>
+<li>The <code>--compact</code> option compacts the machine&rsquo;s base VDI.</li>
+<li>The <code>--snapshot</code> option creates a base snapshot following the merge.</li>
+<li>The <code>--discard-currentstate</code> option discards the machine&rsquo;s current state before merging.</li>
+<li>Run <code>python vboxmerge.py --help</code> to display command options.</li>
+</ul>
+
+<p>To merge snapshots into the base VDI just run the script specifying the machine name e.g.</p>
+
+<pre><code>python vboxmerge.py &quot;My Machine&quot;
+</code></pre>
+
+<p>If the machine&rsquo;s snapshot tree has multiple branches you will need to run the <em>vboxmerge</em> once for each branch to merge the entire tree. The final machine state will the that of the last merged branch.</p>
+
+<p><strong><em>Important</em></strong>:
+Backup all your virtual machines before running the script and do dry runs first (using the <code>--dryrun</code> command option).</p>
+
+<p><strong><em>Note</em></strong>:</p>
+
+<ul>
+<li>The merge starting point is the current snapshot (the snapshot attached to the <em>Current State</em>). You can change the current snapshot using the VirtualBox GUI <em>Restore Snapshot</em> command.</li>
+<li>Depending on the number and size of your snapshots this process can take quite a long time (the 13 snapshot merge I quoted previously took around three hours).</li>
+<li>After merging all snapshots the current state will also be merged into the base VDI. If this is not what you want you should include the <code>--discard-currentstate</code> option.</li>
+</ul>
+
+<p><strong><em>Gotcha</em></strong>  :
+If the machine being processed is selected in the VirtualBox GUI then the GUI sometimes throws and error or stops responding. No damage results and the problem can be avoided by selecting another machine in the GUI before you run <em>vboxmerge</em>.</p>
+
+<h2>Compacting VDIs</h2>
+
+<p>Merging snapshots removes redundant shadowed blocks and will return a lot of space, but it doesn&rsquo;t return blocks that have previously been written but are now no longer used by the guest file system. VirtualBox processes VDIs as block devices, it knows nothing about files and file systems. The VirtualBox compact command compacts blocks of zeros so for compaction to be effective you need to zero free space from the guest operating system <strong>before</strong> compacting the VDI using VirtualBox.</p>
+
+<p><strong><em>Windows</em></strong>:
+Use <a href="http://technet.microsoft.com/en-us/sysinternals/bb897443.aspx">sdelete</a>, for example to zero all unused space on drive C:</p>
+
+<pre><code>sdelete.exe -c C:
+</code></pre>
+
+<p><strong><em>Linux</em></strong>:
+A zeroing utility for ext2 and ext3 file systems is <a href="http://intgat.tigress.co.uk/rmy/uml/sparsify.html">zerofree</a> written by Ron Yorston. Your file system must be unmounted or mounted read-only before using this utility.</p>
+
+<p>If you decide to compact you should zero out the free space <strong>after</strong> merging (if you do it before merging the zeroing will balloon the most recent snapshot and the subsequent merging will take much longer). The steps are:</p>
+
+<ol>
+<li><p>Merge all snapshots, for example:</p>
+
+<pre><code>python vboxmerge.py &quot;My Machine&quot;
+</code></pre></li>
+
+<li><p>Open the merged guest machine and use an appropriate command to zero fill unused disk space.</p></li>
+
+<li><p>Compact the base VDI and create a base snapshot, for example:</p>
+
+<pre><code>python vboxmerge.py --compact --snapshot &quot;My Machine&quot;
+</code></pre></li>
+</ol>
+
+<p>It would be nice if file systems had some sort of <em>zero after delete</em> option to zero free disk space automatically (see <a href="http://intgat.tigress.co.uk/rmy/uml/sparsify.html">zerofree</a>).</p>
+
+<p><strong>Why create a base snapshot?</strong>:
+Because I never like to write directly to the base VDI &ndash; creating a snapshot effectively leaves the base VDI read-only so even if your machine crashes half way through writing and corrupts the current state you can restore back to the base VDI.</p>
+
+<h2>Prerequisites</h2>
+
+<p>This is the environment I used to develop and test <code>vboxmerge.py</code>:</p>
+
+<ul>
+<li>64 bit Windows Vista host</li>
+<li>VBox 3.2.4</li>
+<li>Python 2.6.5 (64 bit)</li>
+</ul>
+
+<p>You will also need to download and install <a href="http://sourceforge.net/projects/pywin32/">Python for Windows extensions</a> (in my case 64bit).</p>
+
+<p>Setup the Python VirtualBox bindings wrapper module (<em>vboxapi</em>) which is installed by the VirtualBox installer:</p>
+
+<ul>
+<li><p>Open Windows <em>Command Prompt</em> as Administrator (right-click on Command Prompt menu item and select <em>Run as Administrator</em>).</p></li>
+
+<li><p>Run the VBox Python setup script:</p>
+
+<pre><code>C:\&gt; cd C:\Program Files\Oracle\VirtualBox\sdk\install
+C:\&gt; C:\Python26\python.exe vboxapisetup.py install
+</code></pre></li>
+</ul>
+
+<p>Test your environment by running Python and executing:</p>
+
+<pre><code>&gt;&gt;&gt; import vboxapi
+&gt;&gt;&gt; vb = vboxapi.VirtualBoxManager(None,None)
+</code></pre>
+
+<p>If there a no errors you&rsquo;re OK.</p>
+
+<p>To print a list of your VM names and UUIDs execute this:</p>
+
+<pre><code>&gt;&gt;&gt; for m in vb.getArray(vb.vbox,'machines'):
+...     print m.name, m.id
+...
+</code></pre>
+
+<h2>The vboxmerge.py script</h2>
+
+<p><strong><em>Important</em></strong>:
+The script was developed and tested with VirtualBox 3.2.4, it might not work with other versions of VirtualBox (see Prerequisites).</p>
+
+<pre><code>#!/usr/bin/env python
+'''
+vboxmerge.py - Merge VirtualBox snapshots into base VDI
+
+Run 'python vboxmerge.py --help' to display command options.
+
+Written by Stuart Rackham, &lt;srackham@gmail.com&gt;
+Copyright (C) 2010 Stuart Rackham. Free use of this software is
+granted under the terms of the MIT License.
+'''
+import os, sys
+import vboxapi
+import pywintypes
+
+PROG = os.path.basename(__file__)
+VERSION = '0.1.1'
+VBOX = vboxapi.VirtualBoxReflectionInfo(False)  # VirtualBox constants.
+
+
+def out(fmt, *args):
+    if not OPTIONS.quiet:
+        sys.stdout.write((fmt % args))
+
+def die(msg, exitcode=1):
+    OPTIONS.quiet = False
+    out('ERROR: %s\n', msg)
+    sys.exit(exitcode)
+
+def runcmd(async_cmd, *args):
+    '''
+    Run the bound asynchronous method async_cmd with arguments args.
+    Display progress and return once the command has completed.
+    If an error occurs print the error and exit the program.
+    '''
+    if not OPTIONS.dryrun:
+        try:
+            progress = async_cmd(*args)
+            while not progress.completed:
+                progress.waitForCompletion(30000)   # Update progress every 30 seconds.
+                out('%s%% ', progress.percent)
+            out('\n')
+        except pywintypes.com_error, e:
+            die(e.args[2][2])   # Print COM error textual description and exit.
+
+def vboxmerge(machine_name):
+    '''
+    Merge snapshots using global OPTIONS.
+    '''
+    vbm = vboxapi.VirtualBoxManager(None, None)
+    vbox = vbm.vbox
+    try:
+        mach = vbox.findMachine(machine_name)
+    except pywintypes.com_error:
+        die('machine not found: %s' % machine_name)
+    out('\nmachine: %s: %s\n', mach.name, mach.id)
+    if mach.state != VBOX.MachineState_PoweredOff:
+        die('machine must be powered off')
+    session = vbm.mgr.getSessionObject(vbox)
+    vbox.openSession(session, mach.id)
+    try:
+        snap = mach.currentSnapshot
+        if snap:
+
+            if OPTIONS.discard_currentstate:
+                out('\ndiscarding current machine state\n')
+                runcmd(session.console.restoreSnapshot, snap)
+
+            skip = int(OPTIONS.skip)
+            count = int(OPTIONS.count)
+            while snap:
+                parent = snap.parent
+                if skip &lt;= 0 and count &gt; 0:
+                    out('\nmerging: %s: %s\n', snap.name, snap.id)
+                    runcmd(session.console.deleteSnapshot, snap.id)
+
+                    # The deleteSnapshot API sometimes silently skips snapshots
+                    # so test to make sure the snapshot is no longer valid.
+                    try: snap.id
+                    except pywintypes.com_error: pass
+                    else:
+                        if not OPTIONS.dryrun:
+                            die('%s: %s: more than one child VDI' % (snap.name, snap.id))
+
+                    count -= 1
+                snap = parent
+                skip -= 1
+        else:
+            out('no snapshots\n')
+
+        if OPTIONS.snapshot:
+            # Create a base snapshot.
+            out('\ncreating base snapshot\n')
+            runcmd(session.console.takeSnapshot, 'Base', 'Created by vboxmerge')
+
+        if OPTIONS.compact:
+            # Compact the base VDI.
+            for attachment in mach.mediumAttachments:
+                if attachment.type == VBOX.DeviceType_HardDisk:
+                    base = attachment.medium.base
+                    if base.type == VBOX.MediumType_Normal:
+                        out('\ncompacting base VDI: %s\n', base.name)
+                        runcmd(base.compact)
+    finally:
+        session.close()
+
+
+if __name__ == '__main__':
+    description = '''Merge VirtualBox snapshots into base VDI. MACHINE is the machine name.'''
+    from optparse import OptionParser
+    parser = OptionParser(usage='%prog [OPTIONS] MACHINE',
+        version='%s %s' % (PROG,VERSION),
+        description=description)
+    parser.add_option('--skip', dest='skip',
+        help='skip most recent N snapshots', metavar='N', default=0)
+    parser.add_option('--count', dest='count',
+        help='only merge N snapshots', metavar='N', default=1000)
+    parser.add_option('-q', '--quiet',
+        action='store_true', dest='quiet', default=False,
+        help='do not display progress messages')
+    parser.add_option('-n', '--dryrun',
+        action='store_true', dest='dryrun', default=False,
+        help='do nothing except display what would be done')
+    parser.add_option( '--compact',
+        action='store_true', dest='compact', default=False,
+        help='compact the base VDI')
+    parser.add_option( '--snapshot',
+        action='store_true', dest='snapshot', default=False,
+        help='create base snapshot')
+    parser.add_option( '--discard-currentstate',
+        action='store_true', dest='discard_currentstate', default=False,
+        help='discard the current state of the MACHINE')
+    if len(sys.argv) == 1:
+        parser.parse_args(['--help'])
+    global OPTIONS
+    (OPTIONS, args) = parser.parse_args()
+    vboxmerge(args[0])
+</code></pre>
+
+<h2>Other Resources</h2>
+
+<ul>
+<li>Virtual Box API constants in <code>C:\Program Files\Oracle\VirtualBox\sdk\install\vboxapi\VirtualBox_constants.py</code>.</li>
+<li><a href="http://dlc.sun.com/virtualbox/vboxsdkdownload.html#sdk">VirtualBox SDK</a>.</li>
+<li><a href="http://gui-at.blogspot.com/2009/09/how-to-clone-virtualbox-virtual-machine.html">an example Python VBox script</a>.</li>
+<li>I discuss deleting Snapshots in <a href="/posts/deleting-virtualbox-snapshots/">this post</a>.</li>
+</ul>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/deleting-virtualbox-snapshots/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/command-line-sms-script/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

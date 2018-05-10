@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Keeping a lid on Mobile data</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Keeping a lid on Mobile data</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Jul 17, 2011</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/android-1.html">Android</a>
+    
+</span>
+
+</div>
+<p>How to configure your Android phone to automatically turn off the mobile data connection once your mobile data limit is reached.</p>
+
+<h3>Why bother?</h3>
+
+<p>In New Zealand we have what amounts to a telecommunications duopoly with mobile data charges that make your eyes water &ndash; Vodafone charges me $1 NZD (0.84 USD) for every megabyte over my capped limit of 10MB per day (yes you read correctly 10 megabytes!) with no facility to limit overruns.</p>
+
+<h3>Here&rsquo;s how</h3>
+
+<ol>
+<li>Go to the Android Market and install the <a href="https://market.android.com/details?id=net.rgruet.android.g3watchdog&amp;hl=en">3G Watchdog</a> and <a href="https://market.android.com/details?id=com.google.code.apndroid&amp;hl=en">APNdroid</a> applications (both are great apps).</li>
+<li>Configure <em>3G Watchdog</em> with your data limit and configure it to use <em>APNdroid</em> to turn off.</li>
+</ol>
+
+<p><img src="http://blog.srackham.com/images/3g-watchdog-config.png" alt="3g-watchdog-config.png" /></p>
+
+<p><em>3G Watchdog</em> will now use <em>APNdroid</em> to automatically turn off your mobile data connection when the preset level is reached, What&rsquo;s nice is that it will automatically reenable data atically at your next data period.</p>
+
+<p>I also set the <em>3G Watchdog</em> update frequency to the shortest possible (30s) because in 30s you can consume a lot of data (relative to my measly limit).</p>
+
+<p>Lastly, a word of warning: Android phones consume mobile data <a href="http://androidforums.com/lg-thrive/330483-why-google-using-my-data.html">even when you&rsquo;re not using them</a> &ndash; this is why I manually turn off mobile data (using <em>APNdroid</em>) when I&rsquo;m not using it (most of the time I&rsquo;m on WiFi so I don&rsquo;t need to have mobile data enabled).</p>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/fossil-backend-for-asciidoc/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/using-an-ipad-to-access-remote-windows-desktops/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

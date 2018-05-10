@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Porting from Make to Grunt</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Porting from Make to Grunt</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Aug 16, 2014</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/grunt-1.html">grunt</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/javascript-1.html">JavaScript</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/make-1.html">Make</a>
+    
+</span>
+
+</div>
+<p>This post documents my experience porting a <a href="https://github.com/srackham/rimu/blob/v3.0.7/Makefile">Makefile</a> to a <a href="https://github.com/srackham/rimu/blob/c1e37b408e0a31d4051229654c2331c6cbc9a49b/Gruntfile.js">Gruntfile</a> in my <a href="https://github.com/srackham/rimu">Rimu Markup project</a>.</p>
+
+<p><strong>NOTE</strong>: Since first writing this post I have <a href="/posts/switching-from-grunt-to-jake/">switched the same project from Grunt to Jake</a>.</p>
+
+<h2>Why Grunt</h2>
+
+<p>My reasons for porting were to:</p>
+
+<ol>
+<li>Learn about Grunt (it seems to be the de facto nodejs/JavaScript build tool).</li>
+<li>Make the build process cross-platform.</li>
+<li>End up with a build script that is more widely understood.</li>
+<li>End up with a build script that is easier to write, maintain and test.</li>
+</ol>
+
+<h2>What differentiates Grunt from Make</h2>
+
+<ul>
+<li><a href="http://gruntjs.com/">Grunt</a> is similar to Make in that it provides a mechanism for running tasks (JavaScript functions) along with <a href="http://gruntjs.com/api/grunt">helpers</a> that assist the definition and execution of tasks.</li>
+<li>Unlike Make, Grunt does not have built-in file dependency management and only rudimentary <a href="https://github.com/gruntjs/grunt/issues/968">task dependency management</a> &ndash; in short Grunt, on it&rsquo;s own, doesn&rsquo;t do a lot.</li>
+<li>Grunt files are cross-platform whereas Make files are only cross-platform across UNIX type systems (e.g. Linux, BSD, OSX).  GNU Make can be run under Cgywin on Windows but, in my opinion, it&rsquo;s not as good the real thing.</li>
+<li>Gruntfiles can be written in JavaScript or CoffeeScript &ndash; for me this is the biggest advantage over Makefiles (which are an arcane mix of UNIX shell script and Makefile syntax). There&rsquo;s just no comparison between the two when it comes to writing non-trivial scripts especially when coupled with the huge ecosystem of nodejs libraries.</li>
+</ul>
+
+<h2>Use ShellJS instead of Grunt plugins</h2>
+
+<p>My first porting attempt was based on the de facto Grunt scripting model i.e.  <em>use <a href="http://gruntjs.com/plugins">Grunt Plugins</a> to run development tools</em>. I soon became frustrated, for every build tool I wanted to run I had to:</p>
+
+<ol>
+<li>Find a corresponding Grunt plugin (often having to choose from competing plugins).</li>
+<li>Install the plugin and add the <code>devDependencies</code> to the <code>package.json</code> file.</li>
+<li>Learn the plugin&rsquo;s JSON configuration syntax and mentally map it onto the tool&rsquo;s command-line arguments.</li>
+<li>Load the plugin in the Gruntfile.</li>
+<li>Cross my fingers and hope that the plugin developers keep the plugin bug free and in sync with both new releases of the build tool and Grunt.</li>
+</ol>
+
+<p>For example, my Makefile&rsquo;s <em>lint</em> target (task) runs a <code>jshint</code> command:</p>
+
+<pre><code>lint:
+        jshint test/spans.js test/blocks.js bin/rimuc.js
+</code></pre>
+
+<p>Aside from installing <code>jshint</code> that&rsquo;s it, it&rsquo;s that simple &ndash; plus I know exactly what it does because I already know how to use the <code>jshint</code> command.</p>
+
+<p>Now consider doing it with Grunt using the <code>grunt-contrib-jshint</code> plugin:</p>
+
+<pre><code>grunt.initConfig({
+  jshint: {
+    files: ['test/spans.js', 'test/blocks.js', 'bin/rimuc.js'],
+    options: {
+      jshintrc: true
+    }
+  }
+});
+
+grunt.loadNpmTasks('grunt-contrib-jshint');
+</code></pre>
+
+<p>All this crazy extra work and stuff to learn for nothing! I was about to pack it in when I discovered <a href="https://github.com/arturadib/shelljs">ShellJS</a>, a great library that gives you cross-platform UNIX-like shell capabilities. The above plugin code can now be replaced by:</p>
+
+<pre><code>grunt.registerTask('lint', 'Lint Javascript files', function() {
+  shelljs.exec('jshint test/spans.js test/blocks.js bin/rimuc.js');
+});
+</code></pre>
+
+<p>No plugin, nothing new to learn, easy to read, easy to verify from command-line &ndash; what&rsquo;s not to like!</p>
+
+<p>See the full <a href="https://github.com/srackham/rimu/blob/c1e37b408e0a31d4051229654c2331c6cbc9a49b/Gruntfile.js">Gruntfile.js</a> for more examples of the use of ShellJS functions.</p>
+
+<h2>Lessons Learnt</h2>
+
+<ol>
+<li>Do not use Grunt plugins that are just wrappers for existing command-line tools (I&rsquo;m not the only one who thinks this way, see <a href="http://blog.millermedeiros.com/node-js-ant-grunt-and-other-build-tools/">here</a> and <a href="http://blog.keithcirkel.co.uk/why-we-should-stop-using-grunt/">here</a>.</li>
+<li>Be very selective of the plugins you do use &ndash; weigh carefully plugins verses your own JavaScript code.</li>
+<li>Use the <em>ShellJS</em> library to leverage your existing knowledge and to make your Gruntfiles easily readable by users that are not Grunt experts.</li>
+</ol>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/switching-from-grunt-to-jake/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/hello-world-written-in-kotlin-using-android-studio/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

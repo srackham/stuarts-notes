@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Flux Backbone Todos Example</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Flux Backbone Todos Example</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Nov 25, 2014</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/backbone-1.html">Backbone</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/flux-1.html">Flux</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/react-1.html">React</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/reactjs-1.html">Reactjs</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/todo-1.html">Todo</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/todomvc-1.html">todoMVC</a>
+    
+</span>
+
+</div>
+<p>This didactic Todo app was written to illustrate the <a href="http://facebook.github.io/react/blog/2014/05/06/flux.html">Flux</a> DSV (Dispatch Store View) design pattern.</p>
+
+<p><strong><a href="http://srackham.github.io/flux-backbone-todo/">Live Demo</a></strong></p>
+
+<p><strong><a href="https://github.com/srackham/flux-backbone-todo/tree/1.1.0">Version 1.1.0</a></strong> (30 November 2014), persist Todos to LocalStorage.<br>
+<strong><a href="https://github.com/srackham/flux-backbone-todo/tree/1.0.0">Version 1.0.0</a></strong> (14 November 2014).</p>
+
+<p>This post is a copy of the <a href="https://github.com/srackham/flux-backbone-todo">Github project</a> README.</p>
+
+<p>Flux is a design pattern for building scaleable applications using a Unidirectional Data Flow (it is not a Web development framework), the Flux library implements a Dispatcher which works well with the Flux design pattern.</p>
+
+<p>The Todo app is implemented using <a href="http://facebook.github.io/react/blog/2014/05/06/flux.html">Flux</a>, <a href="http://backbonejs.org/">Backbone</a> and <a href="http://facebook.github.io/react/index.html">React</a>.</p>
+
+<h2>Architecture and Implementation</h2>
+
+<p>The Flux/React combination results in a highly decoupled declarative application structure. Here is the actual code:</p>
+
+<pre><code>var dispatcher = new Flux.Dispatcher();
+var todoStore = new TodoStore([], {dispatcher: dispatcher});
+
+React.render(
+    &lt;div&gt;
+      &lt;h3&gt;Todos&lt;/h3&gt;
+      &lt;TodoFormComponent store={todoStore} /&gt;
+      &lt;TodoListComponent store={todoStore} /&gt;
+      &lt;p&gt;
+      Want a second fully synchronized list? Just declare another list component: no code required,
+      no events to wire up!
+      &lt;/p&gt;
+      &lt;TodoListComponent store={todoStore} /&gt;
+    &lt;/div&gt;,
+    document.getElementById('app')
+);
+</code></pre>
+
+<p>Just declare the Dispatcher, Store and View and you&rsquo;re done. The Flux unidirectional <em>Dispatcher-&gt;Store-&gt;View</em> dependencies are obvious.</p>
+
+<ul>
+<li>The <code>todoStore</code> is passed the <code>dispatcher</code> (as a constructor argument) when it is instantiated.</li>
+<li>UI components that display or update the Todo list are passed the <code>todoStore</code> (as a property) when they are instantiated.</li>
+</ul>
+
+<p>Displaying a second fully synchronized Todo list is a bit nonsensical but it graphically illustrates the power of the Flux architecture &ndash; try doing this in any other framework.</p>
+
+<h2>Data flow</h2>
+
+<p>Data flows unidirectionally in a circular path <em>Dispatcher-&gt;Store-&gt;View-&gt;Dispatcher-&gt; …</em>:</p>
+
+<ul>
+<li>The <code>todoStore</code> listens for <code>dispatcher</code> actions (messages) and updates itself in response to these messages.</li>
+<li>UI components listen for Backbone events from the <code>todoStore</code> informing them of changes to the store that need to be displayed in the UI.</li>
+<li>UI components send actions (messages) to the <code>dispatcher</code> in response to user input &ndash; components do not mutate the store directly.</li>
+</ul>
+
+<h2>The Store</h2>
+
+<ul>
+<li>The store is a Black Box containing the application&rsquo;s state and the logic to execute dispatcher actions which update (mutate) the store.</li>
+<li>Externally there is no way to mutate the store other than indirectly via dispatcher actions.</li>
+<li>The store emits change events to subscribers (UI view components).</li>
+<li>The store has no knowledge of its external environment.</li>
+</ul>
+
+<p>Backbone is used to implement a pub/sub data store for the Todos list with Backbone Models and Collections (Backbone is not used as a development framework). Backbone unburdens the app from having to implement a pub/sub event emitter for the store (as well as providing a rich model/collection API).</p>
+
+<p>Storing the component state in a mutative Backbone store instead of using an immutable component <code>State</code> object means we need to use the React <a href="http://facebook.github.io/react/docs/component-api.html#forceupdate">forceUpdate</a> API which could have performance implications for complex React UIs. See this <a href="http://stackoverflow.com/questions/21709905/can-i-avoid-forceupdate-when-using-react-with-backbone">excellent discussion</a> explains the issue and, if necessary, strategies to resolve it.  React does a great job of DOM update optimization so I would stick with the simplicity of using <code>forceUpdate</code> until confronted with a real use-case to the contrary.</p>
+
+<p><code>TodoStore</code> collection and <code>TodoItem</code> models are passed a Flux dispatcher when they are instantiated. <code>TodoItem</code> models are instantiated by the Backbone Collection <code>add</code> method which passes the dispatcher option to the <code>TodoItem</code> model&rsquo;s <code>initialize</code> function.</p>
+
+<h2>Building and Running</h2>
+
+<p>The app is developed and built in a node/npm environment. To install and run:</p>
+
+<ol>
+<li><p>Make sure you have node and npm installed.</p></li>
+
+<li><p>Clone the Github repo:</p>
+
+<pre><code>git clone https://github.com/srackham/flux-backbone-todo.git
+</code></pre></li>
+
+<li><p>Install npm dependencies:</p>
+
+<pre><code>cd flux-backbone-todo
+npm install
+</code></pre></li>
+
+<li><p>Build the app <code>app/bundle.js</code> bundle (although JQuery is not required by Backbone I had to include it to satisfy webpack which thought it was a dependency):</p>
+
+<pre><code>webpack
+</code></pre></li>
+
+<li><p>Start the app in a server:</p>
+
+<pre><code>npm start
+</code></pre></li>
+
+<li><p>Open your Web browser at <a href="http://localhost:8888/">http://localhost:8888/</a>.</p></li>
+</ol>
+
+<h2>Lessons learnt</h2>
+
+<ul>
+<li><p>As always in JavaScript, when you pass a callback you need to ensure that they are bound to the correct context. In the following example the Backbone Model event handler&rsquo;s context is bound to the current object:</p>
+
+<pre><code>this.props.store.on('change',
+    function() {
+      this.forceUpdate();
+    }.bind(this)
+);
+</code></pre></li>
+
+<li><p>When binding you need to take caller and callee arguments into consideration. The previous example can be simplified by passing <code>forceUpdate</code> as the change handler callback, but if you do not remember to explicitly bind the <code>forceUpdate</code> first argument to <code>null</code> the program will throw an error because <code>forceUpdate</code> would be called by the Backbone event dispatcher with a first argument that is not a callback (namely the changed Backbone model):</p>
+
+<pre><code>this.props.store.on('change',
+  this.forceUpdate.bind(this, null)
+);
+</code></pre></li>
+
+<li><p>Backbone Model attributes are not model properties &ndash; access them with <code>get()</code> and <code>set()</code> not with the dot syntax.</p></li>
+
+<li><p>I spent far to much time debugging what is a very simple application, most of the time could have been saved if I had been using a language with type checking &ndash; <em>ES6 + JSX + type annotations + type checking</em>  would be nice (this is a criticism of JavaScript in general, not of the application architecture or the tools).</p></li>
+</ul>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/publishing-a-project-website-to-github-pages/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/switching-from-grunt-to-jake/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

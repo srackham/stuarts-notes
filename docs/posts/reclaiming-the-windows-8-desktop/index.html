@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Reclaiming the Windows 8 Desktop</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Reclaiming the Windows 8 Desktop</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Oct 27, 2012</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/start8-1.html">Start8</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/windows-8-1.html">Windows 8</a>
+    
+</span>
+
+</div>
+<p>Here&rsquo;s what we are going to do:</p>
+
+<ol>
+<li>Restore the Windows Start Menu.</li>
+<li>Boot directly to the Windows 8 desktop (and optionally bypass the login screen).</li>
+<li>Restore the Quick Launch toolbar and the Show Desktop icon.</li>
+</ol>
+
+<p>Here is a screenshot of the reconfigured Windows 8 desktop (note the Start Menu and the Quick Launch toolbar at the bottom left):</p>
+
+<p><img src="http://blog.srackham.com/images/win8-desktop.png" alt="win8-desktop.png" /></p>
+
+<p><strong>TIP</strong>: Press the <em>Windows</em> key to switch from the Metro user interface to the traditional Desktop user interface.</p>
+
+<h2>Restoring the Start Menu</h2>
+
+<p>There are a number of Windows 8 Start Menu apps available but by far the best I was able to find is <a href="http://www.stardock.com/products/start8/">Start8</a>, it&rsquo;s not free but it&rsquo;s the best five bucks I&rsquo;ve spent in long while.</p>
+
+<p>Once you&rsquo;ve installed Start8 you not only have a nice Windows 8 themed Start Menu but you can also automatically go to the Desktop when you sign in to Windows (right-click on the Start Menu button and select <em>Configure Start8…</em> to customize).</p>
+
+<h2>Bypass login screen</h2>
+
+<p>If you don&rsquo;t want the bother of having to type your login name every time you start your PC follow this <a href="http://news.cnet.com/8301-10805_3-57457967-75/how-to-bypass-the-windows-8-log-in-screen/">CNET article</a>.</p>
+
+<h2>Restore the Quick Launch toolbar and the Show Desktop icon</h2>
+
+<p>See this excellent EightForumks tutorial explaining <a href="http://www.eightforums.com/tutorials/5069-quick-launch-add-taskbar-windows-8-a.html">How to Add Quick Launch to the Taskbar in Windows 8</a>.</p>
+
+<p>Here&rsquo;s a paraphrased how-to:</p>
+
+<ol>
+<li>Right-click on the Taskbar and select <em>Toolbars-&gt;New Toolbar…</em></li>
+<li>Paste <code>%userprofile%\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch</code> into the <em>Folder</em> input and click <em>Select Folder</em>. The Quick Launch toolbar will appear, next we will change it&rsquo;s appearence and reposition it.</li>
+<li>Unlock the Taskbar (right-click Taskbar and untick <em>Lock the taskbar</em>).</li>
+<li>Right-click on Quick Launch toolbar and untick <em>Show Text</em> and <em>Show Title</em>.</li>
+<li>Right-click on Quick Launch toolbar and select <em>View…</em> to set the desired Quick Launch toolbar icon size.</li>
+<li>Reposition and resize the Quick Launch toolbar next to the Start Menu.</li>
+<li>Finally lock the Taskbar (right-click Taskbar and tick <em>Lock the taskbar</em>).</li>
+</ol>
+
+<p>To add application icons to the Quick Launch toolbar find the application shortcut using the File Explorer then drag and drop it onto the Quick Launch toolbar, here how:</p>
+
+<ol>
+<li>First you need to show hidden files:
+
+<ol>
+<li>Open the <em>Control Panel</em> search for <em>folder</em>.</li>
+<li>Click on <em>Show hidden files and folders</em> then select the <em>Show hidden files, folders and drives</em> option.</li>
+</ol></li>
+<li>Now open <em>File Explorer</em> (<em>Start Menu-&gt;All Programs-&gt;System Tools-&gt;File Explorer</em>).</li>
+<li>Navigate to the folder <code>C:\ProgramData\Microsoft\Windows\Start Menu\Programs</code> then drap-and-drop program shortcuts to the Quick Launch toolbar.</li>
+</ol>
+
+<h2>Resize windows borders</h2>
+
+<p>The <a href="http://winaero.com/comment.php?comment.news.96">Tiny Windows Borders</a> tool can be used to make the annoyingly large Windows 8 border widths small.</p>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/bash-completion-for-grunt-files/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/blogger-backend-for-asciidoc/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

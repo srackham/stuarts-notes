@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Vala TreeView List Example</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Vala TreeView List Example</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Sep 14, 2010</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/genie-1.html">Genie</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/gtk-1.html">GTK&#43;</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/vala-1.html">Vala</a>
+    
+</span>
+
+</div>
+<p>This small GTK+ example application demonstrates how to populate a <a href="http://library.gnome.org/devel/gtk/2.90/GtkTreeView.html">GtkTreeView</a> list and respond to list item mouse clicks. It is written in <a href="http://live.gnome.org/Vala/">Vala</a> (a functionally identical <a href="http://live.gnome.org/Genie">Genie</a> version is also listed). The user interface was constructed using <a href="http://glade.gnome.org/">Glade</a>.</p>
+
+<p>The application loads and presents a list of people in a TreeView list, when a list item is selected or double-clicked the selection is displayed along the bottom of the application window. Here&rsquo;s a screenshot:</p>
+
+<p><img src="http://blog.srackham.com/images/treeview-list.png" alt="treeview-list.png" /></p>
+
+<p>The <a href="http://library.gnome.org/devel/gtk/2.90/GtkTreeView.html">GtkTreeView</a> widget and an associated data store object (either <a href="http://library.gnome.org/devel/gtk/2.90/GtkListStore.html">GtkListStore</a> or a <a href="http://library.gnome.org/devel/gtk/2.90/GtkTreeStore.html">GtkTreeStore</a>) implement tree views, lists and combinations of the two.  The TreeView is not your usual widget, it&rsquo;s a monster, more like a spreadsheet, expect a steep learning curve. The good new is that it is incredibly powerful.</p>
+
+<p>This code was compiled and tested on Xubuntu 10.04 using Vala 0.9.8 and Glade 3.6.7.</p>
+
+<p><strong>Vala source code (treeview-list.vala)</strong></p>
+
+<pre><code>*
+    treeview-list.vala - Vala TreeView list example
+
+    Build with:
+    valac --pkg gtk+-2.0 --pkg posix treeview-list.vala
+*/
+
+static int main (string[] args) {
+    Gtk.init (ref args);
+    var app = new App ();
+    app.start ();
+    Gtk.main ();
+    return 0;
+}
+
+public class App: Object {
+
+    Gtk.Window window;
+    Gtk.TreeView treeview;
+    Gtk.ListStore liststore;
+    Gtk.Label msg_label;
+
+    struct Person {
+        int id;
+        string name;
+        string city;
+        string country;
+
+        public string to_string () {
+            return @&quot;$(id), $(name), $(city), $(country)&quot;;
+        }
+    }
+
+    Person[] data = {
+        Person() {id=1, name=&quot;Joe Bloggs&quot;, city=&quot;London&quot;, country=&quot;England&quot;},
+        Person() {id=2, name=&quot;Bill Smith&quot;, city=&quot;Auckland&quot;, country=&quot;New Zealand&quot;},
+        Person() {id=3, name=&quot;Joan Miller&quot;, city=&quot;Boston&quot;, country=&quot;USA&quot;}
+    };
+
+    construct {
+        var builder = new Gtk.Builder();
+        try {
+            builder.add_from_file(&quot;treeview-list.ui&quot;);
+        }
+        catch (Error e) {
+            stderr.printf (@&quot;$(e.message)\n&quot;);
+            Posix.exit(1);
+        }
+        builder.connect_signals (this);
+        this.window = builder.get_object(&quot;window&quot;) as Gtk.Window;
+        this.msg_label = builder.get_object(&quot;msg-label&quot;) as Gtk.Label;
+        this.treeview = builder.get_object (&quot;treeview&quot;) as Gtk.TreeView;
+        // Load list data.
+        this.liststore = builder.get_object (&quot;liststore&quot;) as Gtk.ListStore;
+        this.liststore.clear ();
+        foreach (Person p in this.data) {
+            Gtk.TreeIter iter;
+            this.liststore.append (out iter);
+            this.liststore.set (iter, 0, p.id, 1, p.name, 2, p.city, 3, p.country);
+        }
+        // Monitor list double-clicks.
+        this.treeview.row_activated.connect (on_row_activated);
+        // Monitor list selection changes.
+        this.treeview.get_selection().changed.connect (on_selection);
+        this.window.destroy.connect (Gtk.main_quit);
+    }
+
+    public void start () {
+        this.window.show_all ();
+    }
+
+
+    private static Person get_selection (Gtk.TreeModel model, Gtk.TreeIter iter) {
+        var p = Person();
+        model.get (iter, 0, out p.id, 1, out p.name, 2, out p.city, 3, out p.country);
+        return p;
+    }
+
+    /* List item double-click handler. */
+    private void on_row_activated (Gtk.TreeView treeview , Gtk.TreePath path, Gtk.TreeViewColumn column) {
+        Gtk.TreeIter iter;
+        if (treeview.model.get_iter (out iter, path)) {
+            Person p = get_selection (treeview.model, iter);
+            this.msg_label.label = @&quot;Double-clicked: $(p)&quot;;
+        }
+    }
+
+    /* List item selection handler. */
+    private void on_selection (Gtk.TreeSelection selection) {
+        Gtk.TreeModel model;
+        Gtk.TreeIter iter;
+        if (selection.get_selected (out model, out iter)) {
+            Person p = get_selection (model, iter);
+            this.msg_label.label = @&quot;Selected: $(p)&quot;;
+        }
+    }
+
+}
+</code></pre>
+
+<p><strong>Glade XML user interface (treeview-list.ui)</strong></p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;interface&gt;
+  &lt;requires lib=&quot;gtk+&quot; version=&quot;2.16&quot;/&gt;
+  &lt;!-- interface-naming-policy project-wide --&gt;
+  &lt;object class=&quot;GtkListStore&quot; id=&quot;liststore&quot;&gt;
+    &lt;columns&gt;
+      &lt;!-- column-name id --&gt;
+      &lt;column type=&quot;gint&quot;/&gt;
+      &lt;!-- column-name name --&gt;
+      &lt;column type=&quot;gchararray&quot;/&gt;
+      &lt;!-- column-name city --&gt;
+      &lt;column type=&quot;gchararray&quot;/&gt;
+      &lt;!-- column-name country --&gt;
+      &lt;column type=&quot;gchararray&quot;/&gt;
+    &lt;/columns&gt;
+  &lt;/object&gt;
+  &lt;object class=&quot;GtkWindow&quot; id=&quot;window&quot;&gt;
+    &lt;property name=&quot;title&quot; translatable=&quot;yes&quot;&gt;TreeView List Example&lt;/property&gt;
+    &lt;property name=&quot;window_position&quot;&gt;center&lt;/property&gt;
+    &lt;property name=&quot;default_width&quot;&gt;440&lt;/property&gt;
+    &lt;property name=&quot;default_height&quot;&gt;250&lt;/property&gt;
+    &lt;child&gt;
+      &lt;object class=&quot;GtkVBox&quot; id=&quot;vbox1&quot;&gt;
+        &lt;property name=&quot;visible&quot;&gt;True&lt;/property&gt;
+        &lt;child&gt;
+          &lt;object class=&quot;GtkScrolledWindow&quot; id=&quot;scrolledwindow1&quot;&gt;
+            &lt;property name=&quot;visible&quot;&gt;True&lt;/property&gt;
+            &lt;property name=&quot;can_focus&quot;&gt;True&lt;/property&gt;
+            &lt;property name=&quot;hscrollbar_policy&quot;&gt;automatic&lt;/property&gt;
+            &lt;property name=&quot;vscrollbar_policy&quot;&gt;automatic&lt;/property&gt;
+            &lt;child&gt;
+              &lt;object class=&quot;GtkTreeView&quot; id=&quot;treeview&quot;&gt;
+                &lt;property name=&quot;visible&quot;&gt;True&lt;/property&gt;
+                &lt;property name=&quot;can_focus&quot;&gt;True&lt;/property&gt;
+                &lt;property name=&quot;model&quot;&gt;liststore&lt;/property&gt;
+                &lt;child&gt;
+                  &lt;object class=&quot;GtkTreeViewColumn&quot; id=&quot;treeviewcolumn1&quot;&gt;
+                    &lt;property name=&quot;title&quot;&gt;Name&lt;/property&gt;
+                    &lt;child&gt;
+                      &lt;object class=&quot;GtkCellRendererText&quot; id=&quot;cellrenderertext1&quot;/&gt;
+                      &lt;attributes&gt;
+                        &lt;attribute name=&quot;text&quot;&gt;1&lt;/attribute&gt;
+                      &lt;/attributes&gt;
+                    &lt;/child&gt;
+                  &lt;/object&gt;
+                &lt;/child&gt;
+                &lt;child&gt;
+                  &lt;object class=&quot;GtkTreeViewColumn&quot; id=&quot;treeviewcolumn2&quot;&gt;
+                    &lt;property name=&quot;title&quot;&gt;City&lt;/property&gt;
+                    &lt;child&gt;
+                      &lt;object class=&quot;GtkCellRendererText&quot; id=&quot;cellrenderertext2&quot;/&gt;
+                      &lt;attributes&gt;
+                        &lt;attribute name=&quot;text&quot;&gt;2&lt;/attribute&gt;
+                      &lt;/attributes&gt;
+                    &lt;/child&gt;
+                  &lt;/object&gt;
+                &lt;/child&gt;
+                &lt;child&gt;
+                  &lt;object class=&quot;GtkTreeViewColumn&quot; id=&quot;treeviewcolumn3&quot;&gt;
+                    &lt;property name=&quot;title&quot;&gt;Country&lt;/property&gt;
+                    &lt;child&gt;
+                      &lt;object class=&quot;GtkCellRendererText&quot; id=&quot;cellrenderertext3&quot;/&gt;
+                      &lt;attributes&gt;
+                        &lt;attribute name=&quot;text&quot;&gt;3&lt;/attribute&gt;
+                      &lt;/attributes&gt;
+                    &lt;/child&gt;
+                  &lt;/object&gt;
+                &lt;/child&gt;
+              &lt;/object&gt;
+            &lt;/child&gt;
+          &lt;/object&gt;
+          &lt;packing&gt;
+            &lt;property name=&quot;position&quot;&gt;0&lt;/property&gt;
+          &lt;/packing&gt;
+        &lt;/child&gt;
+        &lt;child&gt;
+          &lt;object class=&quot;GtkLabel&quot; id=&quot;msg-label&quot;&gt;
+            &lt;property name=&quot;visible&quot;&gt;True&lt;/property&gt;
+            &lt;property name=&quot;xalign&quot;&gt;0&lt;/property&gt;
+            &lt;attributes&gt;
+              &lt;attribute name=&quot;weight&quot; value=&quot;bold&quot;/&gt;
+              &lt;attribute name=&quot;foreground&quot; value=&quot;#30af5549c84f&quot;/&gt;
+            &lt;/attributes&gt;
+          &lt;/object&gt;
+          &lt;packing&gt;
+            &lt;property name=&quot;expand&quot;&gt;False&lt;/property&gt;
+            &lt;property name=&quot;padding&quot;&gt;2&lt;/property&gt;
+            &lt;property name=&quot;position&quot;&gt;1&lt;/property&gt;
+          &lt;/packing&gt;
+        &lt;/child&gt;
+      &lt;/object&gt;
+    &lt;/child&gt;
+  &lt;/object&gt;
+&lt;/interface&gt;
+</code></pre>
+
+<p><strong>Functionally identical Genie source code (treeview-list.gs)</strong></p>
+
+<pre><code>/*
+    treeview-list.gs - Genie TreeView list example
+
+    Build with:
+    valac --pkg gtk+-2.0 --pkg posix treeview-list.gs
+*/
+
+[indent=4]
+
+init
+    Gtk.init(ref args)
+    var app = new App ()
+    app.start ()
+    Gtk.main ()
+
+class App: Object
+
+    window: Gtk.Window
+    treeview: Gtk.TreeView
+    liststore: Gtk.ListStore
+    msg_label: Gtk.Label
+
+    struct Person
+        id: int
+        name: string
+        city: string
+        country: string
+
+        def to_string (): string
+            return @&quot;$(id), $(name), $(city), $(country)&quot;
+
+    data: array of Person = {
+        Person() {id=1, name=&quot;Joe Bloggs&quot;, city=&quot;London&quot;, country=&quot;England&quot;},
+        Person() {id=2, name=&quot;Bill Smith&quot;, city=&quot;Auckland&quot;, country=&quot;New Zealand&quot;},
+        Person() {id=3, name=&quot;Joan Miller&quot;, city=&quot;Boston&quot;, country=&quot;USA&quot;}
+    }
+
+    init
+        var builder = new Gtk.Builder()
+        try
+            builder.add_from_file(&quot;treeview-list.ui&quot;)
+        except e:Error
+            stderr.printf(@&quot;$(e.message)\n&quot;)
+            Posix.exit(1)
+        builder.connect_signals(this)
+        this.window = builder.get_object(&quot;window&quot;) as Gtk.Window
+        this.msg_label = builder.get_object(&quot;msg-label&quot;) as Gtk.Label
+        this.treeview = builder.get_object (&quot;treeview&quot;) as Gtk.TreeView
+        // Load list data.
+        this.liststore = builder.get_object (&quot;liststore&quot;) as Gtk.ListStore
+        this.liststore.clear ()
+        for p: Person in this.data
+            iter: Gtk.TreeIter
+            this.liststore.append (out iter)
+            this.liststore.set (iter, 0, p.id, 1, p.name, 2, p.city, 3, p.country)
+        // Monitor list double-clicks.
+        this.treeview.row_activated.connect (on_row_activated)
+        // Monitor list selection changes.
+        this.treeview.get_selection().changed.connect (on_selection)
+        this.window.destroy.connect (Gtk.main_quit)
+
+    def start ()
+        this.window.show_all ();
+
+    def static get_selection (model: Gtk.TreeModel, iter: Gtk.TreeIter): Person
+        var p = Person()
+        model.get (iter, 0, out p.id, 1, out p.name, 2, out p.city, 3, out p.country)
+        return p
+
+    /* List item double-click handler. */
+    def on_row_activated (treeview: Gtk.TreeView, path: Gtk.TreePath, column: Gtk.TreeViewColumn)
+        iter: Gtk.TreeIter
+        if treeview.model.get_iter (out iter, path)
+            p: Person = get_selection (treeview.model, iter)
+            this.msg_label.label = @&quot;Double-clicked: $(p)&quot;
+
+    /* List item selection handler. */
+    def on_selection (selection: Gtk.TreeSelection)
+        model: Gtk.TreeModel
+        iter: Gtk.TreeIter
+        if selection.get_selected (out model, out iter)
+            p: Person = get_selection (model, iter)
+            this.msg_label.label = @&quot;Selected: $(p)&quot;
+</code></pre>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/moving-between-virtualbox-hosts/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/publishing-ebooks-with-asciidoc/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

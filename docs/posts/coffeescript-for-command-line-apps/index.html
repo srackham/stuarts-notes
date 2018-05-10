@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>CoffeeScript for Command-line Apps</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>CoffeeScript for Command-line Apps</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Jul 8, 2011</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/clickatell-1.html">clickatell</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/coffeescript-1.html">coffeescript</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/commandline-1.html">commandline</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/nodejs-1.html">nodejs</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/sms-1.html">sms</a>
+    
+</span>
+
+</div>
+<p><strong>Updated</strong>: 2011-10-27: published the app to <a href="https://github.com/srackham/clisms">github</a> and the <a href="http://search.npmjs.org/#/clisms">npm registry</a>.</p>
+
+<p>This post details my learning experience porting a <a href="/posts/command-line-sms-script/">command-line application</a> I previously wrote in Python to <a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>.</p>
+
+<p>I won&rsquo;t describe how the SMS application works or how to use it, you can find this in a separate post describing the <a href="/posts/command-line-sms-script/">Python version</a>.</p>
+
+<p>The clisms.coffee source code is <a href="https://github.com/srackham/clisms/blob/master/clisms.coffee">on github</a>, the shebang line allows it to be executed directly (provided you have the <em>coffee</em> compiler installed), or you could compile it separately to JavaScript (using the cake build command). The program does the typical things most command-line apps do: process command-line args; read environment variables; read/write files; shell other apps.</p>
+
+<h2>Learning and using CoffeeScript</h2>
+
+<p>CoffeeScript is surprisingly well documented for such a new language. If you know Python, Ruby and JavaScript you&rsquo;ll learn it in a couple of hours. Here are resources I found useful:</p>
+
+<ul>
+<li><a href="http://jashkenas.github.com/coffee-script/">CoffeeScript website</a>.</li>
+<li>Watch <a href="http://blip.tv/jsconf/jsconf2011-jeremy-ashkenas-5258082">this video</a>.</li>
+<li>Wikipedia: <a href="http://en.wikipedia.org/wiki/CoffeeScript">http://en.wikipedia.org/wiki/CoffeeScript</a></li>
+<li>A list of <a href="http://documentcloud.github.com/underscore/">CoffeeScript resources</a>.</li>
+<li><a href="https://github.com/jashkenas/coffee-script/wiki">CoffeeScript wiki</a>.</li>
+<li><a href="http://autotelicum.github.com/Smooth-CoffeeScript/">Smooth CoffeeScript</a> is a free CoffeeScript book.</li>
+<li><a href="http://coffeescriptcookbook.com/">CoffeeScript Cookbook</a>.</li>
+<li>I also found the <a href="http://pragprog.com/book/tbcoffee/coffeescript">CoffeeScript</a> book from the Pragmatic Bookshelf a good read.</li>
+</ul>
+
+<p>Libraries can make or break scripting languages.  CoffeeScript uses JavaScript libraries so you&rsquo;ll need to be familiar with JavaScript. The foremost client-side library is the <a href="http://nodejs.org/">NodeJS</a> API. I was able to write clisms.coffee using just the NodeJS API. The NodeJS API is reasonably well documented though on occasion you may find it necessary to consult the NodeJS source.</p>
+
+<ul>
+<li><a href="https://github.com/joyent/node/wiki">NodeJS wiki</a>.</li>
+<li><a href="http://nodejs.org/docs/latest/api/">NodeJS API documentation</a>.</li>
+<li><a href="https://github.com/joyent/node/tree/master/lib">NodeJS library source</a>.</li>
+<li>The <a href="http://search.npmjs.org/">npm registry</a> is a great source of other Node compatible JavaScript libraries.</li>
+</ul>
+
+<p>I found the hardest part was not CoffeeScript itself but getting used to the NodeJS asynchronous I/O paradigm &ndash; once you&rsquo;ve twigged it&rsquo;s not much harder to write or understand it&rsquo;s just different.</p>
+
+<h2>Impressions of CoffeeScript</h2>
+
+<p>The port from Python went smoothly, much of the time being spent hunting around for equivalent JavaScript library functions.</p>
+
+<p>I would characterise CoffeeScript as having borrowed the best features of Python and Ruby to synthesise an entirely new language that compiles to JavaScript and retains JavaScript semantics.</p>
+
+<p>I&rsquo;m quite smitten by CoffeeScript, it&rsquo;s incredibly expressive and has that ineffable &ldquo;just right&rdquo; feel about it, no rough edges, no surprises, everything just works &ndash; hats off to Jeremy Ashkenas, CoffeeScript&rsquo;s creator.</p>
+
+<p>Unlike JavaScript, which I&rsquo;ve only ever coded out of necessity, writing in CoffeeScript is a pleasurable experience. Would I recommend CoffeeScript as a general purpose scripting language?  Absolutely, especially with the recent surge in development of JavaScript libraries.</p>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/using-an-ipad-to-access-remote-windows-desktops/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/w3c-command-line-validator/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

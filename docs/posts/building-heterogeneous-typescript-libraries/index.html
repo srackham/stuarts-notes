@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Building heterogeneous TypeScript libraries</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Building heterogeneous TypeScript libraries</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Nov 21, 2012</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/typescript-1.html">TypeScript</a>
+    
+</span>
+
+</div>
+<p>A technique for compiling one or more TypeScript source files to a single JavaScript library file that can be used in both the browser and by Node.js applications.</p>
+
+<h2>By way of example</h2>
+
+<p>Our library source consists of a single TypeScript module called <em>Lib</em> spread across multiple source files (<code>lib1.ts</code> and <code>lib2.ts</code>) that exports a public API:</p>
+
+<h4>lib1.ts</h4>
+
+<pre><code>module Lib {
+  export function f() {}
+}
+
+declare var exports: any;
+if (typeof exports != 'undefined') {
+  exports.f = Lib.f;
+}
+</code></pre>
+
+<h4>lib2.ts</h4>
+
+<pre><code>module Lib {
+  export var v = {foo: 42};
+}
+
+declare var exports: any;
+if (typeof exports != 'undefined') {
+  exports.v = Lib.v;
+}
+</code></pre>
+
+<p>The source file are compiled to a single JavaScript library <code>lib.js</code> using the TypeScript compiler:</p>
+
+<pre><code>tsc --out lib.js lib1.ts lib2.ts
+</code></pre>
+
+<h4>lib.js</h4>
+
+<pre><code>var Lib;
+(function (Lib) {
+    function f() {
+    }
+    Lib.f = f;
+})(Lib || (Lib = {}));
+if(typeof exports != 'undefined') {
+    exports.f = Lib.f;
+}
+var Lib;
+(function (Lib) {
+    Lib.v = {
+        foo: 42
+    };
+})(Lib || (Lib = {}));
+if(typeof exports != 'undefined') {
+    exports.v = Lib.v;
+}
+</code></pre>
+
+<p><code>lib.js</code> file now can be included on an HTML page with:</p>
+
+<pre><code>&lt;script type=&quot;text/javascript&quot; src=&quot;lib.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+
+<p>Or in a Node.js application with:</p>
+
+<pre><code>var Lib = require('./lib.js');
+</code></pre>
+
+<p>The APIs are accessed via the module name e.g. <code>Lib.f()</code>, <code>Lib.v</code>.</p>
+
+<h2>Explanatory notes</h2>
+
+<p>The key to being able to import the code into Node.js with <code>require('./lib.js')</code> is conditionally assigning public API objects to properties of the global <code>exports</code> object e.g.</p>
+
+<pre><code>declare var exports: any;
+if (typeof exports != 'undefined') {
+  exports.f = Lib.f;
+}
+</code></pre>
+
+<ul>
+<li><code>exports</code> is a global object defined by CommonJS compatible loaders such as Node&rsquo;s.</li>
+<li>This code must be placed at the end of the source file outside the module declaration.</li>
+<li><code>exports</code> will not be assigned in the browser (or any non-CommonJS environment where <em>exports</em> is not defined).</li>
+<li>To minimize browser global namespace pollution all source is enveloped in a single open module (<em>Lib</em>) &ndash; this is not necessary in a module loader environment (e.g. Node.js).</li>
+<li>Multi-file &ldquo;open&rdquo; modules are not truly open &ndash; you must export any module objects that need to be accessed across file boundaries.</li>
+<li>TypeScript can emit CommonJS modules directly by prefixing <em>module</em> with the <em>export</em> keyword and using the compiler <code>--module commonjs</code> option, but there are two problems with this approach:
+
+<ol>
+<li>The generated code can only be loaded with a module loader and cannot be used in a browser unless you also depoly a suitable browser module loader.</li>
+<li>External modules must reside in a single source file (they are not open).</li>
+</ol></li>
+</ul>
+
+<h2>Scoping function wrapper</h2>
+
+<p>A variation of the above technique is to wrap the combined compiled file with a <em>scoping function</em>. This will ensure non-exported top level objects do not pollute the browser global namespace:</p>
+
+<pre><code>(function() {
+  :
+})();
+</code></pre>
+
+<p>The browser API is hoisted to the global namespace by assignment to the browser <code>window</code> object. The previous example becomes:</p>
+
+<pre><code>declare var exports: any;
+if (typeof exports != 'undefined') {
+  exports.f = Lib.f;
+}
+else if (typeof window !== 'undefined') {
+  window['f'] = Lib.f;
+}
+</code></pre>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://know.cujojs.com/tutorials/modules/authoring-cjs-modules">Authoring CommonJS modules</a>.</li>
+<li><a href="http://www.typescriptlang.org/Handbook#modules">TypeScript Handbook</a>.</li>
+<li><a href="http://typescript.codeplex.com/wikipage?title=Modules%20in%20TypeScript">Modules in TypeScript</a>.</li>
+<li><a href="http://caolanmcmahon.com/posts/writing_for_node_and_the_browser/">Writing for node and the browser</a>.</li>
+<li><a href="http://pixelsvsbytes.com/blog/2013/02/js-require-for-browsers-better-faster-stronger/">JS require() for browsers – better, faster, stronger</a>.</li>
+<li><a href="http://nodejs.org/api/modules.html">Node.js modules documentation</a>.</li>
+<li><a href="http://requirejs.org/">RequireJS</a>.</li>
+</ul>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/configuring-nut-for-the-eaton-3s-ups-on-ubuntu-linux/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/bash-completion-for-grunt-files/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

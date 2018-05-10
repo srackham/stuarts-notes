@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Porting my blog with Hugo</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Porting my blog with Hugo</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Dec 30, 2014</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/hugo-1.html">Hugo</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/github-1.html">Github</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/jekyll-1.html">Jekyll</a>
+    
+</span>
+
+</div>
+<p>I&rsquo;ve just ported <a href="http://srackham.wordpress.com/">my Wordpress blog</a> to <a href="https://pages.github.com/">Github Pages</a> using <a href="http://gohugo.io/">Hugo</a>.</p>
+
+<h2>Why not use Jekyll?</h2>
+
+<p><a href="http://jekyllrb.com/">Jekyll</a> is currently the de facto choice for
+building Github hosted static websites, I choose Hugo (after first
+trying Jekyll) primarily because, for me,  Hugo has an ineffable
+<em>Goldilocks</em> quality.  Post facto rationale:</p>
+
+<ul>
+<li>Hugo is <a href="http://fredrikloch.me/post/2014-08-12-Jekyll-and-its-alternatives-from-a-site-generation-point-of-view/">much
+faster</a>
+than Jekyll.</li>
+<li>Hugo has a really useful <code>--watch</code> option.</li>
+<li>With Jekyll you have to install and maintain the Ruby/Rake/Gems ecosystem &ndash; Hugo is just a single executable with no dependencies.</li>
+</ul>
+
+<h2>Choosing a theme</h2>
+
+<p>My objective requirements were:</p>
+
+<ol>
+<li>Phone and tablet friendly.</li>
+<li>Minimal customization required (I find HTML/CSS twiddling such a
+time sink).</li>
+<li>Straight-forward and uncluttered appearance.</li>
+</ol>
+
+<p>The hard part is largely subjective: finding a look and feel that you
+actually like (look and feel is notoriously subtle and personal).
+After lots of trawling the Web I stumbled on a <a href="http://sglyon.com/hugo_gh_blog/">Hugo
+port</a> of the <a href="http://lanyon.getpoole.com/">Jekyll Lanyon
+theme</a> &ndash; it is really nice and by happy
+coincidence is the basis for the excellent Hugo tutorial <a href="http://gohugo.io/tutorials/github_pages_blog/">Hosting on
+GitHub Pages</a> by
+<a href="http://sglyon.com/">Spencer Lyon</a>. The example repo is <a href="https://github.com/spencerlyon2/hugo_gh_blog">on
+Github</a>.</p>
+
+<p>My blog&rsquo;s Github repository can be found <a href="https://github.com/srackham/stuarts-notes">here</a>.</p>
+
+<h2>Implementation and Deployment</h2>
+
+<p>Couldn&rsquo;t be easier: All you have to do is read and follow the <a href="http://gohugo.io/tutorials/github_pages_blog/">Hosting
+on GitHub Pages</a>
+tutorial.</p>
+
+<h3>Additional notes</h3>
+
+<ul>
+<li><p>Edit URLs in <code>config.yaml</code> and <code>deploy.sh</code> to reflect those of your Github repository.</p></li>
+
+<li><p>After cloning the <a href="https://github.com/spencerlyon2/hugo_gh_blog">example repo</a> you can start from scratch with:</p>
+
+<pre><code>rm -rf .git
+git init
+git add --all
+git commit -am &quot;Initial commit of pristine https://github.com/spencerlyon2/hugo_gh_blog master.&quot;
+</code></pre></li>
+
+<li><p>After creating an empty repo on Github push your local repo master to Github with (use your own Git URL though):</p>
+
+<pre><code>git remote add origin git@github.com:srackham/stuarts-notes.git
+git push -u origin master
+</code></pre></li>
+
+<li><p>I got errors trying to set up the <code>gh-pages</code> subtree branch using steps outlined in the <a href="http://gohugo.io/tutorials/github_pages_blog/">Hosting on GitHub Pages</a> tutorial. A much easier solution is given <a href="https://gist.github.com/cobyism/4730490">here</a> &ndash; just push the <code>public</code> subtree to <code>gh-pages</code>, when you do this for the first time local and remote <code>gh-pages</code> branches are created automatically
+(i.e. there&rsquo;s no need to explicitly setup the <code>gh-pages</code> branch, just run the <code>deploy.sh</code> script):</p>
+
+<pre><code>git subtree push --prefix public origin gh-pages
+</code></pre></li>
+
+<li><p>Before running <code>deploy.sh</code> make sure any files you not want in your repository are excluded by your <code>.gitignore</code> file</p></li>
+
+<li><p>I configured a custom domain name (<code>http://blog.srackham.com/</code>) for my blog&rsquo;s Github Pages website by adding a <code>CNAME</code> file to the <code>static</code> directory &ndash; see <a href="https://help.github.com/articles/adding-a-cname-file-to-your-repository/">the Github documentation</a> for details.</p></li>
+
+<li><p>There are <a href="http://gohugo.io/templates/404/">Hugo instruction</a> and <a href="https://help.github.com/articles/custom-404-pages/">Github instructions</a> explaining how to create a custom 404 (page not found) page.</p></li>
+</ul>
+
+<h3>Customization</h3>
+
+<p>Rather than change existing CSS files I customize the look of the site with a separate (<code>./static/css/custom.css</code>) file. Don&rsquo;t forget to add a <code>link</code> tag to the new CSS file in the <code>./layouts/chrome/head_includes.html</code> template.</p>
+
+<p>I did have to make one change to <a href="https://github.com/spencerlyon2/hugo_gh_blog/blob/master/static/css/poole.css">poole.css from the example repo</a>: For some reason lists were styled to render like paragraphs &ndash; fixed by deleting from <code>poole.css</code>:</p>
+
+<pre><code>/* Lists */
+ul, ol, dl {
+  margin-top: 0;
+  padding-left: 0;
+  margin-bottom: 1rem;
+  list-style-type: none;
+}
+</code></pre>
+
+<h3>Importing posts from WordPress</h3>
+
+<p>I used <a href="https://github.com/thomasf/exitwp">Exitwp</a> to import the exported WordPress posts to Hugo &ndash; it worked like a charm and saved me hours of drudgery.</p>
+
+<ol>
+<li><p>Export all WordPress data to an XML file &ndash; see the <a href="http://en.support.wordpress.com/export/">WordPress support</a> pages for instructions.</p></li>
+
+<li><p>Convert to Jekyll format following the  <a href="https://github.com/thomasf/exitwp">Exitwp</a> instructions.</p></li>
+
+<li><p>Copy the posts from (in <code>./build/jekyll/&lt;wordpress-site&gt;/_posts/</code>) to Hugo&rsquo;s <code>./content/posts/</code> directory.</p></li>
+</ol>
+
+<p>You will probably need to tweak the imported Markdown files:</p>
+
+<ul>
+<li><p>I had to drop the <code>layout</code> parameter from the front matter header because it was set to <code>post</code> (my posts layout is in <code>posts</code>). This can be automated using <a href="http://www.perl.com/pub/2004/08/09/commandline.html">command-line Perl</a> e.g. this deletes lines containing <em>author</em>, <em>comments</em>, <em>layout</em> and _wordpress<em>id</em> front matter parameters from all Markdown files and renames the original files with a <code>.BAK</code> extension:</p>
+
+<pre><code>perl -i.BAK -ne &quot;print unless /^(author|comments|layout|wordpress_id): /&quot; *.md
+</code></pre></li>
+
+<li><p>Image URLs were pointing back to the WordPress site, to make them
+local I copied the images to <code>./satichttp://blog.srackham.com/images/</code> and adjusted the
+links in the Markdown source to <code>http://blog.srackham.com/images/&lt;image-file-name&gt;</code>.</p></li>
+</ul>
+
+<h2>Things I&rsquo;ve learnt</h2>
+
+<ul>
+<li><p>If you are deploying to a <a href="http://ifyoucodeittheywill.com/2009/03/absolute-relative-and-root-relative-urls/">non-root base URL</a> (e.g. <code>http://srackham.github.io/stuarts-notes/</code>) you will need to add <code>canonifyurls: true</code> to your <code>config.yaml</code> file. If you don&rsquo;t, the root-relative URLs (for example, in the CSS file links) will not work. For the same reason, you will also have this problem If you run the <code>hugo server</code> command and view the site locally. I no longer have this issue because my base URL is a root URL (<code>http://blog.srackham.com/</code>).</p></li>
+
+<li><p>I commit the changes outside the <code>public</code> directory separately prior to running <code>deploy.sh</code>, this keeps content and configuration changes separate from the website files and makes tracking content changes easier.</p></li>
+
+<li><p>Hugo strips HTML comments from templates when building &ndash; nice!</p></li>
+
+<li><p>The <code>hugo server</code> command builds the site with base URL set to the local server root, this means you must make sure you rebuild with the <code>hugo</code> command before deployment.</p></li>
+
+<li><p>Using Hugo&rsquo;s server command <code>--watch</code> option in conjunction with the browser make writing and proofing much more dynamic.</p></li>
+
+<li><p>Static assets (CSS, images, icons) go in <code>./static/</code>, Hugo copies them to <code>./public/</code> when it builds the site (<code>./public/</code> is a transient website staging directory).</p></li>
+
+<li><p>Using Hugo, Git and Github Pages makes for a much easier workflow than I had previously.</p></li>
+</ul>
+
+<p>As a side note, I like the <a href="https://lauris.github.io/2014/08/14/blog-like-theres-nobody-reading/">Blog like there&rsquo;s nobody
+reading</a>
+philosopy, but it has it&rsquo;s limits. There&rsquo;s a lot more work goes into a readable and useful blog post than just throwing on-the-fly notes over the wall. On the plus side, putting my notes into a blog ensures that I understand them more then six months later.</p>
+
+<h2>Todo list</h2>
+
+<ol>
+<li><p>Enable blog comments <a href="http://gohugo.io/extras/comments/">using Disqus</a> &ndash; maybe.</p></li>
+
+<li><p>Enable syntax <a href="http://gohugo.io/extras/highlighting/">highlighting</a>.</p></li>
+</ol>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/easier-terminal-pasting-in-ubuntu/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/publishing-a-project-website-to-github-pages/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

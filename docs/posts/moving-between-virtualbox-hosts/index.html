@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Moving between VirtualBox Hosts</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Moving between VirtualBox Hosts</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Nov 29, 2010</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/virtualbox-1.html">VirtualBox</a>
+    
+</span>
+
+</div>
+<p><strong>Published</strong>: 2010-11-28</p>
+
+<p>A description of the issues I encountered moving my VBox environment from one host to another.</p>
+
+<p>Source host
+     Dell Studio XPS Core i7 running Vista Home Premium x64, VBox 3.2.10.
+Target host
+     HP TouchSmart tm2 Core i5 running Win7 Home Premium x64.</p>
+
+<p>I installed VBox 3.2.10 on the target host (same as on the source host) then copied the .VirtualBox directory from the source to the target via a USB HDD.</p>
+
+<p>VBox configuration files contain absolute VDI path names: copy the .VirtualBox directory to the same location on the target to ensure the path names are same on both hosts. If you don&rsquo;t do this you&rsquo;ll need to edit the VBox XML configuration files on the target.</p>
+
+<p>I use the default location for VBox files so had to create the same <em>srackham</em> user on the target as on the host (VBox files stored in <code>C:\Users\srackham\.VirtualBox</code> on both hosts).</p>
+
+<p>Here are the procedures I used and the issues I encountered.</p>
+
+<h2>Adjust network settings</h2>
+
+<p>My guest VMs use the <em>Bridged</em> networking mode and found I had to open VBox <em>Settings</em> on each target VM and change the <em>Intel 82567LF-2 Gigabit Network Connection</em> wired adaptor to the <em>Intel WiFi Link 1000 BGN</em> WiFi adaptor option (because the target host had a WiFi network connection whereas the source host had a wired network connection).</p>
+
+<p><strong><em>Note</em></strong>:
+The <em>Microsoft Virtual WiFi Miniport Adaptor</em> was also presented as an option but it did not work.</p>
+
+<h2>Unable to boot Windows VDIs on target host</h2>
+
+<p>The Windows VMs failed to boot on the target host.</p>
+
+<h3>Symptoms</h3>
+
+<p>About 3 seconds into the Windows guest boot sequence (just after the splash screen appears) a Blue Screen Of Death appears briefly (to quick to ready anything), then the VM reboots and the cycle repeats.</p>
+
+<h3>Solutions</h3>
+
+<p>It took me while to find the solution, but it turned out to be simple: enable virtualization in the host BIOS (the factory setting of the HP TouchSmart tm2 BIOS <em>System Configuration-&gt;Virtualization Technology</em> option is <em>Disabled</em>, I set it to <em>Enabled</em> and the problem went away).</p>
+
+<p>Another, more complicated, solution is to change the <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Intelppm\Start</code> registry entry to 4 as detailed in this blog:</p>
+
+<p><a href="http://blogs.msdn.com/b/virtual_pc_guy/archive/2005/10/24/484461.aspx">http://blogs.msdn.com/b/virtual_pc_guy/archive/2005/10/24/484461.aspx</a></p>
+
+<p>If the Intelppm registry entry does not exists change the <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Processor\Start</code> registry entry instead.</p>
+
+<p>You need to boot the Windows guest in _Safe Mode_ &ndash; to do this press F8 when the Windows guest is booting to select <em>Safe mode</em>.</p>
+
+<p>Apparently the reason for this crash is because the intelppm.sys driver is attempting to perform an unsupported operation inside of the virtual machine (like upgrading the physical processors microcode, changing power state on the physical processor) &ndash; looks like the Intel Core i5-430UM processor does not support the same operations as the Core i7 processor. I guess there must be some processor ID stored in by Windows that is used at boot time.  I was unable to find any definitive documentation as to the actual purpose of the intelppm.sys.</p>
+
+<ul>
+<li>Similar problems have been reported in the past:
+
+<ul>
+<li><a href="http://www.virtualbox.org/ticket/420">http://www.virtualbox.org/ticket/420</a></li>
+<li><a href="http://forums.virtualbox.org/viewtopic.php?t=1560">http://forums.virtualbox.org/viewtopic.php?t=1560</a></li>
+<li><a href="http://www.sssgmbh.de/download/install/suse103/VirtualBox">http://www.sssgmbh.de/download/install/suse103/VirtualBox</a></li>
+</ul></li>
+<li>Apparently there is also an amdppm.sys driver (used on other processor architectures) that has a corresponding <em>amdppm</em> registry entry and can also cause problems.</li>
+<li>Section 12.3.4 of the 3.2.10 <em>VirtualBox User Manual</em> describes how to record bluescreen information from Windows guests.</li>
+<li>Interestingly there was no <em>intelppm</em> registry entry in one of the WinXP VMs an it never exhibited the problem.</li>
+<li>On Windows 7 Professional the <em>Start</em> registry value was set to 3 not 1.</li>
+<li>Booting Win7 Pro x64 guest for the first time on the target host <em>Intel Core i5 CPU</em> device driver software was successfully installed &ndash; presumably Windows had sensed a CPU change.</li>
+</ul>
+
+<p>The second solution is apparently more general in that it will work irrespective of the target host CPU virtualization capabilities, see replies to my post to the VBox forums: <a href="http://forums.virtualbox.org/viewtopic.php?f=6&amp;t=36398">http://forums.virtualbox.org/viewtopic.php?f=6&amp;t=36398</a></p>
+
+<h2>Duplicate Name Exists errors</h2>
+
+<p>I sometimes got a <em>Duplicate Name Exists</em> error when starting WinXP guest on the new host. This error occurs if two PC with the same Windows computer name exist in the same workgroup &ndash; but not so in this case as I was not running the same VM on the source host.  The problem goes away after rebooting.</p>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/android-development-with-virtualbox-and-the-lg-p500-phone/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/vala-treeview-list-example/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

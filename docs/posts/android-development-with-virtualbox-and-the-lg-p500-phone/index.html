@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Android Development with VirtualBox and the LG P500 phone</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Android Development with VirtualBox and the LG P500 phone</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Jan 7, 2011</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/android-1.html">Android</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/virtualbox-1.html">VirtualBox</a>
+    
+</span>
+
+</div>
+<p>Having recently acquired my first smart-phone (a new LG P500 Android phone) I decided it was time to learn some Android programming.  This post summarizes my trials and tribulations getting the LG P500 phone to talk to my Android Eclipse development environment (Eclipse plus Android SDK running on a VirtualBox Linux guest).</p>
+
+<h2>Preliminaries</h2>
+
+<p>Development environment:</p>
+
+<ul>
+<li>Xubuntu 10.04 (VirtualBox 3.2.10 guest running in a Windows Vista x64 host).</li>
+<li>An LG P500 Optimus phone running Android 2.2 (USB connection to host PC).</li>
+<li>Eclipse 3.6.1 (with OpenJDK Java runtime).</li>
+<li>Android SDK version 8.</li>
+</ul>
+
+<p><strong><em>Important</em></strong>:
+<strong>Do not install the LG USB driver (LG United Mobile Driver) on the Windows host</strong>, if you&rsquo;ve already downloaded and installed it you should uninstall it (from the Windows <em>Control Panel</em>). The reason being that the LG driver interferes with the USB passthrough to the guest &ndash; it crashes the guest with a &ldquo;The VirtualBox user interface has stopped working&rdquo; message when you try to manually acquire the phone USB port on the guest.</p>
+
+<p>If you had previously installed the Windows LG USB drive on the host then you will lose host USB mass storage functionality when you uninstall it (my experience on Vista x64) &ndash; but, oddly, if you never install the LG driver then host USB mass storage is retained. The default mass storage functionality seems to be removed by the process of installing then uninstalling the LG driver. Guest USB mass storage functionality is not affected.</p>
+
+<h2>Configuring the USB phone device on the VirtualBox guest</h2>
+
+<ol>
+<li><p>Configure the VirtualBox guest USB filter as explained <a href="http://forum.xda-developers.com/showthread.php?t=570452g">here</a>. The phone&rsquo;s USB filter will appear as <em>LG Electronics Inc. LG Android USB Device [0226]</em>.</p></li>
+
+<li><p>Start the VirtualBox guest.</p></li>
+
+<li><p>Create a guest <em>udev</em> rules file /etc/udev/rules.d/51-android.rules for the USB device.  The purpose of the rule is simple: it sets the USB device mode to 0666 so that all users have read/write access (via the Android Debug Bridge).</p>
+
+<pre><code>$ sudo vim /etc/udev/rules.d/51-android.rules
+$ sudo chmod a+r /etc/udev/rules.d/51-android.rules
+$ sudo udevadm control --reload-rules   # In theory not necessary.
+</code></pre></li>
+</ol>
+
+<p>My rules file contains a single line:</p>
+
+<pre><code>SUBSYSTEM==&quot;usb&quot;, ATTR{idVendor}==&quot;1004&quot;, MODE=&quot;0666&quot;
+</code></pre>
+
+<p><strong><em>Warning</em></strong>:
+Be careful cutting and pasting udev rules containing double quote characters: if there are opening and closing double quotation marks instead of the normal keyboard straight double quote character then the rule will fail (it&rsquo;s not unusual for some websites to translate straight quotes contained in user submissions). I fell for this one and spent ages trying to figure out what was wrong.</p>
+
+<p><a href="http://www.google.com/support/forum/p/android/thread?tid=08945730bbd7b22b&amp;hl=en"> This post</a> contains a very good explanation of the udev rules.</p>
+
+<ol>
+<li><p>Before plugging the phone in enable the phone&rsquo;s debug option (<em>Settings-&gt;Applications-&gt;Development-&gt;USB Debugging</em>). If this is not enabled the Android Debugging Bridge will not recognize the phone (the phone will not be listed when you run the adb devices command).</p></li>
+
+<li><p>Plug in the phone.</p></li>
+
+<li><p>Manually acquire the LG USB device using the VirtualBox guest menu command: <em>Devices-&gt;USB Devices-&gt;LG Electronics Inc. LG Android USB Device [0226]</em> (not all host USB ports are able to be auto-acquired by VirtualBox guests).</p></li>
+
+<li><p>You should now be able to see the phone&rsquo;s USB port from the VirtualBox guest:</p>
+
+<pre><code>$ lsusb
+Bus 002 Device 004: ID 1004:61c5 LG Electronics, Inc.
+</code></pre></li>
+
+<li><p>The Android Debug Bridge should also be able to see the phone:</p>
+
+<pre><code>$ adb devices
+List of devices attached
+80A354043044540021      device
+</code></pre></li>
+</ol>
+
+<p>If the phone&rsquo;s debug mode is off or an Android debug device is not detected the device list will be blank:</p>
+
+<pre><code>$ adb devices
+List of devices attached
+</code></pre>
+
+<p>If you did not configure the udev rules file correctly the USB device file&rsquo;s mode will be 0664 instead of 0666 and you will get the following <em>no permissions</em> error:</p>
+
+<pre><code>$ adb devices
+List of devices attached
+????????????    no permissions
+</code></pre>
+
+<ol>
+<li>Finally, run your Android application from Eclipse, you should be prompted with an <em>Android Device Chooser</em> dialog that includes your Android phone device (identified by the phone&rsquo;s serial number).</li>
+</ol>
+
+<h2>Mounting the phone&rsquo;s USB drive on the VirtualBox guest</h2>
+
+<p>It&rsquo;s important to realize that there are actually two mutually exclusive USB drivers: one for USB storage, the other (a USB serial interface) for debugging. The debug driver is activated when the phone is in debug mode. The phone&rsquo;s USB mass storage device is not available when the phone is in debug mode. To access the phone&rsquo;s USB drive from the VirtualBox guest:</p>
+
+<ol>
+<li><p>Unplug the phone.</p></li>
+
+<li><p>Disable the phone&rsquo;s debug option (<em>Settings-&gt;Applications-&gt;Development-&gt;USB Debugging</em>).</p></li>
+
+<li><p>Plug in the phone.</p></li>
+
+<li><p>When the phone prompts you <em>Turn on USB storage</em>.</p></li>
+
+<li><p>Manually acquire the LG USB device from the VirtualBox guest menu (<em>Devices-&gt;USB Devices-&gt;LG Electronics Inc. LG Android USB Device [0226]</em>).</p></li>
+
+<li><p>Mount the USB storage device from the VirtualBox guest e.g.</p>
+
+<pre><code>$ sudo mount /dev/sdb1 /mnt/
+</code></pre></li>
+
+<li><p>Unmount it when you&rsquo;ve finished e.g.</p>
+
+<pre><code>$ sudo umount /mnt/
+</code></pre></li>
+</ol>
+
+<p><strong><em>Tip</em></strong>:
+You can use fdisk to determine the drive name e.g.</p>
+
+<pre><code>$ sudo fdisk -l | grep FAT32
+/dev/sdb1               5       19270    16182272    c  W95 FAT32 (LBA)
+</code></pre>
+
+<p><strong><em>Note</em></strong>:
+On the Xubuntu 10.04 guest I had to disable the Thunar file manager&rsquo;s volume management (in <em>Edit-&gt;Preferences-&gt;Advanced</em> uncheck the <em>Enable volume Management</em> option). If this was not done Thunar would spontaneously close while scanning the auto-mounted drive.</p>
+
+<h2>To reinstall the LG phone driver on the Windows host</h2>
+
+<p>Here&rsquo;s what to do if you ever need to (re)install the Windows host USB phone driver.  This will reinstate host USB functionality but you will lose guest USB functionality.</p>
+
+<ol>
+<li>Visit the <a href="http://www.lg.com/in/support/mc-support/mobile-phone-support.jsp">LG Mobile Phone Support page</a> and install the <em>LG Mobile Support Tool</em>.</li>
+<li>Run the <em>LGMobile Support Tool</em>.</li>
+<li>Click on <em>Install USB Driver</em> to install the driver for your LG phone.</li>
+</ol>
+
+<p>To stop the <em>LGMobile Support Tool</em> running in the Icon Tray:</p>
+
+<ol>
+<li>Right-click on Icon Tray icon and select <em>Option</em>.</li>
+<li>Uncheck <em>Autostart on Windows booting</em> and press <em>OK</em>.</li>
+</ol>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/bottle-mongodb-example/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/moving-between-virtualbox-hosts/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

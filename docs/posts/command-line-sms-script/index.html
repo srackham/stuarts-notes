@@ -1,0 +1,298 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Command-line SMS script</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Command-line SMS script</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Mar 23, 2010</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/clickatell-1.html">clickatell</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/commandline-1.html">commandline</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/python-1.html">python</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/sms-1.html">sms</a>
+    
+</span>
+
+</div>
+<p><strong><em>Note</em></strong>:
+The <a href="/posts/coffeescript-for-command-line-apps/">current version of this app</a> is written in CoffeeScript and is published in the npm package registry.</p>
+
+<p>A simple Python command-line script I wrote to send SMS messages using <a href="http://clickatell.com/">Clickatell&rsquo;s</a> HTTP API. In addition it:</p>
+
+<ul>
+<li>Records sent messages in a log and has command option to view log file.</li>
+<li>Has command options to query the Clickatell account balance and the status of previously sent messages.</li>
+<li>Configuration can include a list of phone numbers.</li>
+</ul>
+
+<h2>Example usage</h2>
+
+<pre><code>$ python sms.py 64912345667 &quot;Hello World&quot;
+ID: 26a8147fa04ed9fj2a9ad125c55cee00
+
+$ sms.py -s 26a8147fa04ed9fj2a9ad125c55cee00
+apiMsgId: 26a8147fa04ed9fj2a9ad125c55cee00 charge: 0.8 status: 004
+(received by recipient)
+
+$ python sms.py -b
+Credit: 204.900
+
+$ python sms.py --help
+
+NAME
+    sms.py - Send SMS message
+
+SYNOPSIS
+    sms.py PHONE MESSAGE
+    sms.py -s MSGID
+    sms.py -b | -l
+
+DESCRIPTION
+    A simple Python command-line script to send SMS messages using
+    Clickatell's HTTP API (see http://clickatell.com).
+    Records messages log in /home/srackham/sms.log
+    Reads configuration parameters from /home/srackham/.sms.conf
+
+OPTIONS
+    -s MSGID
+        Query message delivery status.
+
+    -b
+        Query account balance.
+
+    -l
+        List message log file using /usr/bin/less.
+
+    -p
+        List phone book.
+
+AUTHOR
+    Written by Stuart Rackham, 
+
+COPYING
+    Copyright (C) 2010 Stuart Rackham. Free use of this software is
+    granted under the terms of the MIT License.
+</code></pre>
+
+<h3>Configuration</h3>
+
+<p>Set the Clickatell account configuration parameters in the <code>sms.py</code> script or put them in a JSON format file named <code>.sms.conf</code> in your home directory. For example:</p>
+
+<pre><code>{
+  &quot;USERNAME&quot;:  &quot;foobar&quot;,
+  &quot;PASSWORD&quot;:  &quot;secret&quot;,
+  &quot;API_ID&quot;:    &quot;123456&quot;,
+  &quot;SENDER_ID&quot;: &quot;+64912345678&quot;,
+  &quot;PHONE_BOOK&quot;: {
+    &quot;tom&quot;:   &quot;+64 21 1234 5678&quot;,
+    &quot;dick&quot;:  &quot;+61 25 1234 567&quot;,
+    &quot;harry&quot;: &quot;+64 9 1234 346&quot;
+  }
+}
+</code></pre>
+
+<h3>sms.py source code</h3>
+
+<pre><code>#!/usr/bin/env python
+
+# A simple Python command-line script to send SMS messages using
+# Clickatell's HTTP API (see http://clickatell.com).
+
+'''
+NAME
+    %(prog)s - Send SMS message
+
+SYNOPSIS
+    %(prog)s PHONE MESSAGE
+    %(prog)s -s MSGID
+    %(prog)s -b | -l
+
+DESCRIPTION
+    A simple Python command-line script to send SMS messages using
+    Clickatell's HTTP API (see http://clickatell.com).
+    Records messages log in %(log)s
+    Reads configuration parameters from %(conf)s
+
+OPTIONS
+    -s MSGID
+        Query message delivery status.
+
+    -b
+        Query account balance.
+
+    -l
+        List message log file using %(pager)s.
+
+    -p
+        List phone book.
+
+AUTHOR
+    Written by Stuart Rackham, &lt;srackham@gmail.com&gt;
+
+COPYING
+    Copyright (C) 2010 Stuart Rackham. Free use of this software is
+    granted under the terms of the MIT License.
+'''
+VERSION = '0.2.4'
+
+import urllib
+import os, sys, time, re
+import simplejson as json
+
+# Clickatell account configuration parameters.
+# Create a separate configuration file named `.sms.conf` in your `$HOME`
+# directory. The configuration file is single JSON formatted object with the
+# same attributes and attribute types as the default CONF variable below.
+# Alternatively you could dispense with the configuration file and edit the
+# values in the CONF variable below.
+CONF = {
+    'USERNAME': '',
+    'PASSWORD': '',
+    'API_ID': '',
+    'SENDER_ID': '',  # Your registered mobile phone number.
+    'PHONE_BOOK': {},
+}
+
+
+PROG = os.path.basename(__file__)
+HOME = os.environ.get('HOME', os.environ.get('HOMEPATH',
+       os.path.dirname(os.path.realpath(__file__))))
+LOG_FILE = os.path.join(HOME,'sms.log')
+CONF_FILE = os.path.join(HOME,'.sms.conf')
+if os.path.isfile(CONF_FILE):
+    CONF = json.load(open(CONF_FILE))
+SENDER_ID = CONF['SENDER_ID']
+PHONE_BOOK = CONF['PHONE_BOOK']
+PAGER = os.environ.get('PAGER','less')
+
+# URL query string parameters.
+QUERY = {'user': CONF['USERNAME'], 'password': CONF['PASSWORD'],
+          'api_id': CONF['API_ID'], 'concat': 3}
+
+# Clickatell status messages.
+MSG_STATUS = {
+    '001': 'message unknown',
+    '002': 'message queued',
+    '003': 'delivered to gateway',
+    '004': 'received by recipient',
+    '005': 'error with message',
+    '007': 'error delivering message',
+    '008': 'OK',
+    '009': 'routing error',
+    '012': 'out of credit',
+}
+
+# Retrieve Clickatell account balance.
+def account_balance():
+    return http_cmd('getbalance')
+
+# Query the status of a previously sent message.
+def message_status(msgid):
+    QUERY['apimsgid'] = msgid
+    result = http_cmd('getmsgcharge')
+    result += ' (' + MSG_STATUS.get(result[-3:],'') + ')'
+    return result
+
+# Strip number punctuation and check the number is not obviously illegal.
+def sanitize_phone_number(number):
+    result = re.sub(r'[+ ()-]', '', number)
+    if not re.match(r'^\d+$', result):
+        print 'illegal phone number: %s' % number
+        exit(1)
+    return result
+
+# Send text message. The recipient phone number can be a phone number
+# or the name of a phone book entry.
+def send_message(text, to):
+    if to in PHONE_BOOK:
+        name = to
+        to = PHONE_BOOK[to]
+    else:
+        name = None
+    to = sanitize_phone_number(to)
+    sender_id = sanitize_phone_number(SENDER_ID)
+    if sender_id.startswith('64') and to.startswith('6427'):
+        # Use local number format if sending to Telecom NZ mobile from a NZ
+        # number (to work around Telecom NZ blocking NZ originating messages
+        # from Clickatell).
+        sender_id = '0' + sender_id[2:]
+    QUERY['from'] = sender_id
+    QUERY['to'] = to
+    QUERY['text'] = text
+    result = http_cmd('sendmsg')
+    now = time.localtime(time.time())
+    if name:
+        to += ': ' + name
+    print &gt;&gt;open(LOG_FILE, 'a'), \
+        'to:     %s\nfrom:   %s\ndate:   %s\nresult: %s\ntext:   %s\n' % \
+        (to, sender_id, time.asctime(now), result, text)
+    return result
+
+# Execute Clickatell HTTP command.
+def http_cmd(cmd):
+    url = 'http://api.clickatell.com/http/' + cmd
+    query = urllib.urlencode(QUERY)
+    file = urllib.urlopen(url, query)
+    result = file.read()
+    file.close()
+    return result
+
+if __name__ == '__main__':
+    argc = len(sys.argv)
+    if argc == 3:
+        if sys.argv[1] == '-s':
+            print message_status(sys.argv[2])
+        else:
+            print send_message(sys.argv[2], sys.argv[1])
+    elif argc == 2 and sys.argv[1] == '-b':
+        print account_balance()
+    elif argc == 2 and sys.argv[1] == '-l': # View log file.
+        os.system(PAGER + ' ' + LOG_FILE)
+    elif argc == 2 and sys.argv[1] == '-p': # List phone book.
+        for i in PHONE_BOOK.items():
+            print '%s: %s' % i
+    else:
+        print __doc__ % {'prog':PROG,'log':LOG_FILE,'conf':CONF_FILE,'pager':PAGER}
+</code></pre>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/merging-and-compacting-virtualbox-snapshots/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/installing-mono-2-0-on-ubuntu-7-10/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

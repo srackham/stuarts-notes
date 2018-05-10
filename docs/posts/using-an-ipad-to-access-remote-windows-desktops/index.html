@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Using an iPad to access remote Windows desktops</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Using an iPad to access remote Windows desktops</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Jul 16, 2011</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/ipad-1.html">ipad</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/rdp-1.html">rdp</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/vnc-1.html">vnc</a>
+    
+</span>
+
+</div>
+<p>I went from initial scepticism, when I started looking for a usable iPad remote desktop solution for accessing Windows PCs, to (almost) wild enthusiasm.</p>
+
+<p>I evaluated four of the best iPad remote access apps and am delighted to have found one that does exactly what I want. This post outlines why I settled on <em>Jump Desktop</em> along with a few usage tips.</p>
+
+<p>The four apps I evaluated were:</p>
+
+<ul>
+<li><a href="http://www.mochasoft.dk/iphone_rdp.htm">Remote Desktop Lite - RDP</a> version 2.7.</li>
+<li><a href="http://itap-mobile.com/itap-rdp/">iTAP RDP</a> version 1.7.3.</li>
+<li><a href="http://www.antecea.com/apps/desktop_conn/overview.html">Desktop Connect</a> version 4.2.</li>
+<li>All four have very good RDP (Microsoft Remote Desktop Protocol) clients, the latter two also include VNC clients.  <em>Remote Desktop Lite - RDP</em> is a free app the others are non-free.</li>
+</ul>
+
+<h2>The hard part: getting back into your office</h2>
+
+<p>My principle use case is remote Internet access from a wireless iPad tethered to my mobile phone back into desktops running Microsoft Windows on my (Internet connected) office LAN.  The hard part is locating and securely connecting to desktop PCs from an external location on the Internet. This is because most desktop PCs are isolated from the Internet behind a NAT router/firewall with a dynamic IP address, so you can&rsquo;t use DNS to locate the router or the PC. You have two choices:</p>
+
+<ol>
+<li>You can manually reconfigure your router NAT and firewall rules; then configure your desktop PC&rsquo;s firewall and remote access permissions; then setup dynamic DNS to your router (<a href="http://support.jumpdesktop.com/entries/194620-setup-manual-configuration">this web page</a> outlines the process).</li>
+<li>Or you can install a desktop app which sets up and manages your connections automatically.</li>
+</ol>
+
+<p>Manual configuration is time consuming and fiddly. It can be downright dangerous if you&rsquo;re not careful or don&rsquo;t understand what you&rsquo;re doing. Of the four apps I tried only <em>Desktop Connect</em> and <em>Jump Desktop</em> support the automatic configuration option (both use Google Talk to facilitate the connection) &ndash; this is why, for me, the choice was between these two remote access apps.</p>
+
+<h3>How does the auto-connect feature work?</h3>
+
+<p>A first it seems like magic &ndash; how can all this manual jiggery-pokery be obviated by your Google login? The answer is that the auto-connect program on your desktop logs into Google&rsquo;s servers and registers your computers address, the remote access client on you iPad also logs into your Google account and retrieves the address of your desktop. Here is <a href="http://support.jumpdesktop.com/entries/223751-general-how-does-jump-desktop-use-my-google-account">some more information</a>.</p>
+
+<h2>Why I choose Jump Desktop over Desktop Connect</h2>
+
+<p>Both <em>Jump Desktop</em> over <em>Desktop Connect</em> have excellent RDP and VNC iPad clients, but <em>Jump Desktop</em> really shines when it comes to the auto-connect functionality.</p>
+
+<ul>
+<li><em>Jump Desktop</em> auto-connect supports both RDP and VNC protocols, <em>Desktop Connect</em> only supports VNC.</li>
+<li>The free <a href="http://support.jumpdesktop.com/entries/20097387-jump-desktop-viewer-for-pc">Jump Desktop Viewer</a> is a real gem, it gets installed with the PC <em>Jump Desktop</em> and allows you to use a PC in place of an iPad for the remote access client.</li>
+<li>The <em>Jump Desktop</em> PC auto-connect installer is very polished &ndash; it handles VNC server and .NET dependency installation (if necessary). <em>Desktop Connects</em> PC auto-connect app (<em>Easy Connect</em>) was still in beta at the time of my evaluation.</li>
+</ul>
+
+<p>The only thing I would like to see added to <em>Jump Desktop</em> would be built-in help with some sort of first time use wizard or guide. The <em>Jump Desktop</em> website has a very good searchable <a href="http://support.jumpdesktop.com/forums">Knowledge Base</a> which you&rsquo;ll probably need to use while learning the app. I had a more favorable initial experience with <em>Desktop Connect</em>, it has built-in help and a more discoverable and attractive user interface.</p>
+
+<p>But at the end of the day my choice of <em>Jump Desktop</em> over <em>Desktop Connect</em> was clear cut and unequivocal.</p>
+
+<p>I evaluated RDP connections to Windows 7 Pro and Windows XP Pro; VNC on Windows 7 Home.</p>
+
+<h2>RDP or VNC?</h2>
+
+<p>The target desktop PC must run a remote access server. All current versions of Windows (apart from Windows Home and Starter editions) come with an RDP server and I recommend using RDP over VNC for Windows access:</p>
+
+<ol>
+<li>RDP can run the client at different resolution to the host PC, this means you can always view the remote desktop using the iPad&rsquo;s native 1024x768 resolution, there&rsquo;s no pixel interpolation and the clarity is greater.</li>
+<li>I found RDP performed faster and smoother than VNC alongside each other to a Windows 7 desktop (my iPad was connected to the Internet over a fairly slow tethered mobile 3G connection).</li>
+<li>The RDP server comes preinstalled and supported by Microsoft.</li>
+</ol>
+
+<p>VNC is useful for non-Windows desktops (Linux, OS X) and for Windows Home edition (which does not include an RDP server).</p>
+
+<h2>Jump Desktop tips</h2>
+
+<p>Unless stated otherwise these comments relate to RDP connections.</p>
+
+<ul>
+<li>When using RDP the desktop PC user account that you want to log into must have a password (unless you are prepared to <a href="http://dandar3.blogspot.com/2008/04/windows-vista-allow-remote-desktop.html">change the password policy</a>). You can set the PC&rsquo;s <em>autologon</em> to get <em>Jump</em> to automatically submit your logon parameters.</li>
+<li>By default the desktop wallpaper is disabled over RDP (see next item) and the solid desktop color will be displayed. The default solid desktop color is black on Windows 7 but you can change it:
+
+<ol>
+<li>Right-click on the desktop and select <em>Personalize</em>.</li>
+<li>Click the <em>Desktop background</em> link then select <em>Solid colors</em> from the <em>Picture location</em> drop-down list and choose a color.</li>
+<li>Click <em>Save Changes</em>.</li>
+<li>Optionally restore your wallpaper for local access.</li>
+</ol></li>
+<li>You can enable the desktop wallpaper by editing the Jump <em>quality</em> settings (though this will slow performance and increase data traffic).</li>
+<li>Take time out to learn the <em>Jump Desktop</em> <a href="http://support.jumpdesktop.com/entries/280968-ipad-input-methods">gestures and toolbar</a> and experiment with the user interface options to find the ones that suit you best (I disable the cursor and use pinch and zoom when I need pointer accuracy).</li>
+<li>The <a href="http://support.jumpdesktop.com/forums">Jump Desktop Knowledge Base</a> is your friend.</li>
+</ul>
+
+<h2>Q &amp; A</h2>
+
+<p><em>What if I don&rsquo;t have an iPad?</em>
+     You don&rsquo;t need an iPad for remote access, for example the free <a href="http://support.jumpdesktop.com/entries/20097387-jump-desktop-viewer-for-pc">Jump Desktop Viewer</a> allows you to use a Windows PC in place of an iPad for the remote access client &ndash; an option if you&rsquo;re wanting to dip your toes in the water before deciding on buying an iPad.</p>
+
+<p><em>Don&rsquo;t I need an iPad with the 3G option to use a mobile data connection?</em>
+     No, not if you have a mobile phone that supports WiFi tethering. WiFi tethering turns your phone into your own private wireless hotspot, in most new Android phones turning tethering on is a simple one-click option.</p>
+
+<p><em>How can I keep a lid on mobile data costs?</em>
+     Remote access typically uses less data than Web browsing but mobile data is expensive in New Zealand, so only use it when you have to and if, for example, you&rsquo;re at home connect the iPad to the Internet over your home WiFi connection. <a href="/posts/keeping-a-lid-on-mobile-data/">I blogged about this recently</a>.</p>
+
+<p><em>Is it true that remote access won&rsquo;t work on a PC running Windows Home edition?</em>
+     Microsoft does not bundle an RDP server with <em>Windows Home</em> editions so you need to install an alternative. Jump Desktop will optionally install a VNC server on Windows Home PCs, but a version of Windows with built-in RDP is preferable.</p>
+
+<p><em>What happens if my desktop PC is powered off?</em>
+     Your desktop PC has to be powered on to access it remotely so you do need to leave your PC on and don&rsquo;t enable the <em>Hibernate</em> or <em>Sleep</em> power options.  Most PCs are capable of being turned on by a remote command over the Internet, but getting this configured and working is outside the scope of this post.</p>
+
+<p><em>So now I&rsquo;ve got a tablet I don&rsquo;t need a desktop PC, right?</em>
+     Not so fast, tablets are content consumers not content creators. The tablet on-screen keyboard and small screen is OK for casual input and browsing but is not suitable for ongoing data entry or document creation.</p>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/keeping-a-lid-on-mobile-data/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/coffeescript-for-command-line-apps/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

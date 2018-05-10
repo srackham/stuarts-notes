@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Bash completion for cake files</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Bash completion for cake files</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Nov 1, 2011</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/bash-1.html">bash</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/cake-1.html">cake</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/coffeescript-1.html">coffeescript</a>
+    
+</span>
+
+</div>
+<p>To implement <a href="http://www.gnu.org/software/bash/manual/html_node/Programmable-Completion.html#Programmable-Completion">bash(1) tab completion</a> for <a href="http://jashkenas.github.com/coffee-script/#cake">Cakefile</a> task names all you need to do is add this completion function and command to your <code>~/.bashrc</code> file:</p>
+
+<pre><code># Task name completion for cake files.
+function _cake() {
+    local cur tasks
+    cur=&quot;${COMP_WORDS[COMP_CWORD]}&quot;
+    tasks=$(cake 2&gt;/dev/null | awk '{print $2}')
+    if [ $COMP_CWORD -eq 1 ]; then
+        # Task name completion for first argument.
+        COMPREPLY=( $(compgen -W &quot;$tasks&quot; $cur) )
+    else
+        # File name completion for other arguments.
+        COMPREPLY=( $(compgen -f $cur) )
+    fi
+}
+complete -o default -F _cake cake c
+</code></pre>
+
+<p>Now it you type <code>cake &lt;Tab&gt;</code> at the bash command prompt you will get a list of tasks from the current <code>Cakefile</code>.  As with all bash completions, if you start typing a name and press Tab then bash will complete the name for you.</p>
+
+<p>To cut down key strokes I&rsquo;ve also added a <em>c</em> alias for <em>cake</em> to <code>~/.bashrc</code>:</p>
+
+<pre><code>alias c='cake'
+</code></pre>
+
+<p>This recipe was taken from <a href="http://www.debian-administration.org/article/An_introduction_to_bash_completion_part_2">An introduction to bash completion: part 2</a> and modified for <em>cake</em>.</p>
+
+<p>See also my subsequent post <a href="https://srackham.wordpress.com/2012/06/17/bash-completion-for-jake-files/">Bash completion for Jake files</a>.</p>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/meteor-leaderboard-with-coffeescript-less-and-bootstrap/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/testing-coffeescript-apps-with-selenium/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Writing Android event handlers in Kotlin</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Writing Android event handlers in Kotlin</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Jul 8, 2013</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/android-1.html">Android</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/kotlin-1.html">Kotlin</a>
+    
+</span>
+
+</div>
+<p><a href="http://kotlin.jetbrains.org/">Kotlin</a> is Jetbrains successor to Java, this brief post illustrates how Kotlin&rsquo;s <a href="http://blog.jetbrains.com/kotlin/2013/06/kotlin-m5-3-idea-13-delegated-properties-and-more/">SAM conversions</a> can simplify Android event handlers.</p>
+
+<p><strong>Updated</strong>: 2013-08-20: For Kotlin M6 compatibility.</p>
+
+<p>Kotlin can synthesize anonymous SAM class instances, this removes all the redundant verbosity of Java-style handlers. All you need to provide is the event handler in the form of a function literal. For example, this Android <em>onClick</em> handler written in Java:</p>
+
+<pre><code>button1.setOnClickListener(new OnClickListener() {
+    public void onClick(View v) {
+        // Handler code here.
+        Toast.makeText(this.MainActivity, &quot;Button 1&quot;,
+                Toast.LENGTH_LONG).show();
+    }
+});
+</code></pre>
+
+<p>Translates literally to this Kotlin code:</p>
+
+<pre><code>button1.setOnClickListener(object: View.OnClickListener {
+    override fun onClick(view: View): Unit {
+        // Handler code here.
+        Toast.makeText(this@MainActivity, &quot;Button 1&quot;,
+                Toast.LENGTH_LONG).show()
+    }
+})
+</code></pre>
+
+<p>Which is equivalent (courtesy of an implicit SAM conversion) to this beautifully simple idiomatic Kotlin code:</p>
+
+<pre><code>button1.setOnClickListener {
+    // Handler code here.
+    Toast.makeText(this, &quot;Button 1&quot;,
+            Toast.LENGTH_LONG).show()
+}
+</code></pre>
+
+<ul>
+<li>It&rsquo;s not necessary to declare the single <em>view</em> function parameter, use the implicitly declared <em>it</em> parameter.</li>
+<li>Argument parentheses can be omitted from <code>View.setOnClickListener</code> because it is passed a single function literal argument.</li>
+<li>In the Java-style examples <em>this</em> inside the handler refers to the anonymous class instance; in the final idiomatic Kotlin example <em>this</em> refers to the instance lexically enclosing the handler not the anonymous class object (which makes a lot more sense).</li>
+</ul>
+
+<p>See also <a href="http://blog.jetbrains.com/kotlin/2013/06/kotlin-m5-3-idea-13-delegated-properties-and-more/">First Steps in SAM Conversions</a>.</p>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/hello-world-written-in-kotlin-using-android-studio/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/configuring-nut-for-the-eaton-3s-ups-on-ubuntu-linux/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Publishing a project website to Github Pages</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Publishing a project website to Github Pages</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Dec 14, 2014</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/github-1.html">Github</a>
+    
+</span>
+
+</div>
+<p>I recently was faced with moving the website of one of my Github hosted projects from its current non-Github location to Github Pages.</p>
+
+<p>At first glance publishing a project website to <a href="https://pages.github.com/">Github pages</a> appears fiddly and error prone because you have to bounce between normal code branches and the Github Pages  branch which have completely different files and directory structures. This is even trickier when your project&rsquo;s build workflow also builds your web pages (as mine does).</p>
+
+<p>I initially tried <code>git-subtree</code> techniques for GitHub Pages deployment (see <a href="http://stevenclontz.com/blog/2014/05/08/git-subtree-push-for-deployment/">here</a>, <a href="https://gist.github.com/cobyism/4730490">here</a> and <a href="http://yeoman.io/learning/deployment.html">here</a>) but found them brittle and arcane. Then I came across <a href="https://gist.github.com/chrisjacob/825950">this Github Gist</a> which neatly solved the problem viz.  keep your code branches in one local repository and the <code>gh-pages</code> branch in another. Locate the Github Pages repo on an ignored <code>gh-pages</code> sub-directory of the local code branches repository.</p>
+
+<ul>
+<li>Both local repositories use the same remote Github repository: the local code repository contains code branches, the local website repository contains only the <code>gh-pages</code> branch.</li>
+<li>Typically the project build process generates the project website pages in HTML format which it copies to the local <code>gh-pages</code> sub-directory (along with any other generated webpage assets).</li>
+<li>To publish the Github Pages repo:
+
+<ol>
+<li>Change directory to the <code>gh-pages</code> sub-directory.</li>
+<li>Commit the changes and push them to the <code>gh-pages</code> branch at Github.</li>
+<li>Then cd back up to the project root and continue coding.</li>
+</ol></li>
+</ul>
+
+<p>The steps to achive this are outlined below and were based on this <a href="https://gist.github.com/chrisjacob/825950">Github Gist</a> (the Gist assumes the <code>gh-pages</code> branch already exists in the Github repo whereas my example does not).</p>
+
+<p>Before starting it is assumed that:</p>
+
+<ul>
+<li>Your project code has already been published to Github.</li>
+<li>Your local project repository is up to date  with the remote Github repo.</li>
+<li>The <code>gh-pages</code> branch has not yet been created either locally or remotely.</li>
+</ul>
+
+<p>The following commands add a local repo in the <code>gh-pages</code> sub-directory and then creates a <code>gh-pages</code> branch which is pushed to Github (<code>&lt;username&gt;</code> and <code>&lt;projectnames&gt;</code> refer to your Github user name and project name respectively):</p>
+
+<pre><code># Go to local project code repository.
+$ cd myproject
+
+# Code repo ignores the documentation repo.
+$ echo gh-pages/ &gt;&gt; .gitignore
+
+# Make another repo in gh-pages sub-directory.
+# There is nothing magic about the sub-directory name, it can be anything you like.
+$ git clone https://github.com/&lt;username&gt;/&lt;projectname&gt;.git gh-pages
+
+# Create gh-pages branch and push it to Github.
+# See https://help.github.com/articles/creating-project-pages-manually/
+$ cd gh-pages
+$ git checkout --orphan gh-pages
+$ git rm -rf .
+$ echo &quot;Nothing to see yet, move along...&quot; &gt; index.html
+$ git add index.html
+$ git commit -am &quot;First pages commit&quot;
+$ git push origin gh-pages
+$ git branch -u origin/gh-pages   # Track gh-pages branch on remote.
+
+$ git branch -D master  # We don't need code branches.
+$ cd ..                 # Return to code repo.
+</code></pre>
+
+<p>The documentation can be viewed at <code>http://&lt;username&gt;.github.io/&lt;projectname&gt;</code> (keep in mind that it can take up to 30 minutes for the web pages to appear at Github the first time after creating the <code>gh-pages</code> remote branch).</p>
+
+<p>If your project already has an existing <code>gh-pages</code> branch the above can be reduced to:</p>
+
+<pre><code>$ cd &lt;projectname&gt;
+$ echo gh-pages/ &gt;&gt; .gitignore
+$ git clone --branch gh-pages https://github.com/&lt;username&gt;/&lt;projectname&gt;.git gh-pages
+</code></pre>
+
+<p>From here on you treat the local Github Pages repo just like any other Github repository except that when you push it to Gitub you use the <code>gh-pages</code> branch name:</p>
+
+<pre><code>$ git push origin gh-pages
+</code></pre>
+
+<p>Here&rsquo;s <a href="https://github.com/srackham/flux-backbone-todo/blob/master/deploy-gh-pages.sh">an example bash script</a>  that I use to automate deployment of the <code>gh-pages</code> branch.</p>
+
+<p>On a side-note, you can use a custom domain name for your project&rsquo;s Github Pages website by adding a <code>CNAME</code> file to the <code>gh-pages</code> branch &ndash; see <a href="https://help.github.com/articles/adding-a-cname-file-to-your-repository/">the Github documentation</a> for details.</p>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/porting-my-blog-with-hugo/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/flux-backbone-todos-example/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

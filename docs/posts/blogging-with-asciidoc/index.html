@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Blogging with AsciiDoc</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Blogging with AsciiDoc</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">May 15, 2008</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/asciidoc-1.html">AsciiDoc</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/blogpost-1.html">blogpost</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/weblog-client-1.html">Weblog client</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/wordpress-1.html">WordPress</a>
+    
+</span>
+
+</div>
+<blockquote>
+<p>Since this blog was written many new features have been added to <code>blogpost</code> &ndash; see <a href="/posts/blogpost-media-processing/">blogpost media processing</a></p>
+</blockquote>
+
+<p>I make lots of notes using <a href="http://www.methods.co.nz/asciidoc/">AsciiDoc</a>, the sort of stuff that&rsquo;s to minor and/or not rigorous enough for formal publication, but possibly useful to others.</p>
+
+<p>So I decided it was about time I started posting my notes to a blog. Creating and maintaining posts using the normal browser based interfaces was not an option &ndash; just to tedious for words.  So I looked around for an HTML friendly blog host that could make a reasonable job of rendering AsciiDoc generated HTML.</p>
+
+<p>After a search (albeit brief) I settled on <a href="http://wordpress.com">Wordpress.com</a>. There is a problem though: Wordpress massages HTML pasted into the Wordpress HTML editor.  Here are some rendering problems I observed after pasting AsciiDoc-generated HTML into Wordpress:</p>
+
+<ul>
+<li>Paragraph tags are stripped and <br /> tags inserted at line breaks.</li>
+<li>Break tags inserted preceeding inline tags.</li>
+<li>Tables problems because Wordpress seems to insist on the opening <em>table</em> tag occupying a single line.</li>
+<li><em>Emoticons</em> are auto-generated.</li>
+</ul>
+
+<p>These problems could be solved by installing the <a href="http://wordpress.org/extend/plugins/wp-unformatted/">WP Unformatted</a> Wordpress plugin &ndash; unfortunately wordpress.com dosn&rsquo;t allow plugins, in any case blog editing by pasting into the browser is still tedious. Submitting the unmodified HTML via the <a href="http://codex.wordpress.org/XML-RPC_Support">Wordpress API</a> doesn&rsquo;t get round these problems either.</p>
+
+<p>My solution was to write <em>blogpost</em>, a Wordpress command-line weblog client for AsciiDoc. <em>blogpost</em> allows you to create, list, delete and update blogs written in AsciiDoc from the command-line. Here are some usage examples:</p>
+
+<pre><code>$ blogpost.py create doc/blogging_with_asciidoc.txt
+creating published post 'Blogging with AsciiDoc'...
+id: 38
+
+$ blogpost.py list
+38: Thu May 15 22:36:47 2008: Blogging with AsciiDoc
+
+$ blogpost.py update 38 doc/blogging_with_asciidoc.txt
+updating published post 'Blogging with AsciiDoc'...
+id: 38
+url: http://srackham.wordpress.com/2008/05/38/blogging-with-asciidoc/
+
+$ blogpost.py delete 38
+deleting post 38...
+</code></pre>
+
+<p>I have used <em>blogpost</em> to post the <a href="http://srackham.wordpress.com/asciidoc-user-guide/">AsciiDoc User Guide</a>, a long (around 100 page) and fairly complicated AsciiDoc document.</p>
+
+<p>To get AsciiDoc output into a Wordpress compatible format:</p>
+
+<ol>
+<li>I&rsquo;ve written an AsciiDoc wordpress.conf configuration file which implements a <em>wordpress</em> backend &ndash; all it contains is a few minor adjustments to the existing AsciiDoc <em>html4</em> backend.</li>
+<li><em>blogpost</em> runs AsciiDoc with the &ndash;backend wordpress &ndash;no-header-footer options.</li>
+<li><em>blogpost</em> then captures the HTML output from AsciiDoc and removes all extraneous line breaks &ndash; the HTML is now Wordpress friendly.</li>
+</ol>
+
+<p>See also:</p>
+
+<ul>
+<li><a href="http://srackham.wordpress.com/blogpost1/">blogpost man page</a></li>
+<li><a href="http://srackham.wordpress.com/blogpost-readme/">blogpost README</a></li>
+<li><a href="http://hg.sharesource.org/blogpost/">blogpost Mercurial repository at ShareSource</a>.</li>
+</ul>
+
+<p><em>blogpost</em> uses Michele Ferretti&rsquo;s <a href="http://www.blackbirdblog.it/programmazione/progetti/28">Python Wordpress library</a> to communicate with the Wordpress XML-RPC API.</p>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/blogpost-media-processing/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <span class="disabled">Next »</span>
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

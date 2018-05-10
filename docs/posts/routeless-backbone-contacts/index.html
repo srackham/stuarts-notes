@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Routeless Backbone Contacts</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Routeless Backbone Contacts</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Sep 23, 2011</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/backbone-js-1.html">Backbone.js</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/coffeescript-1.html">coffeescript</a>
+    
+</span>
+
+</div>
+<p>You don&rsquo;t need a URL router to write client-side applications.</p>
+
+<p><em>Routeless Backbone.js Contacts</em> is a totally client-side CRUD tutorial application written using <a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>, <a href="http://learnboost.github.com/stylus/">Stylus</a>, <a href="http://documentcloud.github.com/backbone/">Backbone.js</a> and <a href="http://jquery.com/">jQuery</a> which are a perfect match for writing concise, readable well structured web applications.</p>
+
+<ul>
+<li>The source is <a href="https://github.com/srackham/routeless-backbone-contacts">on Github</a>.</li>
+</ul>
+
+<p><strong><em>Note</em></strong>:
+This release described in this post is at the <em>1.0</em> tag.</p>
+
+<ul>
+<li>Uses DOM events exclusively for UI navigation.</li>
+<li>The contacts data is persisted locally using browser <a href="http://en.wikipedia.org/wiki/Web_Storage">Web Storage</a>.</li>
+<li>Templates are written using <a href="http://documentcloud.github.com/underscore/">Underscore.js</a> templates (included with <a href="http://documentcloud.github.com/backbone/">Backbone.js</a>).</li>
+</ul>
+
+<p><strong><em>Note</em></strong>:
+A second version of this tutorial application [has been posted], it builds on the material covered in this post.</p>
+
+<h2>Screenshots</h2>
+
+<h3>ListContactView</h3>
+
+<p><img src="http://blog.srackham.com/images/contacts-list.png" alt="contacts-list.png" /></p>
+
+<h3>ShowContactView</h3>
+
+<p><img src="http://blog.srackham.com/images/contacts-show.png" alt="contacts-show.png" /></p>
+
+<h3>EditContactView</h3>
+
+<p><img src="http://blog.srackham.com/images/contacts-edit.png" alt="contacts-edit.png" /></p>
+
+<h2>Going routeless</h2>
+
+<p>It&rsquo;s a mindset thing. If you come from a server-side web applications background your first instinct is to use a router and <a href="http://en.wikipedia.org/wiki/Fragment_identifier">fragment identifiers</a> to emulate browser page navigation &ndash; go down this route you soon find that trying to maintain a consistent back-button browser history is time consuming, messy and ultimately unnecessary.  Single page applications don&rsquo;t need a back-button (or any browser chrome), especially if they are bundled as pseudo-native mobile apps with something like <a href="http://www.phonegap.com/">PhoneGap</a> or packaged for the desktop, for example as <a href="http://code.google.com/chrome/extensions/apps.html">Google Chrome Packaged Apps</a>.</p>
+
+<p><em>Routeless Backbone.js Contacts</em> resides at a single <a href="http://en.wikipedia.org/wiki/Fragment_identifier">unfragmented URL</a> &ndash; user interface navigation is managed exclusively by DOM events. Button and link elements deal with the click events client-side (you are not POSTing form data to a server, so <em>form</em> elements and <em>submit</em> buttons are not necessary).  If the application were to persist data externally then then the data POSTS and GETS would be handled transparently by a Backbone database adapter.</p>
+
+<h2>Running the application</h2>
+
+<p>Once you have downloaded the <a href="https://github.com/srackham/routeless-backbone-contacts">source from Github</a> open the index.html file in your browser. Press the <em>Import Data</em> button to load the example contacts database.</p>
+
+<p><strong><em>Important</em></strong>:
+Unlike Google Chrome, neither Firefox 6 or IE9 like persisting Web Storage from file based URLs and you will need to open the application via a web server. I use <a href="http://code.google.com/p/mongoose/">Mongoose</a> (a neat little single-executable cross-platform web server) for testing.  Once you&rsquo;ve installed <em>mongoose</em>:</p>
+
+<ul>
+<li><em>cd</em> to the directory containing index.html</li>
+<li>Then execute the <em>mongoose</em> command and open your web browser at <em>localhost:8080</em>.</li>
+</ul>
+
+<h2>The source</h2>
+
+<p>This post should be read side-by-side with the source, it&rsquo;s very readable (although a basic understanding of <a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>, HTML and <a href="http://jquery.com/">jQuery</a> is recommended).</p>
+
+<p><a href="https://github.com/srackham/routeless-backbone-contacts/blob/master/index.html">index.html</a>
+     Application page HTML and view templates.
+<a href="https://github.com/srackham/routeless-backbone-contacts/blob/master/js/application.coffee">application.coffee</a>
+     Application, models and views.
+<a href="https://github.com/srackham/routeless-backbone-contacts/blob/master/js/data.js">data.js</a>
+     Canned data (100 fictitious contacts) loaded by the <em>Import Data</em> command.
+<a href="https://github.com/srackham/routeless-backbone-contacts/blob/master/css/main.styl">main.styl</a>
+     Stylus CSS.
+<a href="https://github.com/srackham/routeless-backbone-contacts/blob/master/css/helpers.styl">helpers.styl</a>, <a href="https://github.com/srackham/routeless-backbone-contacts/blob/master/css/gradients.styl">gradients.styl</a>
+     CSS helper functions.</p>
+
+<p>HTML5 markup is used throughout.  All the logic is confined to <a href="https://github.com/srackham/routeless-backbone-contacts/blob/master/js/application.coffee">application.coffee</a> (around 160 lines of code).  The beauty of <a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a> is that the code is concise and virtually self-documenting, for example, here&rsquo;s the event handler in the ListContactView that responds to the <em>Clear All</em> button click:</p>
+
+<pre><code>clear: (e) -&gt;
+    return if not confirm 'About to delete all data.'
+    contact.destroy() for contact in @collection.toArray()
+    @render()
+</code></pre>
+
+<h2>Application structure</h2>
+
+<h3>The app object</h3>
+
+<p>There is a single global instance <em>app</em> of the <em>App</em> class which:</p>
+
+<ul>
+<li>Initializes and namespaces global data (collections and views).</li>
+<li>Contains a few generic methods to allow programmatic inter-view navigation &ndash; this allows views to call one another and not have to share any information about each other.</li>
+<li>Starts the application (with app.start()).</li>
+</ul>
+
+<h3>Models and Collections</h3>
+
+<p>A single app.contacts collection of Contact models is persisted locally using the <a href="https://github.com/jeromegn/Backbone.localStorage">Backbone localStorage Adapter</a>. A single store is instantiated and attached to the <em>ContactModel</em>, the same store is referenced by the <em>ContactCollection</em>.</p>
+
+<h3>Views</h3>
+
+<p>The CRUD user interface is implemented by three Backbone.js views &ndash; <em>ListView</em>, <em>ShowView</em> and <em>EditView</em> (the <em>EditView</em> is also used to create new contacts).</p>
+
+<ul>
+<li>Each view handles the set of DOM events defined by the View&rsquo;s <em>events</em> property.</li>
+<li>The <em>events</em> property routes DOM events to a handler within the View.</li>
+<li>When a matching DOM event occurs the View handler is called and passed a <a href="http://api.jquery.com/category/events/event-object/">jQuery event object</a>.</li>
+</ul>
+
+<p>This example (from the <em>ListContactView</em>)  uses a <a href="http://ejohn.org/blog/html-5-data-attributes/">custom data attribute</a> (<em>data-id</em>) to pass the contact ID from the anchor element via a click event object.</p>
+
+<p>DOM event registration:</p>
+
+<pre><code>events:
+    'click a.show': 'show'
+</code></pre>
+
+<p>Link click handler:</p>
+
+<pre><code>show: (e) -&gt;
+    @model = @collection.get e.target.getAttribute('data-id')
+    @render()
+</code></pre>
+
+<p>Template link markup:</p>
+
+<pre><code>&lt;a class=&quot;show&quot; data-id=&quot;&lt;%= contact.id %&gt;&quot;&gt;&lt;%= contact.getName() %&gt;&lt;/a&gt;
+</code></pre>
+
+<p>It would have been nice to have used the HTML5 DOM dataset property to retrieve the <em>data-id</em> attribute (e.target.dataset.id) but it does not currently work in IE9, Safari or Android browsers.</p>
+
+<h3>Libraries</h3>
+
+<p>The app uses the following JavaScript libraries (in the lib directory):</p>
+
+<ul>
+<li><a href="http://documentcloud.github.com/backbone/">Backbone.js</a></li>
+<li><a href="http://jquery.com/">jQuery</a></li>
+<li><a href="http://documentcloud.github.com/underscore/">Underscore.js</a></li>
+<li>The <a href="https://github.com/jeromegn/Backbone.localStorage">Backbone localStorage Adapter</a> persists models to the local disk using the browser <a href="http://dev.w3.org/html5/webstorage/">Web Storage</a> API.</li>
+</ul>
+
+<h2>Techniques</h2>
+
+<h3>Load scripts at the end of the page body</h3>
+
+<p>Place script tags last in the page body, just before the closing body tag. This ensures the page elements elements have been parsed and can be referenced when the scripts execute and allows you to safely reference page elements from class property initializers. See <a href="http://stackoverflow.com/questions/3037725/is-it-wrong-to-place-the-script-tag-after-the-body-tag">this stackoverflow discussion</a>.</p>
+
+<h3>Intra-application links do not need href&rsquo;s</h3>
+
+<p>Dropping the <em>href</em> ensures there are no changes to the browser URL or history.</p>
+
+<h2>CSS and HTML Tips</h2>
+
+<ul>
+<li><p><a href="http://learnboost.github.com/stylus/">Stylus</a> is to CSS as CoffeeScript is to JavaScript, use it to keep your CSS <a href="http://en.wikipedia.org/wiki/Don’t_repeat_yourself">DRY</a> and to maintain your sanity.</p></li>
+
+<li><p>Use <a href="http://learnboost.github.com/stylus/docs/import.html">Stylus imports</a> to unclutter your main CSS.</p></li>
+
+<li><p>CSS padding vs margins:</p>
+
+<ul>
+<li>Margins define the element&rsquo;s relationship to other elements (spacing) and are context specific i.e. an element&rsquo;s margins will change depending on where it is used in the application.</li>
+<li>Padding styles an elements appearance and isn&rsquo;t a context sensitive as the element margins.</li>
+<li>The <em>width</em> property <em>does not include the margins, border or padding</em>.</li>
+</ul></li>
+
+<li><p>Use HTML5&rsquo;s concise syntax, it may seem wrong after years of XML indoctrination but it&rsquo;s not, it&rsquo;s easier to read and your fingers will thank you. Examples:</p>
+
+<ul>
+<li><p>Closing tag omission:</p>
+
+<pre><code>    &lt;tr&gt;&lt;td&gt;Foo&lt;td&gt;Bar                  YES
+    &lt;tr&gt;&lt;td&gt;Foo&lt;/td&gt;&lt;td&gt;Bar&lt;/td&gt;&lt;/tr&gt;   NO
+</code></pre></li>
+
+<li><p>Minimized attributes:</p>
+
+<pre><code>    readonly                            YES
+    readonly=&quot;readonly&quot;                 NO
+</code></pre></li>
+
+<li><p>Empty elements don&rsquo;t need explicit termination:</p>
+
+<pre><code>    &lt;img src=&quot;me.png&quot;&gt;                  YES
+    &lt;img src=&quot;me.png&quot; /&gt;                NO
+</code></pre></li>
+</ul></li>
+
+<li><p>Length and size:</p>
+
+<ul>
+<li>Use em units to set size properties on elements that display text, it&rsquo;ll make it much easier to resize your app.</li>
+<li>To get exact placements you&rsquo;ll need to use pixels, but this can probably be confined to non-text elements.</li>
+<li>Use Stylus arithmetic expressions to maintain the size of interdependent page elements so that changing a single size will ensure the depend sizes are adjusted automatically (DRY again).</li>
+</ul></li>
+
+<li><p>Be careful assigning <em>id</em> attributes in templates, do so only if the template will never appear more than once on a page. If in doubt assign <em>class</em> attributes instead of <em>id</em> attributes.</p></li>
+
+<li><p>Tables are not bad, in fact they are very good for laying out application pages (which are quite different to document oriented websites).</p></li>
+
+<li><p>Don&rsquo;t put CSS <em>style</em> attributes in HTML template markup &ndash; this should be obvious.</p></li>
+
+<li><p>Start with a clean slate, reset user-agent (browser) document oriented CSS defaults:</p>
+
+<pre><code>* {
+  font-size: 20px;
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+</code></pre></li>
+</ul>
+
+<h2>References</h2>
+
+<ul>
+<li>E. Mathieu Sternberg&rsquo;s <a href="http://www.elfsternberg.com/2011/08/22/backbone-store-version-20-backbonejs-coffeescript-haml-stylus-edition/">The Backbone Store, version 2.0</a>.</li>
+</ul>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/routeless-backbone-contacts-2-0/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/switching-from-the-ipad-to-the-asus-transformer/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

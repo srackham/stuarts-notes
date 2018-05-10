@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>blogpost media processing</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>blogpost media processing</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">May 22, 2008</span> 
+<span class="doctags">
+    
+</span>
+
+</div>
+<p><em>blogpost</em> 0.9.0 adds lots of new features to the previous 0.1.0 release.  The most important feature in the <em>blogpost</em> 0.9.0 release is WordPress media file management:</p>
+
+<ul>
+<li>Media files (images, videos, audio, document) referenced in your AsciiDoc (or HTML) documents are automatically uploaded and linked to the uploaded blog.</li>
+<li>Only new or modified media files are uploaded (changes detected using cached MD5 checksums).</li>
+<li>Metadata caching means post options are remembered and don&rsquo;t need to be repeated every time you update your posts.</li>
+<li>WordPress Pages can be posted and updated (blogpost includes a patched wordpresslib.py containing Page methods).</li>
+</ul>
+
+<p>This blog post along with this inline image <img src="http://blog.srackham.com/images/smallnew.png" alt="smallnew.png" /> and this block image:</p>
+
+<p><img src="http://blog.srackham.com/images/tiger.png" alt="tiger.png" /></p>
+
+<p>Were uploaded by using this <em>blogpost</em> create command:</p>
+
+<pre><code>$ blogpost.py create blogpost_media_processing.txt
+
+uploading: /home/srackham/doc/blogs/smallnew.png...
+url: http://srackham.files.wordpress.com/2008/05/smallnew.png
+uploading: /home/srackham/doc/blogs/tiger.png...
+url: http://srackham.files.wordpress.com/2008/05/tiger1.png
+creating published post 'blogpost media processing'...
+id: 93
+url: http://srackham.wordpress.com/2008/05/22/blogpost-media-processing/
+</code></pre>
+
+<p>The <em>info</em> command lists locally cached information:</p>
+
+<pre><code>$ blogpost.py info blogpost_media_processing.txt
+
+title:   blogpost media processing
+id:      93
+url:     http://srackham.wordpress.com/2008/05/22/blogpost-media-processing/
+status:  published
+type:    post
+doctype: article
+created: Thu May 22 17:45:34 2008
+updated: Thu May 22 17:45:40 2008
+media:   http://srackham.files.wordpress.com/2008/05/tiger1.png
+media:   http://srackham.files.wordpress.com/2008/05/smallnew.png
+</code></pre>
+
+<p>Note how the update command skips uploading the unchanged image files:</p>
+
+<pre><code>$ blogpost.py update blogpost_media_processing.txt
+
+skipping: /home/srackham/doc/blogs/smallnew.png
+skipping: /home/srackham/doc/blogs/tiger.png
+updating published post 'blogpost media processing'...
+id: 93
+url: http://srackham.wordpress.com/2008/05/22/blogpost-media-processing/
+</code></pre>
+
+<p>Here&rsquo;s the <a href="http://www.methods.co.nz">AsciiDoc</a> blog file that generated this weblog entry:</p>
+
+<p><strong>blogpost_media_processing.txt</strong></p>
+
+<pre><code>blogpost media processing
+=========================
+
+//
+// Blog outlining blogpost media processing.
+//
+
+'blogpost' 0.9.0 adds lots of new features to the previous 0.1.0
+release.  The most important feature in the 'blogpost' 0.9.0 release
+is WordPress media file management:
+
+- Media files (images, videos, audio, document) referenced in your
+  AsciiDoc (or HTML) documents are automatically uploaded and linked
+  to the uploaded blog.
+- Only new or modified media files are uploaded (changes detected
+  using cached MD5 checksums).
+- Metadata caching means post options are remembered and don't need to
+  be repeated every time you update your posts.
+- WordPress Pages can be posted and updated (blogpost includes a
+  patched wordpresslib.py containing Page methods).
+
+pass::[&lt;!--more--&gt;]
+
+This blog post along with this inline image image:smallnew.png[] and
+this block image:
+
+image::tiger.png[]
+
+Were uploaded by using this 'blogpost' create command:
+
+---------------------------------------------------------------------
+$ blogpost.py create blogpost_media_processing.txt
+
+uploading: /home/srackham/doc/blogs/smallnew.png...
+url: http://srackham.files.wordpress.com/2008/05/smallnew.png
+uploading: /home/srackham/doc/blogs/tiger.png...
+url: http://srackham.files.wordpress.com/2008/05/tiger1.png
+creating published post 'blogpost media processing'...
+id: 93
+url: http://srackham.wordpress.com/2008/05/22/blogpost-media-processing/
+---------------------------------------------------------------------
+
+The 'info' command lists locally cached information:
+
+---------------------------------------------------------------------
+$ blogpost.py info blogpost_media_processing.txt
+
+title:   blogpost media processing
+id:      93
+url:     http://srackham.wordpress.com/2008/05/22/blogpost-media-processing/
+status:  published
+type:    post
+doctype: article
+created: Thu May 22 17:45:34 2008
+updated: Thu May 22 17:45:40 2008
+media:   http://srackham.files.wordpress.com/2008/05/tiger1.png
+media:   http://srackham.files.wordpress.com/2008/05/smallnew.png
+---------------------------------------------------------------------
+
+Note how the update command skips uploading the unchanged image files:
+
+---------------------------------------------------------------------
+$ blogpost.py update blogpost_media_processing.txt
+
+skipping: /home/srackham/doc/blogs/smallnew.png
+skipping: /home/srackham/doc/blogs/tiger.png
+updating published post 'blogpost media processing'...
+id: 93
+url: http://srackham.wordpress.com/2008/05/22/blogpost-media-processing/
+---------------------------------------------------------------------
+
+Here's the http://www.methods.co.nz[AsciiDoc] blog file that generated
+this weblog entry:
+
+.blogpost_media_processing.txt
+---------------------------------------------------------------------
+include::blogpost_media_processing.txt[depth=1]
+---------------------------------------------------------------------
+
+The how's and why's are explained on the
+http://srackham.wordpress.com/blogpost1/[blogpost(1) man page].
+</code></pre>
+
+<p>The how&rsquo;s and why&rsquo;s are explained on the <a href="http://srackham.wordpress.com/blogpost1/">blogpost(1) man page</a>.</p>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/installing-mono-2-0-on-ubuntu-7-10/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/blogging-with-asciidoc/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

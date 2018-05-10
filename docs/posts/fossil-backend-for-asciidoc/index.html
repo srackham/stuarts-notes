@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Fossil Backend for AsciiDoc</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Fossil Backend for AsciiDoc</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Aug 30, 2011</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/asciidoc-1.html">AsciiDoc</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/fossil-1.html">fossil</a>
+    
+</span>
+
+</div>
+<p>The <a href="http://www.methods.co.nz/asciidoc/">AsciiDoc</a> Fossil backend plugin is <a href="https://github.com/srackham/asciidoc-fossil-backend">hosted on Github</a>, it generates <a href="http://www.fossil-scm.org">Fossil</a> friendly Wiki markup from AsciiDoc source.  As of version 1.0.0 (2012-08-30) the Fossil backend plugin embeds linked images and admonition icons in the wiki documents.</p>
+
+<p>The backend itself is a single <a href="https://github.com/srackham/asciidoc-fossil-backend/blob/master/fossil.conf">fossil.conf</a> configuration file.</p>
+
+<p>To install the Fossil plugin download <a href="https://github.com/downloads/srackham/asciidoc-fossil-backend/fossil.zip">fossil.zip</a> and install it with AsciiDoc (you will need AsciiDoc version 8.6.6 or newer):</p>
+
+<pre><code>asciidoc --backend install fossil.zip
+</code></pre>
+
+<p>Use the <em>fossil</em> backend as you would the built-in backends then pipe the output into Fossil. For example, this command will create a Wiki page called <em>AsciiDoc</em> in the current Fossil repository:</p>
+
+<pre><code>asciidoc -b fossil -a iconsdir=./icons -o - asciidoc.txt | fossil wiki create AsciiDoc
+</code></pre>
+
+<p>This command updates the existing wiki page:</p>
+
+<pre><code>asciidoc -b fossil -a iconsdir=./icons -o - asciidoc.txt | fossil wiki commit AsciiDoc
+</code></pre>
+
+<p><strong><em>Note</em></strong>:
+Specifying the location of the admonition icons by setting the <em>iconsdir</em> attribute has been rendered unnecessary by <a href="https://code.google.com/p/asciidoc/source/detail?r=dd07b38888fdfe8cd80d18f12aa7d21e3dd11eb6">a commit</a> made on 11-September-2012.</p>
+
+<h3>Fossil</h3>
+
+<p><a href="http://www.fossil-scm.org">Fossil</a> is a wonderful distributed version control system (DVCS) by Richard Hipp, the author of SQLite. It is built on SQLite and shares the same small-is-beautiful single stand-alone executable philosophy.</p>
+
+<p>A Fossil repository doesn&rsquo;t just manage source, it also supports distributed project bug tracking, wiki and blog &ndash; all managed by an integrated Web UI.</p>
+
+<p><strong><em>Note</em></strong>:</p>
+
+<ul>
+<li>By default linked images and admonition icons will be embedded in the wiki documents using the <a href="https://en.wikipedia.org/wiki/Data_URI_scheme">data URI scheme</a> (AsciiDoc <em>data-uri</em> and <em>icons</em> attributes are set in the plugin&rsquo;s <code>fossil.conf</code> file).</li>
+<li>Older browsers (notably IE8) limit the size of data URIs.</li>
+<li>You will need AsciiDoc version 8.6.6 or newer to use the Fossil backend.</li>
+<li>To update an existing wiki page use the Fossil <code>wiki commit</code> command (not <code>wiki create</code>).</li>
+</ul>
+
+<h3>Wiki HTML limitations</h3>
+
+<p>By default the Fossil <a href="http://fossil-scm.org/xfer/wiki_rules">wiki formatting rules</a> enforce an HTML subset. If you want richer HTML wiki pages you could enable the Fossil <em>Use HTML as wiki markup language</em> configuration option, but this is not advisable because:</p>
+
+<ol>
+<li>Malicious users could inject dangerous HTML, CSS and JavaScript code into your wiki.</li>
+<li>It is not a supported option.</li>
+<li>Wiki links <code>[...]</code> are translated to HTML links which in turn precludes the use of HTML embedded <em>script</em> and <em>style</em> elements.</li>
+</ol>
+
+<p>Keep in mind that wikis are designed  to allow casual users to enter short relatively simple notes. Project documentation (which is often longer and more complex) is usually better served using Fossil&rsquo;s <a href="http://www.fossil-scm.org/index.html/doc/tip/www/embeddeddoc.wiki">Embedded Documentation</a> feature.</p>
+
+<p>Another gotcha is that currently the Fossil web server does not follow symlinks, instead it displays the content of the symlink file.</p>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/switching-from-the-ipad-to-the-asus-transformer/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/keeping-a-lid-on-mobile-data/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>

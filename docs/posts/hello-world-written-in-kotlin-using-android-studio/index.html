@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width"/>
+<title>Hello World written in Kotlin using Android Studio</title>
+<link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+</head>
+<body>
+<div class="banner no-print">
+  <a href="http://blog.srackham.com/">srackham | blog</a>
+</div>
+<ul class="menu no-print">
+  <li><a href="http://blog.srackham.com/indexes/posts/docs-1.html">Posts</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/tags.html">Tags</a></li>
+  <li><a href="http://blog.srackham.com/indexes/posts/all/docs-1.html">All</a></li>
+  <li><a href="http://blog.srackham.com/about.html">About</a></li>
+</ul>
+<div id="main">
+    <div id="article">
+
+<h1>Hello World written in Kotlin using Android Studio</h1>
+<div style="margin-bottom: 1rem;">
+<span class="sans-font">Mar 15, 2014</span> 
+<span class="doctags">
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/android-1.html">Android</a>
+    
+    ・ <a href="http://blog.srackham.com/indexes/posts/tags/kotlin-1.html">Kotlin</a>
+    
+</span>
+
+</div>
+<p><a href="http://kotlin.jetbrains.org/">Kotlin</a> is Jetbrains successor to Java, it&rsquo;s evolving rapidly and what documentation there is for writing Android apps is pretty soon out of date to the point where even getting the canonical <em>Hello World</em> up and running can be a frustrating experience.</p>
+
+<p>Here&rsquo;s how to get a Kotlin version <em>Hello World</em> running on Android using Android Studio 0.5.1.</p>
+
+<p><strong>IMPORTANT</strong>: This is based on Android Studio 0.5.1 and Kotlin 0.7.115 (the latest versions when I wrote this post) &ndash; it will probably be broken on other versions Studio/Kotlin.</p>
+
+<p>Assuming you have already installed <a href="https://developer.android.com/sdk/installing/studio.html">Android Studio</a>, Follow these instructions:</p>
+
+<ol>
+<li>Install the nightly build of the Kotlin plugin in Android Studio (I had to add the Kotlin plugin repository manually because it was not in the list of JetBrains plugins, though it will probably reappear once Android Studio and Kotlin begin to stabilize):
+
+<ol>
+<li>Open the <em>Settings</em> dialog and go to the <em>Plugins</em> section.</li>
+<li>Click <em>Browse Repositories…</em></li>
+<li>Click <em>Manage Repositories…</em></li>
+<li>Add the following <a href="http://confluence.jetbrains.com/display/Kotlin/Getting+Started">IDEA 13 EAP repository</a> URL <code>http://teamcity.jetbrains.com/guestAuth/repository/download/bt345/.lastSuccessful/updatePlugins.xml</code></li>
+<li>Search for the <code>kotlin-plugin</code> in the <em>Browse Repositories</em> dialog; right-click on it and select <em>Download and install</em>.</li>
+</ol></li>
+<li>Create a Java version of <em>Hello World</em>: From the Android Studio <em>File</em> menu select <em>New Project…</em> and set the <em>Application name</em> to <em>HelloKotlin</em> (or whatever takes you fancy) and accept all the remaining <em>New Project Wizard</em> settings.</li>
+<li>Rename the <code>app/src/main/java</code> directory to <code>app/src/main/kotlin</code> (right-click on the <code>app/src/main/kotlin</code> directory in the <em>Project Tool</em> window and select the <em>Refactor-&gt;Rename…</em> menu command).</li>
+<li>Open the <code>app/src/main/kotlin/MainActivity.java</code> file in the editor and run the <em>Code-&gt;Kotlin-&gt;Convert Java File to Kotlin File</em> menu command (no need to save a backup).</li>
+<li>Run the <em>Tools-&gt;Kotlin-&gt;Configure Kotlin in Project</em> menu command &ndash; this will update the project&rsquo;s <code>build.gradle</code> file with Kotlin libraries, plugins and other Kotlin specific configuration requirements.</li>
+<li>Now compile and build the project using the <em>Build-&gt;Make Project</em> menu command.</li>
+</ol>
+
+<p>Because the Java to Kotlin converter does not differentiate between nullable and non-nulable Java method arguments you will get compilation errors and you need to manually modify the converted Kotlin source code. The error messages are not always self explanatory e.g.  this error <code>'onCreate' overrides nothing</code> in this line:</p>
+
+<pre><code>override fun onCreate(savedInstanceState: Bundle) {
+</code></pre>
+
+<p>Is resolved by making the <code>savedInstanceState</code> argument nullable:</p>
+
+<pre><code>override fun onCreate(savedInstanceState: Bundle?) {
+</code></pre>
+
+<p>This error <code>Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver</code> in this line:</p>
+
+<pre><code>val id = item.getItemId()
+</code></pre>
+
+<p>Is because the <code>item</code> method argument has been made nullable, it can be resolved using the <a href="http://confluence.jetbrains.com/display/Kotlin/Null-safety">safe call</a> operator:</p>
+
+<pre><code>val id = item?.getItemId()
+</code></pre>
+
+<p>Here&rsquo;s the resulting <code>app/src/main/kotlin/MainActivity.kt</code> file:</p>
+
+<pre><code>package com.example.hellokotlin.app
+
+import android.support.v7.app.ActionBarActivity
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+
+
+public class MainActivity() : ActionBarActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        val id = item!!.getItemId()
+        if (id == R.id.action_settings) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+}
+</code></pre>
+
+<p>Here&rsquo;s the Gradle build file (<code>app/build.gradle</code>) which required no manual editing &ndash; it was created by the <em>New Project</em> wizard and updated by the Kotlin plugin <em>Tools-&gt;Kotlin-&gt;Configure Kotlin in Project</em> menu command:</p>
+
+<pre><code>apply plugin: 'android'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion &quot;19.0.1&quot;
+
+    defaultConfig {
+        minSdkVersion 8
+        targetSdkVersion 19
+        versionCode 1
+        versionName &quot;1.0&quot;
+    }
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:+'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile &quot;org.jetbrains.kotlin:kotlin-stdlib:$ext.kotlin_version&quot;
+}
+buildscript {
+    ext.kotlin_version = '0.7.115'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath &quot;org.jetbrains.kotlin:kotlin-gradle-plugin:$ext.kotlin_version&quot;
+    }
+}
+repositories {
+    mavenCentral()
+}
+</code></pre>
+
+
+<div class="docsfooter">
+    <span class="left">
+        
+        « <a href="http://blog.srackham.com/posts/porting-from-make-to-grunt/">Previous</a>
+        
+    </span>
+    <span class="right">
+        
+        <a href="http://blog.srackham.com/posts/writing-android-event-handlers-in-kotlin/">Next</a> »
+        
+    </span>
+</div>
+
+
+    </div>
+</div>
+</body>
+</html>
