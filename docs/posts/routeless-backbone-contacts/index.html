@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width"/>
 <title>Routeless Backbone Contacts</title>
 <link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 </head>
 <body>
 <div class="banner no-print">
@@ -101,7 +102,7 @@ Unlike Google Chrome, neither Firefox 6 or IE9 like persisting Web Storage from 
 
 <p>HTML5 markup is used throughout.  All the logic is confined to <a href="https://github.com/srackham/routeless-backbone-contacts/blob/master/js/application.coffee">application.coffee</a> (around 160 lines of code).  The beauty of <a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a> is that the code is concise and virtually self-documenting, for example, here&rsquo;s the event handler in the ListContactView that responds to the <em>Clear All</em> button click:</p>
 
-<pre><code>clear: (e) -&gt;
+<pre><code class="language-coffee">clear: (e) -&gt;
     return if not confirm 'About to delete all data.'
     contact.destroy() for contact in @collection.toArray()
     @render()
@@ -137,20 +138,20 @@ Unlike Google Chrome, neither Firefox 6 or IE9 like persisting Web Storage from 
 
 <p>DOM event registration:</p>
 
-<pre><code>events:
+<pre><code class="language-coffee">events:
     'click a.show': 'show'
 </code></pre>
 
 <p>Link click handler:</p>
 
-<pre><code>show: (e) -&gt;
+<pre><code class="language-coffee">show: (e) -&gt;
     @model = @collection.get e.target.getAttribute('data-id')
     @render()
 </code></pre>
 
 <p>Template link markup:</p>
 
-<pre><code>&lt;a class=&quot;show&quot; data-id=&quot;&lt;%= contact.id %&gt;&quot;&gt;&lt;%= contact.getName() %&gt;&lt;/a&gt;
+<pre><code class="language-html">&lt;a class=&quot;show&quot; data-id=&quot;&lt;%= contact.id %&gt;&quot;&gt;&lt;%= contact.getName() %&gt;&lt;/a&gt;
 </code></pre>
 
 <p>It would have been nice to have used the HTML5 DOM dataset property to retrieve the <em>data-id</em> attribute (e.target.dataset.id) but it does not currently work in IE9, Safari or Android browsers.</p>
@@ -196,20 +197,20 @@ Unlike Google Chrome, neither Firefox 6 or IE9 like persisting Web Storage from 
 <ul>
 <li><p>Closing tag omission:</p>
 
-<pre><code>    &lt;tr&gt;&lt;td&gt;Foo&lt;td&gt;Bar                  YES
-    &lt;tr&gt;&lt;td&gt;Foo&lt;/td&gt;&lt;td&gt;Bar&lt;/td&gt;&lt;/tr&gt;   NO
+<pre><code>&lt;tr&gt;&lt;td&gt;Foo&lt;td&gt;Bar                  YES
+&lt;tr&gt;&lt;td&gt;Foo&lt;/td&gt;&lt;td&gt;Bar&lt;/td&gt;&lt;/tr&gt;   NO
 </code></pre></li>
 
 <li><p>Minimized attributes:</p>
 
-<pre><code>    readonly                            YES
-    readonly=&quot;readonly&quot;                 NO
+<pre><code>readonly                            YES
+readonly=&quot;readonly&quot;                 NO
 </code></pre></li>
 
 <li><p>Empty elements don&rsquo;t need explicit termination:</p>
 
-<pre><code>    &lt;img src=&quot;me.png&quot;&gt;                  YES
-    &lt;img src=&quot;me.png&quot; /&gt;                NO
+<pre><code>&lt;img src=&quot;me.png&quot;&gt;                  YES
+&lt;img src=&quot;me.png&quot; /&gt;                NO
 </code></pre></li>
 </ul></li>
 
@@ -227,16 +228,16 @@ Unlike Google Chrome, neither Firefox 6 or IE9 like persisting Web Storage from 
 
 <li><p>Don&rsquo;t put CSS <em>style</em> attributes in HTML template markup &ndash; this should be obvious.</p></li>
 
-<li><p>Start with a clean slate, reset user-agent (browser) document oriented CSS defaults:</p>
-
-<pre><code>* {
-  font-size: 20px;
-  font-family: sans-serif;
-  margin: 0;
-  padding: 0;
-}
-</code></pre></li>
+<li><p>Start with a clean slate, reset user-agent (browser) document oriented CSS defaults:</p></li>
 </ul>
+
+<pre><code class="language-css">  * {
+    font-size: 20px;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+</code></pre>
 
 <h2>References</h2>
 
@@ -264,5 +265,14 @@ Unlike Google Chrome, neither Firefox 6 or IE9 like persisting Web Storage from 
 
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/groovy.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"></script>
+<script>
+    hljs.configure({languages: []});
+    hljs.initHighlightingOnLoad();
+</script>
 </body>
 </html>

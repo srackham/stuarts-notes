@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width"/>
 <title>Porting from Make to Grunt</title>
 <link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 </head>
 <body>
 <div class="banner no-print">
@@ -80,7 +81,7 @@
 
 <p>Now consider doing it with Grunt using the <code>grunt-contrib-jshint</code> plugin:</p>
 
-<pre><code>grunt.initConfig({
+<pre><code class="language-js">grunt.initConfig({
   jshint: {
     files: ['test/spans.js', 'test/blocks.js', 'bin/rimuc.js'],
     options: {
@@ -88,13 +89,12 @@
     }
   }
 });
-
 grunt.loadNpmTasks('grunt-contrib-jshint');
 </code></pre>
 
 <p>All this crazy extra work and stuff to learn for nothing! I was about to pack it in when I discovered <a href="https://github.com/arturadib/shelljs">ShellJS</a>, a great library that gives you cross-platform UNIX-like shell capabilities. The above plugin code can now be replaced by:</p>
 
-<pre><code>grunt.registerTask('lint', 'Lint Javascript files', function() {
+<pre><code class="language-js">grunt.registerTask('lint', 'Lint Javascript files', function() {
   shelljs.exec('jshint test/spans.js test/blocks.js bin/rimuc.js');
 });
 </code></pre>
@@ -131,5 +131,14 @@ grunt.loadNpmTasks('grunt-contrib-jshint');
 
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/groovy.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"></script>
+<script>
+    hljs.configure({languages: []});
+    hljs.initHighlightingOnLoad();
+</script>
 </body>
 </html>

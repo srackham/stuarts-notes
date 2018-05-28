@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width"/>
 <title>Compiling CoffeeScript with Vim</title>
 <link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 </head>
 <body>
 <div class="banner no-print">
@@ -36,27 +37,43 @@
 </span>
 
 </div>
-<p>You can configure Vim to automatically compile <a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a> files when you save them from within Vim, it&rsquo;s easy, just add an <em>autocmd</em> to run the CoffeeScript compiler to your <code>~/.vimrc</code> file:</p>
+<p>You can configure Vim to automatically compile
+<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a> files when you save
+them from within Vim, it&rsquo;s easy, just add an <em>autocmd</em> to run the CoffeeScript
+compiler to your <code>~/.vimrc</code> file:</p>
 
 <pre><code>autocmd BufWritePost,FileWritePost *.coffee silent !coffee -c &lt;afile&gt;
 </code></pre>
 
-<p>I prefer this to the CoffeeScript compiler <code>--watch</code> option because you get to see any compiler errors in the editor when you save the CoffeeScript source file.</p>
+<p>I prefer this to the CoffeeScript compiler <code>--watch</code> option because you get to
+see any compiler errors in the editor when you save the CoffeeScript source
+file.</p>
 
-<p>In a similar vein the following two Vim auto-commands will compile <a href="http://lesscss.org/">Less</a> and <a href="http://learnboost.github.com/stylus/">Stylus</a> files to CSS:</p>
+<p>In a similar vein the following two Vim auto-commands will compile
+<a href="http://lesscss.org/">Less</a> and <a href="http://learnboost.github.com/stylus/">Stylus</a>
+files to CSS:</p>
 
 <pre><code>autocmd BufWritePost,FileWritePost *.less silent !lessc &lt;afile&gt; &lt;afile&gt;:r.css
 autocmd BufWritePost,FileWritePost *.styl silent !stylus &lt;afile&gt; &gt;/dev/null
 </code></pre>
 
-<p><strong><em>Tip</em></strong>:
-Use <em>Ctrl+L</em> to clear any compiler errors and redraw the screen or delete the <em>silent</em> option from the Vim <em>autocmd</em>.</p>
+<p><strong><em>Tip</em></strong>: Use <em>Ctrl+L</em> to clear any compiler errors and redraw the screen or
+delete the <em>silent</em> option from the Vim <em>autocmd</em>.</p>
 
-<p>This technique works, but what happens if you want to selectively include CoffeeScript compiler options with some files and not others? I came up against this problem writing <a href="http://docs.jquery.com/Qunit">QUnit</a> tests using CoffeeScript which must be compiled without the top-level function wrapper using the <code>--bare</code> command-line option.</p>
+<p>This technique works, but what happens if you want to selectively include
+CoffeeScript compiler options with some files and not others? I came up against
+this problem writing <a href="http://docs.jquery.com/Qunit">QUnit</a> tests using
+CoffeeScript which must be compiled without the top-level function wrapper using
+the <code>--bare</code> command-line option.</p>
 
-<p>My solution was to take a cue from Vim&rsquo;s <em>mode line</em> feature and write a CoffeeScript compiler wrapper shell script which scans the end of the CoffeeScript source file for a comment line starting with <em># coffee:</em>, it then passes the remainder of the line to the CoffeeScript compiler as command-line options. Here&rsquo;s a basic CoffeeScript QUnit test file specifying the <code>--bare</code> option in the trailing mode line:</p>
+<p>My solution was to take a cue from Vim&rsquo;s <em>mode line</em> feature and write a
+CoffeeScript compiler wrapper shell script which scans the end of the
+CoffeeScript source file for a comment line starting with <em># coffee:</em>, it then
+passes the remainder of the line to the CoffeeScript compiler as command-line
+options. Here&rsquo;s a basic CoffeeScript QUnit test file specifying the <code>--bare</code>
+option in the trailing mode line:</p>
 
-<pre><code>module 'Test'
+<pre><code class="language-coffee">module 'Test'
 
 test 'addition', -&gt;
     equals 1+1, 2, 'one and one is two'
@@ -66,38 +83,40 @@ test 'addition', -&gt;
 
 <p>And here&rsquo;s the <code>coffee.sh</code> wrapper script:</p>
 
-<pre><code>#!/bin/sh
-#
-# 'Mode line' wrapper for CoffeeScript 'coffee' compiler command.
-#
-# Executes CoffeeScript compiler and includes compiler options from line at the
-# end of the CoffeeScript source file starting with '# coffee:' (c.f. Vim mode
-# lines).
-#
-
-# Last argument is the source file name.
-for srcfile; do true; done
-
-# Search the last 5 lines in the source for a mode line and extract the
-# trailing coffee command options.
-# Default to the --compile option.
-pat='^#\s*coffee:'
-opts=$(tail -n5 $srcfile | grep &quot;$pat&quot; | sed &quot;/$pat/s/$pat//&quot;)
-opts=$(echo $opts | sed -r -e 's/^ *//' -e 's/ *$//')   # Trim spaces.
-if [ -z &quot;$opts&quot; ]; then
-    opts=&quot;--compile&quot;
-fi
-
-coffee $opts $@
+<pre><code class="language-sh">    #!/bin/sh
+    #
+    # 'Mode line' wrapper for CoffeeScript 'coffee' compiler command.
+    #
+    # Executes CoffeeScript compiler and includes compiler options from line at the
+    # end of the CoffeeScript source file starting with '# coffee:' (c.f. Vim mode
+    # lines).
+    #
+    
+    # Last argument is the source file name.
+    for srcfile; do true; done
+    
+    # Search the last 5 lines in the source for a mode line and extract the
+    # trailing coffee command options.
+    # Default to the --compile option.
+    pat='^#\s*coffee:'
+    opts=$(tail -n5 $srcfile | grep &quot;$pat&quot; | sed &quot;/$pat/s/$pat//&quot;)
+    opts=$(echo $opts | sed -r -e 's/^ *//' -e 's/ *$//')   # Trim spaces.
+    if [ -z &quot;$opts&quot; ]; then
+        opts=&quot;--compile&quot;
+    fi
+    
+    coffee $opts $@
 </code></pre>
 
-<p>You also need to change <code>coffee</code> to <code>coffee.sh</code> in your <code>~/.vimrc</code> <em>autocmd</em> plus you need to ensure both <code>coffee</code> to <code>coffee.sh</code> are in your shell search <code>PATH</code>:</p>
+<p>You also need to change <code>coffee</code> to <code>coffee.sh</code> in your <code>~/.vimrc</code> <em>autocmd</em>
+plus you need to ensure both <code>coffee</code> to <code>coffee.sh</code> are in your shell search
+<code>PATH</code>:</p>
 
 <pre><code>autocmd BufWritePost,FileWritePost *.coffee !coffee.sh -c &lt;afile&gt;
 </code></pre>
 
-<p><strong><em>Tip</em></strong>:
-If you don&rsquo;t want to generate a compiled JavaScript file (for example, Jake and Cake CoffeeScript files) use the <code>--lint</code> option:</p>
+<p><strong><em>Tip</em></strong>: If you don&rsquo;t want to generate a compiled JavaScript file (for
+example, Jake and Cake CoffeeScript files) use the <code>--lint</code> option:</p>
 
 <pre><code># coffee: --lint
 </code></pre>
@@ -122,5 +141,14 @@ If you don&rsquo;t want to generate a compiled JavaScript file (for example, Jak
 
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/groovy.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"></script>
+<script>
+    hljs.configure({languages: []});
+    hljs.initHighlightingOnLoad();
+</script>
 </body>
 </html>

@@ -92,12 +92,12 @@ HTML5 markup is used throughout.  All the logic is confined to [application.coff
 
 
 
-    
-    clear: (e) ->
-        return if not confirm 'About to delete all data.'
-        contact.destroy() for contact in @collection.toArray()
-        @render()
-
+ ``` coffee   
+clear: (e) ->
+    return if not confirm 'About to delete all data.'
+    contact.destroy() for contact in @collection.toArray()
+    @render()
+```
 
  
 
@@ -133,9 +133,10 @@ DOM event registration:
 
 
     
-    events:
-        'click a.show': 'show'
-
+ ``` coffee   
+events:
+    'click a.show': 'show'
+```
 
  
 
@@ -145,9 +146,11 @@ Link click handler:
 
 
     
-    show: (e) ->
-        @model = @collection.get e.target.getAttribute('data-id')
-        @render()
+ ``` coffee   
+show: (e) ->
+    @model = @collection.get e.target.getAttribute('data-id')
+    @render()
+```
 
 
  
@@ -157,9 +160,9 @@ Template link markup:
 
 
 
-    
-    <a class="show" data-id="<%= contact.id %>"><%= contact.getName() %></a>
-
+``` html    
+<a class="show" data-id="<%= contact.id %>"><%= contact.getName() %></a>
+```
 
  
 
@@ -200,18 +203,18 @@ Dropping the _href_ ensures there are no changes to the browser URL or history.
   * Use HTML5's concise syntax, it may seem wrong after years of XML indoctrination but it's not, it's easier to read and your fingers will thank you. Examples: 
     * Closing tag omission: 
 
-                <tr><td>Foo<td>Bar                  YES
-                <tr><td>Foo</td><td>Bar</td></tr>   NO
+            <tr><td>Foo<td>Bar                  YES
+            <tr><td>Foo</td><td>Bar</td></tr>   NO
 
     * Minimized attributes: 
 
-                readonly                            YES
-                readonly="readonly"                 NO
+            readonly                            YES
+            readonly="readonly"                 NO
 
     * Empty elements don't need explicit termination: 
 
-                <img src="me.png">                  YES
-                <img src="me.png" />                NO
+            <img src="me.png">                  YES
+            <img src="me.png" />                NO
 
 
  
@@ -225,12 +228,14 @@ Dropping the _href_ ensures there are no changes to the browser URL or history.
   * Don't put CSS _style_ attributes in HTML template markup -- this should be obvious. 
   * Start with a clean slate, reset user-agent (browser) document oriented CSS defaults: 
 
-        * {
-          font-size: 20px;
-          font-family: sans-serif;
-          margin: 0;
-          padding: 0;
-        }
+  ``` css
+  * {
+    font-size: 20px;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  ```
 
 
  

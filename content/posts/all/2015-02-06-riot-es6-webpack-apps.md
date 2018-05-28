@@ -56,7 +56,7 @@ When you examine the compiled JavaScript you see that Riot tag files are a thin 
 
 - The "ES6-like" constructor methods are nice but they are not legal JavaScript and are likely to always be a source of ongoing confusion (syntax and semantics). You can use _ES6 arrow functions_ to achieve the same semantics (lexically bound `this`) with almost the same brevity, for example:
 
-```
+``` javascript
 this.add = (e) => {
   var input = e.target[0]
   this.items.push(input.value)
@@ -77,14 +77,14 @@ The most significant difference lies in how the UI markup templates are declared
 
 The upshot of this inversion is that the React template DSL language is JavaScript whereas Riot relies on a custom template DSL (implemented with custom tags). Here are two simplified examples that generate a list from an array of todo items: the first is React JavaScript the second is the equivalent Riot tag markup:
 
-```
+``` html
 <ul>
   todos.map(todo =>
     <li><TodoItemComponent todo={todo} /></li>)
 </ul>
 ```
 
-```
+``` html
 <ul>
   <li each="{todo in todos}">
     <todo-item todo="{todo}">
@@ -109,24 +109,30 @@ Do not close tags with `/>` as it does not always immediately close the tag.  Wh
 ### Bind tag event handlers to this
 Bind tag event handlers to `this` to ensure they are always fired with the tag context (alternatively use the `var self = this` idiom). For example:
 
-    this.clear = function(e) {
-      dispatcher.trigger(dispatcher.CLEAR_TODOS);
-    }.bind(this);
+``` javascript
+this.clear = function(e) {
+  dispatcher.trigger(dispatcher.CLEAR_TODOS);
+}.bind(this);
+```
 
 With ES6 you can achieve the same thing with lexically bound ES6 _arrow functions_:
 
-    this.clear = (e) => {
-      dispatcher.trigger(dispatcher.CLEAR_TODOS);
-    };
+``` javascript
+this.clear = (e) => {
+  dispatcher.trigger(dispatcher.CLEAR_TODOS);
+};
+```
 
 ### Referencing Loop items
 Use the `each="{item in items}"` construct to pass the current looped item to a child custom tag. In the following example the code in the custom `todo-item` tag can refer to the current todo item with `opts.todo`:
 
-    <ul>
-     <li each="{todo in opts.store.todos}">
-       <todo-item store="{parent.opts.store}" todo="{todo}">
-     </li>
-    </ul>
+``` html
+<ul>
+  <li each="{todo in opts.store.todos}">
+    <todo-item store="{parent.opts.store}" todo="{todo}">
+  </li>
+</ul>
+```
 
 
 ### Namespace event names

@@ -24,9 +24,7 @@ instead of this:
 
 The [CoffeeScript](http://jashkenas.github.com/coffee-script/) example below shows how it's done using the [ECMAScript 5](http://www.ecma-international.org/publications/standards/Ecma-262.htm) _Object.defineProperty_ function to define a Model _attribute_ method. I've added the _attribute_ class method to a _BaseModel_ class which is inherited by application classes. To create a Model attribute property call the _attribute_ method and pass it the name of the property.
 
-
-
-    
+``` js    
     Backbone = require 'backbone'
     
     class BaseModel extends Backbone.Model
@@ -47,10 +45,7 @@ The [CoffeeScript](http://jashkenas.github.com/coffee-script/) example below sho
     p.name = 'Joe Bloggs'
     p.phone = '1234'
     console.log p.attributes    # { name: 'Joe Bloggs', phone: '1234' }
-
-
- 
-
+```
 
 Being able to create custom getter/setter properties is a testament to the little known power of JavaScript.
 

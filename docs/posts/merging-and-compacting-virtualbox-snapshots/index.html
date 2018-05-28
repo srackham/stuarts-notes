@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width"/>
 <title>Merging and Compacting VirtualBox Snapshots</title>
 <link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 </head>
 <body>
 <div class="banner no-print">
@@ -166,7 +167,7 @@ C:\&gt; C:\Python26\python.exe vboxapisetup.py install
 <p><strong><em>Important</em></strong>:
 The script was developed and tested with VirtualBox 3.2.4, it might not work with other versions of VirtualBox (see Prerequisites).</p>
 
-<pre><code>#!/usr/bin/env python
+<pre><code class="language-python">#!/usr/bin/env python
 '''
 vboxmerge.py - Merge VirtualBox snapshots into base VDI
 
@@ -333,5 +334,14 @@ if __name__ == '__main__':
 
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/groovy.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"></script>
+<script>
+    hljs.configure({languages: []});
+    hljs.initHighlightingOnLoad();
+</script>
 </body>
 </html>

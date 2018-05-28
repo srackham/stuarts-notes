@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width"/>
 <title>Title</title>
 <link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 </head>
 <body>
 <div class="banner no-print">
@@ -40,7 +41,10 @@
     
 </span>
 
-        <p>You can configure Vim to automatically compile <a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a> files when you save them from within Vim, it&rsquo;s easy, just add an <em>autocmd</em> to run the CoffeeScript compiler to your <code>~/.vimrc</code> file:</p>
+        <p>You can configure Vim to automatically compile
+<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a> files when you save
+them from within Vim, it&rsquo;s easy, just add an <em>autocmd</em> to run the CoffeeScript
+compiler to your <code>~/.vimrc</code> file:</p>
 
         <p class="more"><a href="http://blog.srackham.com/posts/compiling-coffeescript-with-vim/">Read more →</a></p>
     </li>
@@ -66,5 +70,14 @@
 
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/groovy.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"></script>
+<script>
+    hljs.configure({languages: []});
+    hljs.initHighlightingOnLoad();
+</script>
 </body>
 </html>

@@ -29,7 +29,6 @@ A simple Python command-line script I wrote to send SMS messages using [Clickate
 
 
 
-    
     $ python sms.py 64912345667 "Hello World"
     ID: 26a8147fa04ed9fj2a9ad125c55cee00
     
@@ -87,6 +86,7 @@ Set the Clickatell account configuration parameters in the `sms.py` script or pu
 
 
     
+``` python    
     {
       "USERNAME":  "foobar",
       "PASSWORD":  "secret",
@@ -98,14 +98,14 @@ Set the Clickatell account configuration parameters in the `sms.py` script or pu
         "harry": "+64 9 1234 346"
       }
     }
-
+```
 
  
 
 
 ### sms.py source code
 
-```
+``` python
 #!/usr/bin/env python
 
 # A simple Python command-line script to send SMS messages using

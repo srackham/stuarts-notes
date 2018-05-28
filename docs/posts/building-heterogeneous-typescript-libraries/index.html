@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width"/>
 <title>Building heterogeneous TypeScript libraries</title>
 <link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 </head>
 <body>
 <div class="banner no-print">
@@ -38,25 +39,25 @@
 
 <h4>lib1.ts</h4>
 
-<pre><code>module Lib {
-  export function f() {}
+<pre><code class="language-typescript">module Lib {
+    export function f() {}
 }
 
 declare var exports: any;
 if (typeof exports != 'undefined') {
-  exports.f = Lib.f;
+    exports.f = Lib.f;
 }
 </code></pre>
 
 <h4>lib2.ts</h4>
 
-<pre><code>module Lib {
-  export var v = {foo: 42};
+<pre><code class="language-typescript">module Lib {
+    export var v = {foo: 42};
 }
 
 declare var exports: any;
 if (typeof exports != 'undefined') {
-  exports.v = Lib.v;
+    exports.v = Lib.v;
 }
 </code></pre>
 
@@ -67,7 +68,7 @@ if (typeof exports != 'undefined') {
 
 <h4>lib.js</h4>
 
-<pre><code>var Lib;
+<pre><code class="language-typescript">var Lib;
 (function (Lib) {
     function f() {
     }
@@ -89,12 +90,12 @@ if(typeof exports != 'undefined') {
 
 <p><code>lib.js</code> file now can be included on an HTML page with:</p>
 
-<pre><code>&lt;script type=&quot;text/javascript&quot; src=&quot;lib.js&quot;&gt;&lt;/script&gt;
+<pre><code class="language-html">&lt;script type=&quot;text/javascript&quot; src=&quot;lib.js&quot;&gt;&lt;/script&gt;
 </code></pre>
 
 <p>Or in a Node.js application with:</p>
 
-<pre><code>var Lib = require('./lib.js');
+<pre><code class="language-js">var Lib = require('./lib.js');
 </code></pre>
 
 <p>The APIs are accessed via the module name e.g. <code>Lib.f()</code>, <code>Lib.v</code>.</p>
@@ -103,9 +104,9 @@ if(typeof exports != 'undefined') {
 
 <p>The key to being able to import the code into Node.js with <code>require('./lib.js')</code> is conditionally assigning public API objects to properties of the global <code>exports</code> object e.g.</p>
 
-<pre><code>declare var exports: any;
+<pre><code class="language-typescript">declare var exports: any;
 if (typeof exports != 'undefined') {
-  exports.f = Lib.f;
+    exports.f = Lib.f;
 }
 </code></pre>
 
@@ -134,12 +135,12 @@ if (typeof exports != 'undefined') {
 
 <p>The browser API is hoisted to the global namespace by assignment to the browser <code>window</code> object. The previous example becomes:</p>
 
-<pre><code>declare var exports: any;
+<pre><code class="language-typescript">declare var exports: any;
 if (typeof exports != 'undefined') {
-  exports.f = Lib.f;
+    exports.f = Lib.f;
 }
 else if (typeof window !== 'undefined') {
-  window['f'] = Lib.f;
+    window['f'] = Lib.f;
 }
 </code></pre>
 
@@ -175,5 +176,14 @@ else if (typeof window !== 'undefined') {
 
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/groovy.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"></script>
+<script>
+    hljs.configure({languages: []});
+    hljs.initHighlightingOnLoad();
+</script>
 </body>
 </html>

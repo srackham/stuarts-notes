@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width"/>
 <title>Flux Backbone Todos Example</title>
 <link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 </head>
 <body>
 <div class="banner no-print">
@@ -57,9 +58,9 @@
 
 <p>The Flux/React combination results in a highly decoupled declarative application structure. Here is the actual code:</p>
 
-<pre><code>var dispatcher = new Flux.Dispatcher();
+<pre><code class="language-jsx">var dispatcher = new Flux.Dispatcher();
 var todoStore = new TodoStore([], {dispatcher: dispatcher});
-
+  
 React.render(
     &lt;div&gt;
       &lt;h3&gt;Todos&lt;/h3&gt;
@@ -145,7 +146,7 @@ npm install
 <ul>
 <li><p>As always in JavaScript, when you pass a callback you need to ensure that they are bound to the correct context. In the following example the Backbone Model event handler&rsquo;s context is bound to the current object:</p>
 
-<pre><code>this.props.store.on('change',
+<pre><code class="language-js">this.props.store.on('change',
     function() {
       this.forceUpdate();
     }.bind(this)
@@ -184,5 +185,14 @@ npm install
 
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/groovy.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"></script>
+<script>
+    hljs.configure({languages: []});
+    hljs.initHighlightingOnLoad();
+</script>
 </body>
 </html>

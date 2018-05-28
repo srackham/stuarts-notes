@@ -34,18 +34,24 @@ with `sudo apt-get install xclip`).
 
 Example usage:
 
-        cat pages.html | xclip -sel clip  # Copy file to clipboard.
-        xclip -sel clip -o > foo.txt      # Write clipboard to file.
+``` bash
+cat pages.html | xclip -sel clip  # Copy file to clipboard.
+xclip -sel clip -o > foo.txt      # Write clipboard to file.
+```
 
 By default `xclip(1)` uses the primary selection (not the clipboard)
 so I've added the following alias in my `~/.bashrc` file:
 
-        alias xclip='xclip -sel clip'
+``` bash
+alias xclip='xclip -sel clip'
+```
 
 This makes working with the clipboard less verbose:
 
-        cat pages.html | xclip    # Copy file to clipboard.
-        xclip -o > foo.txt        # Write clipboard to file.
+``` bash
+cat pages.html | xclip    # Copy file to clipboard.
+xclip -o > foo.txt        # Write clipboard to file.
+```
 
 **Bonus tip**: To select text column-wise hold down the _Ctrl_ key then select the
 text with the mouse.

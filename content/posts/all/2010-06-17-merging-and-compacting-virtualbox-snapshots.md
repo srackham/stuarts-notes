@@ -163,7 +163,7 @@ To print a list of your VM names and UUIDs execute this:
 **_Important_**:
 The script was developed and tested with VirtualBox 3.2.4, it might not work with other versions of VirtualBox (see Prerequisites).
 
-```
+``` python
 #!/usr/bin/env python
 '''
 vboxmerge.py - Merge VirtualBox snapshots into base VDI

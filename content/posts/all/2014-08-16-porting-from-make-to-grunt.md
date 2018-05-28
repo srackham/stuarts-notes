@@ -50,24 +50,25 @@ Aside from installing `jshint` that's it, it's that simple -- plus I know exactl
 
 Now consider doing it with Grunt using the `grunt-contrib-jshint` plugin:
     
-    grunt.initConfig({
-      jshint: {
-        files: ['test/spans.js', 'test/blocks.js', 'bin/rimuc.js'],
-        options: {
-          jshintrc: true
-        }
-      }
-    });
-    
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-
+``` js
+grunt.initConfig({
+  jshint: {
+    files: ['test/spans.js', 'test/blocks.js', 'bin/rimuc.js'],
+    options: {
+      jshintrc: true
+    }
+  }
+});
+grunt.loadNpmTasks('grunt-contrib-jshint');
+```
 
 All this crazy extra work and stuff to learn for nothing! I was about to pack it in when I discovered [ShellJS](https://github.com/arturadib/shelljs), a great library that gives you cross-platform UNIX-like shell capabilities. The above plugin code can now be replaced by:
     
-    grunt.registerTask('lint', 'Lint Javascript files', function() {
-      shelljs.exec('jshint test/spans.js test/blocks.js bin/rimuc.js');
-    });
-
+``` js
+grunt.registerTask('lint', 'Lint Javascript files', function() {
+  shelljs.exec('jshint test/spans.js test/blocks.js bin/rimuc.js');
+});
+```
 
 No plugin, nothing new to learn, easy to read, easy to verify from command-line -- what's not to like!
 

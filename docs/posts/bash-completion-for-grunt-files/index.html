@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width"/>
 <title>Bash completion for Grunt files</title>
 <link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 </head>
 <body>
 <div class="banner no-print">
@@ -36,7 +37,7 @@
 
 <p>All you need to do is add this completion function and command to your <code>~/.bashrc</code> file:</p>
 
-<pre><code># Task name completion for grunt files.
+<pre><code class="language-bash"># Task name completion for grunt files.
 function _grunt() {
     local cur tasks
     cur=${COMP_WORDS[COMP_CWORD]}
@@ -80,5 +81,14 @@ complete -o default -F _grunt grunt g
 
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/groovy.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"></script>
+<script>
+    hljs.configure({languages: []});
+    hljs.initHighlightingOnLoad();
+</script>
 </body>
 </html>

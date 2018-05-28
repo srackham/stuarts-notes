@@ -30,24 +30,24 @@ The Todo app is implemented using [Flux](http://facebook.github.io/react/blog/20
 
 The Flux/React combination results in a highly decoupled declarative application structure. Here is the actual code:
     
-    var dispatcher = new Flux.Dispatcher();
-    var todoStore = new TodoStore([], {dispatcher: dispatcher});
-     
-    React.render(
-        <div>
-          <h3>Todos</h3>
-          <TodoFormComponent store={todoStore} />
-          <TodoListComponent store={todoStore} />
-          <p>
-          Want a second fully synchronized list? Just declare another list component: no code required,
-          no events to wire up!
-          </p>
-          <TodoListComponent store={todoStore} />
-        </div>,
-        document.getElementById('app')
-    );
-
-
+``` jsx
+var dispatcher = new Flux.Dispatcher();
+var todoStore = new TodoStore([], {dispatcher: dispatcher});
+  
+React.render(
+    <div>
+      <h3>Todos</h3>
+      <TodoFormComponent store={todoStore} />
+      <TodoListComponent store={todoStore} />
+      <p>
+      Want a second fully synchronized list? Just declare another list component: no code required,
+      no events to wire up!
+      </p>
+      <TodoListComponent store={todoStore} />
+    </div>,
+    document.getElementById('app')
+);
+```
  
 
 Just declare the Dispatcher, Store and View and you're done. The Flux unidirectional _Dispatcher->Store->View_ dependencies are obvious.
@@ -114,11 +114,13 @@ The app is developed and built in a node/npm environment. To install and run:
 
   * As always in JavaScript, when you pass a callback you need to ensure that they are bound to the correct context. In the following example the Backbone Model event handler's context is bound to the current object: 
     
-        this.props.store.on('change',
-            function() {
-              this.forceUpdate();
-            }.bind(this)
-        );
+    ``` js
+    this.props.store.on('change',
+        function() {
+          this.forceUpdate();
+        }.bind(this)
+    );
+    ```
 
 
  

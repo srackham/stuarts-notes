@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width"/>
 <title>Switching from Grunt to Jake</title>
 <link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 </head>
 <body>
 <div class="banner no-print">
@@ -68,7 +69,7 @@
 
 <p>I wrote the following <code>exec</code> wrapper task to execute multiple shell commands in parallel:</p>
 
-<pre><code>/*
+<pre><code class="language-js">/*
   Execute shell commands in parallel then run the callback when they have all finished.
   `callback` defaults to the Jake async `complete` function.
   Abort if an error occurs.
@@ -105,7 +106,7 @@ function exec(commands, callback) {
 
 <p>Here&rsquo;s an example of its use (<code>SOURCE</code> is an array of TypeScript source file names):</p>
 
-<pre><code>desc('Lint TypeScript source files.');
+<pre><code class="language-js">desc('Lint TypeScript source files.');
 task('tslint', {async: true}, function() {
   var commands = SOURCE.map(function(file) { return 'tslint -f ' + file; });
   exec(commands);
@@ -118,7 +119,7 @@ task('tslint', {async: true}, function() {
 
 <p>For example if you want your Git commit task to solicit your commit message using the editor:</p>
 
-<pre><code>jake.exec('git commit -a', {interactive: true}, complete);
+<pre><code class="language-js">jake.exec('git commit -a', {interactive: true}, complete);
 </code></pre>
 
 <h2>Use file tasks to suppress unnecessary commands</h2>
@@ -181,5 +182,14 @@ sys     0m5.204s
 
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/groovy.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"></script>
+<script>
+    hljs.configure({languages: []});
+    hljs.initHighlightingOnLoad();
+</script>
 </body>
 </html>

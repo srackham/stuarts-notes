@@ -31,100 +31,111 @@ Assuming you have already installed [Android Studio](https://developer.android.c
 
 Because the Java to Kotlin converter does not differentiate between nullable and non-nulable Java method arguments you will get compilation errors and you need to manually modify the converted Kotlin source code. The error messages are not always self explanatory e.g.  this error `'onCreate' overrides nothing` in this line:
     
-    override fun onCreate(savedInstanceState: Bundle) {
+``` kotlin
+override fun onCreate(savedInstanceState: Bundle) {
+```
 
 Is resolved by making the `savedInstanceState` argument nullable:
     
-    override fun onCreate(savedInstanceState: Bundle?) {
+``` kotlin
+override fun onCreate(savedInstanceState: Bundle?) {
+```
 
 This error `Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver` in this line:
     
-    val id = item.getItemId()
+``` kotlin
+val id = item.getItemId()
+```
 
 Is because the `item` method argument has been made nullable, it can be resolved using the [safe call](http://confluence.jetbrains.com/display/Kotlin/Null-safety) operator:
     
-    val id = item?.getItemId()
+``` kotlin
+val id = item?.getItemId()
+```
 
 
 Here's the resulting `app/src/main/kotlin/MainActivity.kt` file:
     
-    package com.example.hellokotlin.app
-    
-    import android.support.v7.app.ActionBarActivity
-    import android.os.Bundle
-    import android.view.Menu
-    import android.view.MenuItem
-    
-    
-    public class MainActivity() : ActionBarActivity() {
-    
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            setContentView(R.layout.activity_main)
-        }
-    
-    
-        override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-    
-            // Inflate the menu; this adds items to the action bar if it is present.
-            getMenuInflater().inflate(R.menu.main, menu)
-            return true
-        }
-    
-        override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-            // Handle action bar item clicks here. The action bar will
-            // automatically handle clicks on the Home/Up button, so long
-            // as you specify a parent activity in AndroidManifest.xml.
-            val id = item!!.getItemId()
-            if (id == R.id.action_settings) {
-                return true
-            }
-            return super.onOptionsItemSelected(item)
-        }
-    
+``` kotlin
+package com.example.hellokotlin.app
+
+import android.support.v7.app.ActionBarActivity
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+
+
+public class MainActivity() : ActionBarActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
     }
 
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        val id = item!!.getItemId()
+        if (id == R.id.action_settings) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+}
+```
 
 Here's the Gradle build file (`app/build.gradle`) which required no manual editing -- it was created by the _New Project_ wizard and updated by the Kotlin plugin _Tools->Kotlin->Configure Kotlin in Project_ menu command:
     
-    apply plugin: 'android'
-    apply plugin: 'kotlin-android'
-    
-    android {
-        compileSdkVersion 19
-        buildToolsVersion "19.0.1"
-    
-        defaultConfig {
-            minSdkVersion 8
-            targetSdkVersion 19
-            versionCode 1
-            versionName "1.0"
-        }
-        buildTypes {
-            release {
-                runProguard false
-                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            }
-        }
-        sourceSets {
-            main.java.srcDirs += 'src/main/kotlin'
+``` groovy
+apply plugin: 'android'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.0.1"
+
+    defaultConfig {
+        minSdkVersion 8
+        targetSdkVersion 19
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
-    
-    dependencies {
-        compile 'com.android.support:appcompat-v7:+'
-        compile fileTree(dir: 'libs', include: ['*.jar'])
-        compile "org.jetbrains.kotlin:kotlin-stdlib:$ext.kotlin_version"
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
-    buildscript {
-        ext.kotlin_version = '0.7.115'
-        repositories {
-            mavenCentral()
-        }
-        dependencies {
-            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$ext.kotlin_version"
-        }
-    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:+'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$ext.kotlin_version"
+}
+buildscript {
+    ext.kotlin_version = '0.7.115'
     repositories {
         mavenCentral()
     }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$ext.kotlin_version"
+    }
+}
+repositories {
+    mavenCentral()
+}
+```

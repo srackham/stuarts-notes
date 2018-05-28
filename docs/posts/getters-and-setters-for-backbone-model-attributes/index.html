@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width"/>
 <title>Getters and Setters for Backbone Model attributes</title>
 <link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 </head>
 <body>
 <div class="banner no-print">
@@ -46,26 +47,26 @@ ph = person.get 'name'
 
 <p>The <a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a> example below shows how it&rsquo;s done using the <a href="http://www.ecma-international.org/publications/standards/Ecma-262.htm">ECMAScript 5</a> <em>Object.defineProperty</em> function to define a Model <em>attribute</em> method. I&rsquo;ve added the <em>attribute</em> class method to a <em>BaseModel</em> class which is inherited by application classes. To create a Model attribute property call the <em>attribute</em> method and pass it the name of the property.</p>
 
-<pre><code>Backbone = require 'backbone'
-
-class BaseModel extends Backbone.Model
-    # Create model attribute getter/setter property.
-    @attribute = (attr) -&gt;
-        Object.defineProperty @prototype, attr,
-            get: -&gt; @get attr
-            set: (value) -&gt;
-                attrs = {}
-                attrs[attr] = value
-                @set attrs
-
-class Contact extends BaseModel
-    @attribute 'name'
-    @attribute 'phone'
-
-p = new Contact()
-p.name = 'Joe Bloggs'
-p.phone = '1234'
-console.log p.attributes    # { name: 'Joe Bloggs', phone: '1234' }
+<pre><code class="language-js">    Backbone = require 'backbone'
+    
+    class BaseModel extends Backbone.Model
+        # Create model attribute getter/setter property.
+        @attribute = (attr) -&gt;
+            Object.defineProperty @prototype, attr,
+                get: -&gt; @get attr
+                set: (value) -&gt;
+                    attrs = {}
+                    attrs[attr] = value
+                    @set attrs
+    
+    class Contact extends BaseModel
+        @attribute 'name'
+        @attribute 'phone'
+    
+    p = new Contact()
+    p.name = 'Joe Bloggs'
+    p.phone = '1234'
+    console.log p.attributes    # { name: 'Joe Bloggs', phone: '1234' }
 </code></pre>
 
 <p>Being able to create custom getter/setter properties is a testament to the little known power of JavaScript.</p>
@@ -98,5 +99,14 @@ console.log p.attributes    # { name: 'Joe Bloggs', phone: '1234' }
 
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/groovy.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"></script>
+<script>
+    hljs.configure({languages: []});
+    hljs.initHighlightingOnLoad();
+</script>
 </body>
 </html>

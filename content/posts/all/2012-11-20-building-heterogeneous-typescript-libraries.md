@@ -16,31 +16,30 @@ Our library source consists of a single TypeScript module called _Lib_ spread ac
 
 #### lib1.ts
     
-    module Lib {
-      export function f() {}
-    }
-    
-    declare var exports: any;
-    if (typeof exports != 'undefined') {
-      exports.f = Lib.f;
-    }
+``` typescript
+module Lib {
+    export function f() {}
+}
 
-
- 
+declare var exports: any;
+if (typeof exports != 'undefined') {
+    exports.f = Lib.f;
+}
+```
 
 #### lib2.ts
     
-    module Lib {
-      export var v = {foo: 42};
-    }
-    
-    declare var exports: any;
-    if (typeof exports != 'undefined') {
-      exports.v = Lib.v;
-    }
 
+``` typescript
+module Lib {
+    export var v = {foo: 42};
+}
 
- 
+declare var exports: any;
+if (typeof exports != 'undefined') {
+    exports.v = Lib.v;
+}
+```
 
 The source file are compiled to a single JavaScript library `lib.js` using the TypeScript compiler:
     
@@ -51,41 +50,38 @@ The source file are compiled to a single JavaScript library `lib.js` using the T
 
 #### lib.js
     
-    var Lib;
-    (function (Lib) {
-        function f() {
-        }
-        Lib.f = f;
-    })(Lib || (Lib = {}));
-    if(typeof exports != 'undefined') {
-        exports.f = Lib.f;
+``` typescript
+var Lib;
+(function (Lib) {
+    function f() {
     }
-    var Lib;
-    (function (Lib) {
-        Lib.v = {
-            foo: 42
-        };
-    })(Lib || (Lib = {}));
-    if(typeof exports != 'undefined') {
-        exports.v = Lib.v;
-    }
-
-
- 
+    Lib.f = f;
+})(Lib || (Lib = {}));
+if(typeof exports != 'undefined') {
+    exports.f = Lib.f;
+}
+var Lib;
+(function (Lib) {
+    Lib.v = {
+        foo: 42
+    };
+})(Lib || (Lib = {}));
+if(typeof exports != 'undefined') {
+    exports.v = Lib.v;
+}
+```
 
 `lib.js` file now can be included on an HTML page with:
     
-    <script type="text/javascript" src="lib.js"></script>
-
-
- 
+``` html
+<script type="text/javascript" src="lib.js"></script>
+```
 
 Or in a Node.js application with:
     
-    var Lib = require('./lib.js');
-
-
- 
+``` js
+var Lib = require('./lib.js');
+```
 
 The APIs are accessed via the module name e.g. `Lib.f()`, `Lib.v`.
 
@@ -93,13 +89,12 @@ The APIs are accessed via the module name e.g. `Lib.f()`, `Lib.v`.
 
 The key to being able to import the code into Node.js with `require('./lib.js')` is conditionally assigning public API objects to properties of the global `exports` object e.g.
     
-    declare var exports: any;
-    if (typeof exports != 'undefined') {
-      exports.f = Lib.f;
-    }
-
-
- 
+``` typescript
+declare var exports: any;
+if (typeof exports != 'undefined') {
+    exports.f = Lib.f;
+}
+```
 
   * `exports` is a global object defined by CommonJS compatible loaders such as Node's. 
   * This code must be placed at the end of the source file outside the module declaration. 
@@ -118,21 +113,17 @@ A variation of the above technique is to wrap the combined compiled file with a 
       :
     })();
 
-
- 
-
 The browser API is hoisted to the global namespace by assignment to the browser `window` object. The previous example becomes:
     
-    declare var exports: any;
-    if (typeof exports != 'undefined') {
-      exports.f = Lib.f;
-    }
-    else if (typeof window !== 'undefined') {
-      window['f'] = Lib.f;
-    }
-
-
- 
+``` typescript
+declare var exports: any;
+if (typeof exports != 'undefined') {
+    exports.f = Lib.f;
+}
+else if (typeof window !== 'undefined') {
+    window['f'] = Lib.f;
+}
+```
 
 ## References
 

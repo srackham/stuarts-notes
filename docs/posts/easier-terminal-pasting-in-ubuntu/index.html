@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width"/>
 <title>Easier Terminal pasting in Ubuntu</title>
 <link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 </head>
 <body>
 <div class="banner no-print">
@@ -54,20 +55,20 @@ with <code>sudo apt-get install xclip</code>).</p>
 
 <p>Example usage:</p>
 
-<pre><code>    cat pages.html | xclip -sel clip  # Copy file to clipboard.
-    xclip -sel clip -o &gt; foo.txt      # Write clipboard to file.
+<pre><code class="language-bash">cat pages.html | xclip -sel clip  # Copy file to clipboard.
+xclip -sel clip -o &gt; foo.txt      # Write clipboard to file.
 </code></pre>
 
 <p>By default <code>xclip(1)</code> uses the primary selection (not the clipboard)
 so I&rsquo;ve added the following alias in my <code>~/.bashrc</code> file:</p>
 
-<pre><code>    alias xclip='xclip -sel clip'
+<pre><code class="language-bash">alias xclip='xclip -sel clip'
 </code></pre>
 
 <p>This makes working with the clipboard less verbose:</p>
 
-<pre><code>    cat pages.html | xclip    # Copy file to clipboard.
-    xclip -o &gt; foo.txt        # Write clipboard to file.
+<pre><code class="language-bash">cat pages.html | xclip    # Copy file to clipboard.
+xclip -o &gt; foo.txt        # Write clipboard to file.
 </code></pre>
 
 <p><strong>Bonus tip</strong>: To select text column-wise hold down the <em>Ctrl</em> key then select the
@@ -93,5 +94,14 @@ text with the mouse.</p>
 
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/groovy.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"></script>
+<script>
+    hljs.configure({languages: []});
+    hljs.initHighlightingOnLoad();
+</script>
 </body>
 </html>

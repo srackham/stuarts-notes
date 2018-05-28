@@ -112,6 +112,7 @@ code {
     background-color: var(--code-background);
     font-size: var(--mono-size);
 }
+.hljs { background-color: var(--code-background) !important; }
 pre {
     background-color: var(--code-background);
     white-space: pre-wrap;

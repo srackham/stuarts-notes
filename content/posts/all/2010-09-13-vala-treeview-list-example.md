@@ -24,8 +24,8 @@ This code was compiled and tested on Xubuntu 10.04 using Vala 0.9.8 and Glade 3.
 
 **Vala source code (treeview-list.vala)**
 
-```
-*
+``` vala
+/*
     treeview-list.vala - Vala TreeView list example
 
     Build with:
@@ -127,7 +127,7 @@ public class App: Object {
 
 **Glade XML user interface (treeview-list.ui)**
 
-```
+``` xml
 <?xml version="1.0"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>

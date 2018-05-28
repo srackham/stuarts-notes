@@ -42,53 +42,51 @@ Jake has a [clever technique](http://jakejs.com/docs#tasks) for ensuring that ta
 
 I wrote the following `exec` wrapper task to execute multiple shell commands in parallel:
     
-    /*
-      Execute shell commands in parallel then run the callback when they have all finished.
-      `callback` defaults to the Jake async `complete` function.
-      Abort if an error occurs.
-      Write command output to the inherited stdout (unless the Jake --quiet option is set).
-      Print a status message when each command starts and finishes (unless the Jake --quiet option is set).
-    
-      NOTE: This function is similar to the built-in jake.exec function
-      but is twice as fast.
-    */
-    function exec(commands, callback) {
-      if (typeof commands === 'string') {
-        commands = [commands];
-      }
-      callback = callback || complete;
-      var remaining = commands.length;
-      commands.forEach(function(command) {
-        jake.logger.log('Starting: ' + command);
-        child_process.exec(command, function (error, stdout, stderr) {
-            jake.logger.log('Finished: ' + command);
-            if (!jake.program.opts.quiet) {
-              process.stdout.write(stdout);
-            }
-            if (error !== null) {
-              fail(error, error.code);
-            }
-            remaining--;
-            if (remaining === 0) {
-              callback();
-            }
-          });
-        });
-    }
+``` js
+/*
+  Execute shell commands in parallel then run the callback when they have all finished.
+  `callback` defaults to the Jake async `complete` function.
+  Abort if an error occurs.
+  Write command output to the inherited stdout (unless the Jake --quiet option is set).
+  Print a status message when each command starts and finishes (unless the Jake --quiet option is set).
 
-
- 
+  NOTE: This function is similar to the built-in jake.exec function
+  but is twice as fast.
+*/
+function exec(commands, callback) {
+  if (typeof commands === 'string') {
+    commands = [commands];
+  }
+  callback = callback || complete;
+  var remaining = commands.length;
+  commands.forEach(function(command) {
+    jake.logger.log('Starting: ' + command);
+    child_process.exec(command, function (error, stdout, stderr) {
+        jake.logger.log('Finished: ' + command);
+        if (!jake.program.opts.quiet) {
+          process.stdout.write(stdout);
+        }
+        if (error !== null) {
+          fail(error, error.code);
+        }
+        remaining--;
+        if (remaining === 0) {
+          callback();
+        }
+      });
+    });
+}
+```
 
 Here's an example of its use (`SOURCE` is an array of TypeScript source file names):
     
-    desc('Lint TypeScript source files.');
-    task('tslint', {async: true}, function() {
-      var commands = SOURCE.map(function(file) { return 'tslint -f ' + file; });
-      exec(commands);
-    });
-
-
- 
+``` js
+desc('Lint TypeScript source files.');
+task('tslint', {async: true}, function() {
+  var commands = SOURCE.map(function(file) { return 'tslint -f ' + file; });
+  exec(commands);
+});
+```
 
 By default `exec` executes the Jake `complete` function once all shell commands have finished. The above example runs over seven times faster than it would if the `tslint` commands were run sequentially.
 
@@ -96,7 +94,9 @@ By default `exec` executes the Jake `complete` function once all shell commands 
 
 For example if you want your Git commit task to solicit your commit message using the editor:
     
-    jake.exec('git commit -a', {interactive: true}, complete);
+``` js
+jake.exec('git commit -a', {interactive: true}, complete);
+```
 
 
 ## Use file tasks to suppress unnecessary commands

@@ -15,40 +15,37 @@ tags:
 
 Kotlin can synthesize anonymous SAM class instances, this removes all the redundant verbosity of Java-style handlers. All you need to provide is the event handler in the form of a function literal. For example, this Android _onClick_ handler written in Java:
     
-    button1.setOnClickListener(new OnClickListener() {
-        public void onClick(View v) {
-            // Handler code here.
-            Toast.makeText(this.MainActivity, "Button 1",
-                    Toast.LENGTH_LONG).show();
-        }
-    });
-
-
- 
+``` java
+button1.setOnClickListener(new OnClickListener() {
+    public void onClick(View v) {
+        // Handler code here.
+        Toast.makeText(this.MainActivity, "Button 1",
+                Toast.LENGTH_LONG).show();
+    }
+});
+```
 
 Translates literally to this Kotlin code:
     
-    button1.setOnClickListener(object: View.OnClickListener {
-        override fun onClick(view: View): Unit {
-            // Handler code here.
-            Toast.makeText(this@MainActivity, "Button 1",
-                    Toast.LENGTH_LONG).show()
-        }
-    })
-
-
- 
+``` kotlin
+button1.setOnClickListener(object: View.OnClickListener {
+    override fun onClick(view: View): Unit {
+        // Handler code here.
+        Toast.makeText(this@MainActivity, "Button 1",
+                Toast.LENGTH_LONG).show()
+    }
+})
+```
 
 Which is equivalent (courtesy of an implicit SAM conversion) to this beautifully simple idiomatic Kotlin code:
     
-    button1.setOnClickListener {
-        // Handler code here.
-        Toast.makeText(this, "Button 1",
-                Toast.LENGTH_LONG).show()
-    }
-
-
- 
+``` kotlin
+button1.setOnClickListener {
+    // Handler code here.
+    Toast.makeText(this, "Button 1",
+            Toast.LENGTH_LONG).show()
+}
+```
 
   * It's not necessary to declare the single _view_ function parameter, use the implicitly declared _it_ parameter. 
   * Argument parentheses can be omitted from `View.setOnClickListener` because it is passed a single function literal argument. 

@@ -14,38 +14,28 @@ To implement [bash(1) tab completion](http://www.gnu.org/software/bash/manual/ht
 
 
 
-    
-    # Task name completion for cake files.
-    function _cake() {
-        local cur tasks
-        cur="${COMP_WORDS[COMP_CWORD]}"
-        tasks=$(cake 2>/dev/null | awk '{print $2}')
-        if [ $COMP_CWORD -eq 1 ]; then
-            # Task name completion for first argument.
-            COMPREPLY=( $(compgen -W "$tasks" $cur) )
-        else
-            # File name completion for other arguments.
-            COMPREPLY=( $(compgen -f $cur) )
-        fi
-    }
-    complete -o default -F _cake cake c
-
-
- 
-
+``` js  
+# Task name completion for cake files.
+function _cake() {
+    local cur tasks
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    tasks=$(cake 2>/dev/null | awk '{print $2}')
+    if [ $COMP_CWORD -eq 1 ]; then
+        # Task name completion for first argument.
+        COMPREPLY=( $(compgen -W "$tasks" $cur) )
+    else
+        # File name completion for other arguments.
+        COMPREPLY=( $(compgen -f $cur) )
+    fi
+}
+complete -o default -F _cake cake c
+```
 
 Now it you type `cake <Tab>` at the bash command prompt you will get a list of tasks from the current `Cakefile`.  As with all bash completions, if you start typing a name and press Tab then bash will complete the name for you.
 
 To cut down key strokes I've also added a _c_ alias for _cake_ to `~/.bashrc`:
-
-
-
     
     alias c='cake'
-
-
- 
-
 
 This recipe was taken from [An introduction to bash completion: part 2](http://www.debian-administration.org/article/An_introduction_to_bash_completion_part_2) and modified for _cake_.
 

@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width"/>
 <title>Writing Android event handlers in Kotlin</title>
 <link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 </head>
 <body>
 <div class="banner no-print">
@@ -38,7 +39,7 @@
 
 <p>Kotlin can synthesize anonymous SAM class instances, this removes all the redundant verbosity of Java-style handlers. All you need to provide is the event handler in the form of a function literal. For example, this Android <em>onClick</em> handler written in Java:</p>
 
-<pre><code>button1.setOnClickListener(new OnClickListener() {
+<pre><code class="language-java">button1.setOnClickListener(new OnClickListener() {
     public void onClick(View v) {
         // Handler code here.
         Toast.makeText(this.MainActivity, &quot;Button 1&quot;,
@@ -49,7 +50,7 @@
 
 <p>Translates literally to this Kotlin code:</p>
 
-<pre><code>button1.setOnClickListener(object: View.OnClickListener {
+<pre><code class="language-kotlin">button1.setOnClickListener(object: View.OnClickListener {
     override fun onClick(view: View): Unit {
         // Handler code here.
         Toast.makeText(this@MainActivity, &quot;Button 1&quot;,
@@ -60,7 +61,7 @@
 
 <p>Which is equivalent (courtesy of an implicit SAM conversion) to this beautifully simple idiomatic Kotlin code:</p>
 
-<pre><code>button1.setOnClickListener {
+<pre><code class="language-kotlin">button1.setOnClickListener {
     // Handler code here.
     Toast.makeText(this, &quot;Button 1&quot;,
             Toast.LENGTH_LONG).show()
@@ -95,5 +96,14 @@
 
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/groovy.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"></script>
+<script>
+    hljs.configure({languages: []});
+    hljs.initHighlightingOnLoad();
+</script>
 </body>
 </html>

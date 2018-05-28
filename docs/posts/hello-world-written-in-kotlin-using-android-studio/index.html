@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width"/>
 <title>Hello World written in Kotlin using Android Studio</title>
 <link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 </head>
 <body>
 <div class="banner no-print">
@@ -59,27 +60,27 @@
 
 <p>Because the Java to Kotlin converter does not differentiate between nullable and non-nulable Java method arguments you will get compilation errors and you need to manually modify the converted Kotlin source code. The error messages are not always self explanatory e.g.  this error <code>'onCreate' overrides nothing</code> in this line:</p>
 
-<pre><code>override fun onCreate(savedInstanceState: Bundle) {
+<pre><code class="language-kotlin">override fun onCreate(savedInstanceState: Bundle) {
 </code></pre>
 
 <p>Is resolved by making the <code>savedInstanceState</code> argument nullable:</p>
 
-<pre><code>override fun onCreate(savedInstanceState: Bundle?) {
+<pre><code class="language-kotlin">override fun onCreate(savedInstanceState: Bundle?) {
 </code></pre>
 
 <p>This error <code>Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver</code> in this line:</p>
 
-<pre><code>val id = item.getItemId()
+<pre><code class="language-kotlin">val id = item.getItemId()
 </code></pre>
 
 <p>Is because the <code>item</code> method argument has been made nullable, it can be resolved using the <a href="http://confluence.jetbrains.com/display/Kotlin/Null-safety">safe call</a> operator:</p>
 
-<pre><code>val id = item?.getItemId()
+<pre><code class="language-kotlin">val id = item?.getItemId()
 </code></pre>
 
 <p>Here&rsquo;s the resulting <code>app/src/main/kotlin/MainActivity.kt</code> file:</p>
 
-<pre><code>package com.example.hellokotlin.app
+<pre><code class="language-kotlin">package com.example.hellokotlin.app
 
 import android.support.v7.app.ActionBarActivity
 import android.os.Bundle
@@ -118,7 +119,7 @@ public class MainActivity() : ActionBarActivity() {
 
 <p>Here&rsquo;s the Gradle build file (<code>app/build.gradle</code>) which required no manual editing &ndash; it was created by the <em>New Project</em> wizard and updated by the Kotlin plugin <em>Tools-&gt;Kotlin-&gt;Configure Kotlin in Project</em> menu command:</p>
 
-<pre><code>apply plugin: 'android'
+<pre><code class="language-groovy">apply plugin: 'android'
 apply plugin: 'kotlin-android'
 
 android {
@@ -181,5 +182,14 @@ repositories {
 
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/groovy.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"></script>
+<script>
+    hljs.configure({languages: []});
+    hljs.initHighlightingOnLoad();
+</script>
 </body>
 </html>

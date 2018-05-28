@@ -82,13 +82,15 @@ Rather than change existing CSS files I customize the look of the site with a se
 
 I did have to make one change to [poole.css from the example repo](https://github.com/spencerlyon2/hugo_gh_blog/blob/master/static/css/poole.css): For some reason lists were styled to render like paragraphs -- fixed by deleting from `poole.css`:
 
-    /* Lists */
-    ul, ol, dl {
-      margin-top: 0;
-      padding-left: 0;
-      margin-bottom: 1rem;
-      list-style-type: none;
-    }
+``` css
+/* Lists */
+ul, ol, dl {
+margin-top: 0;
+padding-left: 0;
+margin-bottom: 1rem;
+list-style-type: none;
+}
+```
 
 ### Importing posts from WordPress
 I used [Exitwp](https://github.com/thomasf/exitwp) to import the exported WordPress posts to Hugo -- it worked like a charm and saved me hours of drudgery.

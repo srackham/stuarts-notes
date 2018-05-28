@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width"/>
 <title>Bash completion for cake files</title>
 <link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 </head>
 <body>
 <div class="banner no-print">
@@ -36,7 +37,7 @@
 </div>
 <p>To implement <a href="http://www.gnu.org/software/bash/manual/html_node/Programmable-Completion.html#Programmable-Completion">bash(1) tab completion</a> for <a href="http://jashkenas.github.com/coffee-script/#cake">Cakefile</a> task names all you need to do is add this completion function and command to your <code>~/.bashrc</code> file:</p>
 
-<pre><code># Task name completion for cake files.
+<pre><code class="language-js"># Task name completion for cake files.
 function _cake() {
     local cur tasks
     cur=&quot;${COMP_WORDS[COMP_CWORD]}&quot;
@@ -83,5 +84,14 @@ complete -o default -F _cake cake c
 
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/groovy.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"></script>
+<script>
+    hljs.configure({languages: []});
+    hljs.initHighlightingOnLoad();
+</script>
 </body>
 </html>

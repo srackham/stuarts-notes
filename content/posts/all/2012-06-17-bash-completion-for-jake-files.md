@@ -13,23 +13,25 @@ To implement [bash(1) tab completion](http://www.gnu.org/software/bash/manual/ht
 
 See also my previous post [Bash completion for cake files](https://srackham.wordpress.com/2011/11/01/bash-completion-for-cake-files/).
 
-    # Task name completion for Jake files.
-    function _jake() {
-        local cur tasks
-        cur=${COMP_WORDS[COMP_CWORD]}
-        # The sed command strips terminal escape sequences.
-        tasks=$(jake -T \
-              | sed -r 's/\x1b[[()=][;?0-9]*[0-9A-Za-z]?//g' \
-              | awk '{print $2}')
-        if [ $COMP_CWORD -eq 1 ]; then
-            # Task name completion for first argument.
-            COMPREPLY=( $(compgen -W "$tasks" $cur) )
-        else
-            # File name completion for other arguments.
-            COMPREPLY=( $(compgen -f $cur) )
-        fi
-    }
-    complete -o default -F _jake jake j
+``` bash
+# Task name completion for Jake files.
+function _jake() {
+    local cur tasks
+    cur=${COMP_WORDS[COMP_CWORD]}
+    # The sed command strips terminal escape sequences.
+    tasks=$(jake -T \
+            | sed -r 's/\x1b[[()=][;?0-9]*[0-9A-Za-z]?//g' \
+            | awk '{print $2}')
+    if [ $COMP_CWORD -eq 1 ]; then
+        # Task name completion for first argument.
+        COMPREPLY=( $(compgen -W "$tasks" $cur) )
+    else
+        # File name completion for other arguments.
+        COMPREPLY=( $(compgen -f $cur) )
+    fi
+}
+complete -o default -F _jake jake j
+```
 
 
 Now it you type `jake <Tab>` at the bash command prompt you will get a list of tasks from the current `Jakefile`.  As with all bash completions, if you start typing a name and press Tab then bash will complete the name for you.

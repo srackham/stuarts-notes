@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width"/>
 <title>Building Apps with Riot, ES6 and Webpack</title>
 <link type="text/css" rel="stylesheet" href="http://blog.srackham.com/main.css">
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
 </head>
 <body>
 <div class="banner no-print">
@@ -94,7 +95,7 @@ If you&rsquo;ve looked at the <a href="https://github.com/srackham/riot-todo">To
 <li><p>The &ldquo;ES6-like&rdquo; constructor methods are nice but they are not legal JavaScript and are likely to always be a source of ongoing confusion (syntax and semantics). You can use <em>ES6 arrow functions</em> to achieve the same semantics (lexically bound <code>this</code>) with almost the same brevity, for example:</p></li>
 </ul>
 
-<pre><code>this.add = (e) =&gt; {
+<pre><code class="language-javascript">this.add = (e) =&gt; {
   var input = e.target[0]
   this.items.push(input.value)
   input.value = ''
@@ -116,13 +117,13 @@ If you&rsquo;ve looked at the <a href="https://github.com/srackham/riot-todo">To
 
 <p>The upshot of this inversion is that the React template DSL language is JavaScript whereas Riot relies on a custom template DSL (implemented with custom tags). Here are two simplified examples that generate a list from an array of todo items: the first is React JavaScript the second is the equivalent Riot tag markup:</p>
 
-<pre><code>&lt;ul&gt;
+<pre><code class="language-html">&lt;ul&gt;
   todos.map(todo =&gt;
     &lt;li&gt;&lt;TodoItemComponent todo={todo} /&gt;&lt;/li&gt;)
 &lt;/ul&gt;
 </code></pre>
 
-<pre><code>&lt;ul&gt;
+<pre><code class="language-html">&lt;ul&gt;
   &lt;li each=&quot;{todo in todos}&quot;&gt;
     &lt;todo-item todo=&quot;{todo}&quot;&gt;
   &lt;/li&gt;
@@ -149,14 +150,14 @@ If you&rsquo;ve looked at the <a href="https://github.com/srackham/riot-todo">To
 
 <p>Bind tag event handlers to <code>this</code> to ensure they are always fired with the tag context (alternatively use the <code>var self = this</code> idiom). For example:</p>
 
-<pre><code>this.clear = function(e) {
+<pre><code class="language-javascript">this.clear = function(e) {
   dispatcher.trigger(dispatcher.CLEAR_TODOS);
 }.bind(this);
 </code></pre>
 
 <p>With ES6 you can achieve the same thing with lexically bound ES6 <em>arrow functions</em>:</p>
 
-<pre><code>this.clear = (e) =&gt; {
+<pre><code class="language-javascript">this.clear = (e) =&gt; {
   dispatcher.trigger(dispatcher.CLEAR_TODOS);
 };
 </code></pre>
@@ -165,10 +166,10 @@ If you&rsquo;ve looked at the <a href="https://github.com/srackham/riot-todo">To
 
 <p>Use the <code>each=&quot;{item in items}&quot;</code> construct to pass the current looped item to a child custom tag. In the following example the code in the custom <code>todo-item</code> tag can refer to the current todo item with <code>opts.todo</code>:</p>
 
-<pre><code>&lt;ul&gt;
- &lt;li each=&quot;{todo in opts.store.todos}&quot;&gt;
-   &lt;todo-item store=&quot;{parent.opts.store}&quot; todo=&quot;{todo}&quot;&gt;
- &lt;/li&gt;
+<pre><code class="language-html">&lt;ul&gt;
+  &lt;li each=&quot;{todo in opts.store.todos}&quot;&gt;
+    &lt;todo-item store=&quot;{parent.opts.store}&quot; todo=&quot;{todo}&quot;&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 </code></pre>
 
@@ -217,5 +218,14 @@ If you&rsquo;ve looked at the <a href="https://github.com/srackham/riot-todo">To
 
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/groovy.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"></script>
+<script>
+    hljs.configure({languages: []});
+    hljs.initHighlightingOnLoad();
+</script>
 </body>
 </html>
