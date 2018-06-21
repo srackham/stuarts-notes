@@ -4,6 +4,11 @@ longdate = "Jan 2, 2006"
 urlprefix = "http://blog.srackham.com"
 author = "Stuart Rackham"
 templates = ".md"
+id = "optional"
 
 [user]
+# The banner is the page header text.
 banner = "srackham | blog"
+
+# Set shortname to your site's Disqus short name then uncomment the line to enable Disqus comments.
+shortname = "stuarts-notes"
