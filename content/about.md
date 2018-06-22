@@ -1,7 +1,7 @@
 ---
 date: 2015-02-10T10:49:00+13:00
 title: Stuart Rackham’s Blog
-id: c4b05daf-b260-4ebd-9d68-505f79fd092b
+id: urlpath
 ---
 
 These posts are mostly just notes I've made while exploring new computer
