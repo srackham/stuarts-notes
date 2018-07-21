@@ -1,7 +1,7 @@
 exclude = "config.rmu"
 homepage = "indexes/posts/docs-1.html"
 longdate = "Jan 2, 2006"
-urlprefix = "http://blog.srackham.com"
+urlprefix = "https://blog.srackham.com"
 author = "Stuart Rackham"
 templates = ".md"
 id = "optional"
