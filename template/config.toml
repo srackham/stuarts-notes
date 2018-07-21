@@ -7,8 +7,11 @@ templates = ".md"
 id = "optional"
 
 [user]
-# The banner is the page header text.
+# Header text at the top of each page.
 banner = "srackham | blog"
+
+# Default HTML title element text.
+title = "Stuart's Notes"
 
 # Set shortname to your site's Disqus short name then uncomment the line to enable Disqus comments.
 shortname = "stuarts-notes"
