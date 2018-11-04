@@ -1,0 +1,267 @@
+---
+date: 2008-11-01 21:36:21+00:00
+slug: cloning-and-copying-virtualbox-virtual-machines
+title: Cloning and Copying VirtualBox virtual machines
+tags:
+- VirtualBox
+---
+
+
+This article explains how to clone and copy VirtualBox VMs (virtual
+machines).
+
+<!--more-->
+
+**Change History**   \
+_2013-12-08_: Updates. \
+_2011-09-22_: Updates. \
+_2008-11-03_: Updates. \
+_2008-11-01_: First draft.
+
+.sidebar
+..
+##### Update December 2013: An easier way to merge snapshots
+Verified this technique with VirtualBox 4.3.4.
+
+VirtualBox has come along since I fist posted this article back in
+2008 (Version 2.0.4) -- the latest version of VirtualBox (4.1.2) adds
+a _Clone_ command which largely renders the techniques described below
+redundant and hugely simplifies matters (although they will still be
+useful if you are interested in fine-grain snapshot management).
+
+Here's the procedure to merge and compact all the snapshots to a new
+VM containing a single VDI file:
+
+. Optionally rename the VM so you can reuse its current name for cloned VM (you
+  can change the VM name from the _Basic_ tab of the _General_ settings).
+. Right-click on the VM and run the _Clone..._ command:
+  * If you opted for step 1, set the name to the VM's original name.
+  * Accept the remaining defaults i.e. do not _Reinitialize the MAC
+    address_; Clone type: _Full clone_; Snapshots: _Current machine
+    state_.
+. Take a snapshot of the cloned VM (a roll-back checkpoint and to
+  minimize incremental backups)).
+. Start the new (cloned) VM and run precautionary disk checks
+  (_chkdsk_ or _fsck_).
+. Optionally delete the old VM (right-click on the VM and run the
+  _Remove..._ command). If you select the _Remove Only_ option the old
+  VM will be left on disk and you can restore it later using the the
+  _Machine->Add..._ command.
+
+**NOTE**: After cloning Windows 8 I noticed a couple of (seemly benign
+oddities):
+
+. The first time the clone was started Windows 8 displayed the
+  introduction to Windows 8 that you get when you first login.
+. Opening a Microsoft Office 2010 or  2013 for the first time on the
+  clone triggered the Microsoft Office software activation wizard.
+..
+
+.sidebar
+..
+##### Problems with 64-bit Windows 7 Guests with .vdmk disks
+This note is off-topic but it may be of help to anyone experiencing
+this problem (sorry, I don't have a solution, apart from _don't put
+64-bit Windows VMs into `.ova` files_).
+
+After importing a `.ova` (Virtual Applicance) that had been previously
+exported from VirtualBox I experienced Windows chkdsk errors after
+creating a snapshot. The chkdsk problems seemed to change with each
+chkdsk, the problems seemed to snowball. Here are the circumstances
+under which I was able replicate this problem (I didn't try any other
+scenarios):
+
+- Window 7 64-bit Intel i5 host and Windows 7 64-bit (Intel i7)
+  host.
+- Only Windows 7 64-bit guests (XP, Vista and Win7 32-bit guests are
+  all fine).
+- After the first snapshot has been added.
+- VirtualBox 4.0.8 and 4.1.2.
+..
+
+The techniques described in this article were tested on a Windows XP
+Pro SP2 host operating system using VirtualBox version 2.0.4.  The
+details may vary if you use a Linux or some other host OS.
+
+
+## Introduction
+
+Cloning and copying VirtualBox VMs is not as straight forward or
+obvious as it is with VMWare Desktop and this subject has created a
+lot of confusion in the support forums. This is because:
+
+- There is no single VirtualBox command for VM cloning.
+- The documentation is vague.
+- A couple of the VirtualBox commands are poorly named.
+
+The good news is that the underlying technology is just great and with
+a little understanding copying and cloning VMs is quite easy.
+
+This article explains how to copy an existing VM containing an
+installed and configured guest OS.  Before starting it helps to have a
+basic understanding of VirtualBox virtual machines.
+
+
+## Virtual Machines
+
+A VirtualBox VM consists of three parts:
+
+. One or more virtual hard disk image files (VDI files).
+. Zero or more Snapshots (also VDI files).
+. XML configuration files defining the VM (virtual hardware
+  parameters).
+
+
+## Snapshots
+
+- A snapshot bookmarks the state of the VM (specifically the VM file
+  system) at the point in time the snapshot is made.
+- You return to a previous snapshot by deleting the current state and
+  all newer snapshots.
+- When you create a snapshot, changes to the file system accumulate in
+  the current snapshot file, older snapshot files and disk image files
+  are effectively read-only.
+- If there are no snapshots the VM's disk image file accumulates file
+  system changes just like normal disks -- the VM's _Current State_ is
+  merged into the disk image automatically when you close the VM.
+
+With respect to copying the important thing to understand about
+snapshots is that there is no easy way to copy them, so if your source
+VM has any snapshot information that you want to copy you first need
+to merge the snapshot(s) into the source VM's disk images.
+
+
+## Copying a Virtual Machine
+
+Here's an outline of the copy process:
+
+. If the source VM has any snapshot information that you want to copy
+  you first need to merge the snapshot(s) into the source VM's disk
+  image files.
+. Make a clone the source VM's disk image file(s).
+. Create a new VM and attach the cloned disk image file(s).
+
+Here are the details:
+
+### Merge source snapshots
+Here's how to merge the source snapshots to the source disk image VDI
+file (skip this step if you source VM doesn't have any snapshots).
+
+. If the source VM is running close it.
+. From the _VirtualBox_ window select the source VM then click the
+  _Snapshots_ tab.
+. If you want to include the current state of the disk in the merge
+  save it as a snapshot by selecting the _Current State_ then
+  executing the _Take Snapshot (Ctrl+Shift+S)_ command.
+. Select the most recent snapshot you want to include in the target VM
+  and execute the _Discard Snapshot (Ctrl+Shift+D)_ command. This
+  merges the snapshot file into it's parent VDI file (snapshot or base
+  disk).
+. Repeat the previous step, working your way down the snapshot list
+  until the oldest snapshot has  been merged into the base VDI.
+
+The VirtualBox snapshot commands are poorly named, in particular the
+inconsistent and confusing use of the word _Discard_:
+
+<table style="border-spacing:0.6em; border-collapse:separate">
+
+{row} = '<tr>
+<td style="width:25%">$$1</td>
+<td style="width:20%">$$2</td>
+<td style="width:20%">$$3</td>
+<td style="width:35%">$$4</td>
+</tr>
+'
+
+{row|**Command** |**Should be named** |**Applied to** |**Description**}
+
+{row|Discard Snapshot (_Ctrl+Shift+D_) |Merge with Parent |Snapshot |Merges the snapshot file into the parent snapshot or disk image file and then deletes the now redundant snapshot file.}
+
+{row|Revert to Current Snapshot (_Ctrl+Shift+R_) | |Current State |Deletes the current state returning the VM state to the most recent snapshot.}
+
+{row|Discard Current Snapshot and State (_Ctrl+Shift+B_) |Delete Current Snapshot and State |Current State |Deletes the current state and the most recent snapshot returning the VM state to that of the penultimate snapshot. Use this command to delete snapshots.}
+
+</table>
+
+
+### Clone or copy the source disk image
+At this point the entire state of the source VM that we want to copy
+is contained in the disk image VDI file.
+
+To avoid confusion I use the term _copying_ to refer to copying a VM
+to different host machine and the term _cloning_ to refer to creating
+a copy on the same host.
+
+.Copying to another host machine
+If you want to create a copy on another host machine you simply copy
+the disk image to the new host.
+
+. If the source VM is running close it.
+. Copy the source disk image to the VirtualBox VDI directory on the
+  target host machine.  You'll normally find the source disk image in
+  the VirtualBox VDI directory (the standard VDI location on Windows
+  hosts is `C:\Documents and Settings\<username>\.VirtualBox\VDI`).
+
+Once you've copied the disk image you need to register it with
+VirtualBox on the target host machine:
+
+. From the _VirtualBox_ window select _File->Virtual Disk Manager
+  (Ctrl+D)_ menu command.
+. Press the _Add_ button and select the copied disk image file.
+
+.Creating a clone on the same host machine
+Use the `VBoxManage` command-line utility the `clonevdi` command
+option to clone and register the disk image (you can't just copy the
+disk image to the same host machine because the disk UUID will
+conflict with the source disk image):
+
+. Open a Command Prompt window on the host machine.
+. Change to the VirtualBox VDI directory (normally `C:\Documents and
+  Settings\<username>\.VirtualBox\VDI`).
+. Now run the `VBoxManage` command with the `clonevdi` command option.
+  The following example transcript shows the creation of a copy of
+  `Ubuntu 8.04.vdi` named `Ubuntu 8.04 clone.vdi` and registers the
+  new disk:
+```
+C:\Documents and Settings\srackham\.VirtualBox\VDI> "C:\Program
+Files\Sun\xVM VirtualBox\VBoxManage.exe" clonevdi "Ubuntu 8.04.vdi"
+"Ubuntu 8.04 clone.vdi" VirtualBox Command Line Management Interface
+Version 2.0.4 (C) 2005-2008 Sun Microsystems, Inc.  All rights
+reserved.
+
+0%...10%...20%...30%...40%...50%...60%...70%...80%...90%...100%
+
+C:\Documents and Settings\srackham\.VirtualBox\VDI>
+```
+
+My experience is that merging snapshots into a single base VDI saves a
+lot of space (a Windows XP guest with 5 snapshots shrank from 8.6GB to
+3.7GB) but defragging the drive and then running the `VBoxManage`
+`modifyvdi compact` command didn't appear to regain any disk space in
+either Windows XP or Vista.
+
+### Create a new virtual machine
+There is no command to copy a VM so we create a new VM and attach our
+copied disk to it:
+
+. From the _VirtualBox_ window select _Machine->New... (Ctrl+N)_ menu
+  command.
+. Work your way through the _Create New Virtual Machine_ wizard till
+  you get to the _Virtual Hard Disk_ page then press the _Existing..._
+  (not the _New..._) button and select the disk image VDI file that you
+  previously cloned or copied.
+
+That's it, you should now be able to start and run your new VM.
+
+**WARNING**: Try not to be tempted to edit the VirtualBox XML
+configuration files manually -- the files are interrelated and making
+changes manually is not as easy as it looks (I'm talking from
+experience here) -- best to use the VirtualBox commands instead.
+
+
+## Final Thoughts
+
+Although I have not tried, it should be relatively easy to automate
+the copying and cloning procedures by scripting the powerful
+VirtualBox `VBoxManage` command.
+
