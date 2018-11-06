@@ -1,5 +1,4 @@
 ---
-date: 2015-02-10T10:49:00+13:00
 title: Stuart Rackham’s Blog
 id: urlpath
 ---
