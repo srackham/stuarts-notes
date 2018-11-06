@@ -47,7 +47,7 @@ h1, h2, h3, h4, h5, h6 {
 h2 {
     border-bottom: var(--border);
 }
-#article > p > img {
+p > img:only-child {
     max-width: 90%;
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -337,7 +337,7 @@ ul > li {
     .banner {
         padding-left: 10px;
     }
-    #article > p > img {
+    p > img:only-child {
         max-width: 100%;
     }
 }
