@@ -19,7 +19,13 @@ serve:
 
 .PHONY: validate
 validate: build
-	for f in $$(find ./docs -name "*.html"); do echo $$f; html-validator --verbose --format=text --file=$$f; done
+	for f in $$(find ./docs -name "*.html"); do
+		# Skip page (it has custom Google CSE elements that fail validation).
+		if [ "$$f" != "./docs/search.html" ]; then
+			echo $$f
+			html-validator --verbose --format=text --file=$$f
+		fi	
+	done
 
 .PHONY: push
 push:
