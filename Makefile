@@ -20,11 +20,15 @@ serve:
 .PHONY: validate
 validate: build
 	for f in $$(find ./docs -name "*.html"); do
-		# Skip page (it has custom Google CSE elements that fail validation).
-		if [ "$$f" != "./docs/search.html" ]; then
+		case "$$f" in
+		./docs/search.html|./docs/googlea9bb977b3a5379b9.html)
+			# Skip pages that legitimately fail HTML validation.
+			;;
+		*)
 			echo $$f
 			html-validator --verbose --format=text --file=$$f
-		fi	
+		;;
+		esac
 	done
 
 .PHONY: push
