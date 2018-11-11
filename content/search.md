@@ -2,8 +2,9 @@
 title: Search blog posts
 ---
 
-<!-- Google search engine (https://cse.google.com) -->
 <div>
+
+<!-- Google search engine code. -->
 <script>
   (function() {
     var cx = '018012119986351016929:gwgy8z0w9zc';
@@ -16,4 +17,5 @@ title: Search blog posts
   })();
 </script>
 <gcse:search></gcse:search>
+
 </div>
