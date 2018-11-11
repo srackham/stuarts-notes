@@ -9,9 +9,18 @@ SHELL := bash
 .SUFFIXES:
 .ONESHELL:
 
+.PHONY: sitemap
+sitemap:
+	cd docs
+	(find ./posts/ -maxdepth 2 -name '*.html'; find . -maxdepth 1 -name '*.html') \
+	| grep -v './google' \
+	| sed -e 's/^\./https:\/\/blog.srackham.com/g' \
+	> sitemap.txt
+
 .PHONY: build
 build:
 	hindsite build . -build docs
+	make sitemap
 
 .PHONY: serve
 serve:
