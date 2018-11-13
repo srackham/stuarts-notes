@@ -9,6 +9,7 @@ SHELL := bash
 .SUFFIXES:
 .ONESHELL:
 
+# Google site map (see https://support.google.com/webmasters/answer/183668)
 .PHONY: sitemap
 sitemap:
 	cd docs
