@@ -12,9 +12,10 @@
     --mono-font: Consolas, "Andale Mono", Monaco, monospace;
     --mono-size: 80%;
     --border: 1px solid #dddddd;
-    --border-radius:0;
+    --border-radius:5px;
     --code-background: #f8f8f8;
-    --sidebar-background: #ffffee;
+    --sidebar-background: #ffffff;
+    --sidebar-border: 2px solid #dddddd;
     --max-text-width: 55rem;
     --tag-visited-color: var(--primary-color);
 
@@ -145,7 +146,7 @@ div.verse p, p.verse {
     margin-bottom: 0.75rem;
 }
 .sidebar {
-    border: var(--border);
+    border: var(--sidebar-border);
     border-radius: var(--border-radius);
     background: var(--sidebar-background);
     padding: 10px;
