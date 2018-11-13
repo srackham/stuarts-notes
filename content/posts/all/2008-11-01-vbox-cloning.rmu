@@ -12,11 +12,47 @@ machines).
 
 <!--more-->
 
-**Change History**   \
+**Change History**     \
+_2018-11-14: Updates.  \
 _2013-12-08_: Updates. \
 _2011-09-22_: Updates. \
 _2008-11-03_: Updates. \
 _2008-11-01_: First draft.
+
+.sidebar
+..
+##### Update November 2018: Windows 10 activation failure after cloning
+Windows 10 flags a hardware activation failure if the VM's Hardware
+UUID changes.
+
+By default VM's are not assigned an explicit Hardware UUID, they use
+the Machine UUID. When you clone a VM it is assigned a new Machine
+UUID which effectively changes the Hardware UUID resulting in an
+activation issue when you use the new VM.
+
+Use VBoxManage to find UUIDs e.g.
+
+  "c:\Program Files\Oracle\VirtualBox\VBoxManage.exe" showvminfo "Windows 10 Pro"
+
+To check if you have an explicit Hardware UUID open the VM's `.vbox`
+file and look for a `VirtualBox > Machine > Hardware[uuid]` attribute.
+If it's missing set it to the `VirtualBox > Machine[uuid]` attribute
+value e.g.
+
+  C:\Users\srackham>"c:\Program Files\Oracle\VirtualBox\VBoxManage.exe" modifyvm "Windows 10 Pro" --hardwareuuid b9ae64f5-7819-4972-93b5-e59d613c539b
+
+Ideally you should do this before you clone your VM; if you do it
+afterwards you'll need to look inside the old VM's `.vbox` file for
+the previous Hardware UUID.
+
+See:
+
+- [Make a clone of VirtualBox Machine that doesn't cause Windows
+  Re-Activation after installing Windows
+  ](https://superuser.com/questions/472951/make-a-clone-of-virtualbox-machine-that-doesnt-cause-windows-re-activation-afte).
+- [Cloning a Windows 7 VirtualBox VM – Avoiding Activation
+  Problems](https://raywoodcockslatest.wordpress.com/2016/06/16/virtualbox-win7-activation/).
+..
 
 .sidebar
 ..
@@ -48,13 +84,6 @@ VM containing a single VDI file:
   VM will be left on disk and you can restore it later using the the
   _Machine->Add..._ command.
 
-**NOTE**: After cloning Windows 8 I noticed a couple of (seemly benign
-oddities):
-
-. The first time the clone was started Windows 8 displayed the
-  introduction to Windows 8 that you get when you first login.
-. Opening a Microsoft Office 2010 or  2013 for the first time on the
-  clone triggered the Microsoft Office software activation wizard.
 ..
 
 .sidebar
