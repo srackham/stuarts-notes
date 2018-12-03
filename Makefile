@@ -25,7 +25,7 @@ build:
 
 .PHONY: serve
 serve:
-	hindsite serve . -build docs -launch -v
+	hindsite serve . -build docs -launch -navigate -drafts -v
 
 .PHONY: validate
 validate: build
@@ -42,5 +42,5 @@ validate: build
 	done
 
 .PHONY: push
-push:
+push: build
 	git push -u --tags origin master
