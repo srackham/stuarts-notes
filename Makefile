@@ -15,7 +15,7 @@ sitemap:
 	cd docs
 	(find ./posts/ -maxdepth 2 -name '*.html'; find . -maxdepth 1 -name '*.html') \
 	| grep -v './google' \
-	| sed -e 's/^\./https:\/\/blog.srackham.com/g' \
+	| sed -e 's/^\./https:\/\/srackham.github.io\/stuarts-notes/g' \
 	> sitemap.txt
 
 .PHONY: build
