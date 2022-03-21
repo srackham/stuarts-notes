@@ -2,39 +2,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width"/>
-<title>{{or .title .user.title}}</title>
-<link type="text/css" rel="stylesheet" href="{{.urlprefix}}/main.css">
-<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>{{or .title .user.title}}</title>
+    <link type="text/css" rel="stylesheet" href="{{.urlprefix}}/main.css">
+    {{if eq .user.highlightjs "yes" -}}
+    <link type="text/css" rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
+    {{- else}}{{end}}
 </head>
 <body>
-<div class="banner no-print">
-  <a href="{{.urlprefix}}/">{{.user.banner}}</a>
-</div>
-<ul class="menu no-print">
-  <li><a href="{{.urlprefix}}/indexes/posts/docs-1.html">Posts</a></li>
-  <li><a href="{{.urlprefix}}/indexes/posts/tags.html">Tags</a></li>
-  <li><a href="{{.urlprefix}}/indexes/posts/all/docs-1.html">All</a></li>
-  <li><a href="{{.urlprefix}}/about.html">About</a></li>
-  <li><a href="{{.urlprefix}}/search.html">Search</a></li>
-</ul>
-<div id="main">
-    <div id="article">
-{{end}}
-
-{{define "footer"}}
+    <div class="banner no-print">
+        <a href="{{.urlprefix}}/index.html">{{.user.banner}}</a>
     </div>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/groovy.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"></script>
-<script>
-    hljs.configure({languages: []});
-    hljs.initHighlightingOnLoad();
-</script>
+    <ul class="menu no-print">
+        <li><a href="{{.urlprefix}}/indexes/posts/docs-1.html">Posts</a></li>
+        <li><a href="{{.urlprefix}}/indexes/posts/tags.html">Tags</a></li>
+        <li><a href="{{.urlprefix}}/indexes/posts/all/docs-1.html">All</a></li>
+        <li><a href="{{.urlprefix}}/about.html">About</a></li>
+        <li><a href="{{.urlprefix}}/search.html">Search</a></li>
+    </ul>
+    <div id="main">
+        {{end}}
+
+        {{define "footer"}}
+    </div>
+    {{if eq .user.highlightjs "yes" -}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/languages/groovy.min.js"></script>
+    <script>
+        hljs.configure({ languages: [] });  {{- /* Disable language auto-detection */}}
+        hljs.highlightAll();
+    </script>
+    {{- else}}{{end}}
 </body>
 </html>
 {{end}}
@@ -94,7 +94,8 @@
 
 {{define "disqus"}}
 {{/*
-    If the user shortname variable is set and the document `id` is non-blank then Disqus comments are inserted.
+    If the user `shortname` variable is set and the document `id` is
+    non-blank then Disqus comments are inserted.
 */}}
 {{if and .id .user.shortname}}
 <div id="disqus_thread"></div>

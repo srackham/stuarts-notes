@@ -15,3 +15,6 @@ title = "Stuart's Notes"
 
 # Set shortname to your site's Disqus short name then uncomment the line to enable Disqus comments.
 shortname = "stuarts-notes"
+
+# Include highlight.js support.
+highlightjs = "yes"
