@@ -2,26 +2,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width"/>
-<title>Flux Backbone Todos Example</title>
-<link type="text/css" rel="stylesheet" href="https://srackham.github.io/stuarts-notes/main.css">
-<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>Flux Backbone Todos Example</title>
+    <link type="text/css" rel="stylesheet" href="https://srackham.github.io/stuarts-notes/main.css">
+    <link type="text/css" rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
 </head>
 <body>
-<div class="banner no-print">
-  <a href="https://srackham.github.io/stuarts-notes/">srackham | blog</a>
-</div>
-<ul class="menu no-print">
-  <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/docs-1.html">Posts</a></li>
-  <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags.html">Tags</a></li>
-  <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/all/docs-1.html">All</a></li>
-  <li><a href="https://srackham.github.io/stuarts-notes/about.html">About</a></li>
-  <li><a href="https://srackham.github.io/stuarts-notes/search.html">Search</a></li>
-</ul>
-<div id="main">
-    <div id="article">
-
+    <div class="banner no-print">
+        <a href="https://srackham.github.io/stuarts-notes/index.html">srackham | blog</a>
+    </div>
+    <ul class="menu no-print">
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/docs-1.html">Posts</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags.html">Tags</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/all/docs-1.html">All</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/about.html">About</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/search.html">Search</a></li>
+    </ul>
+    <div id="main">
+        
 <h1>Flux Backbone Todos Example</h1>
 <div style="margin-bottom: 1rem;">
 <span class="sans-font">Nov 25, 2014</span> 
@@ -152,18 +152,15 @@ npm install
       this.forceUpdate();
     }.bind(this)
 );
-</code></pre></li>
-
-<li><p>When binding you need to take caller and callee arguments into consideration. The previous example can be simplified by passing <code>forceUpdate</code> as the change handler callback, but if you do not remember to explicitly bind the <code>forceUpdate</code> first argument to <code>null</code> the program will throw an error because <code>forceUpdate</code> would be called by the Backbone event dispatcher with a first argument that is not a callback (namely the changed Backbone model):</p>
-
-<pre><code>this.props.store.on('change',
+</code></pre>
+<ul>
+<li>When binding you need to take caller and callee arguments into consideration. The previous example can be simplified by passing <code>forceUpdate</code> as the change handler callback, but if you do not remember to explicitly bind the <code>forceUpdate</code> first argument to <code>null</code> the program will throw an error because <code>forceUpdate</code> would be called by the Backbone event dispatcher with a first argument that is not a callback (namely the changed Backbone model):
+this.props.store.on(&lsquo;change&rsquo;,
   this.forceUpdate.bind(this, null)
-);
-</code></pre></li>
-
-<li><p>Backbone Model attributes are not model properties &ndash; access them with <code>get()</code> and <code>set()</code> not with the dot syntax.</p></li>
-
-<li><p>I spent far to much time debugging what is a very simple application, most of the time could have been saved if I had been using a language with type checking &ndash; <em>ES6 + JSX + type annotations + type checking</em>  would be nice (this is a criticism of JavaScript in general, not of the application architecture or the tools).</p></li>
+);</li>
+<li>Backbone Model attributes are not model properties &ndash; access them with <code>get()</code> and <code>set()</code> not with the dot syntax.</li>
+<li>I spent far to much time debugging what is a very simple application, most of the time could have been saved if I had been using a language with type checking &ndash; <em>ES6 + JSX + type annotations + type checking</em>  would be nice (this is a criticism of JavaScript in general, not of the application architecture or the tools).</li>
+</ul></li>
 </ul>
 
 
@@ -189,15 +186,11 @@ npm install
 
 
     </div>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/groovy.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/kotlin.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/typescript.min.js"></script>
-<script>
-    hljs.configure({languages: []});
-    hljs.initHighlightingOnLoad();
-</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/languages/groovy.min.js"></script>
+    <script>
+        hljs.configure({ languages: [] });
+        hljs.highlightAll();
+    </script>
 </body>
 </html>
