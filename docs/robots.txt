@@ -1,0 +1,5 @@
+Sitemap: https://srackham.github.io/stuarts-notes/sitemap.txt
+
+# Allow bots to browse the entire website.
+User-agent: *
+Disallow:
