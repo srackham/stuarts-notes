@@ -2,17 +2,18 @@
 
 This is my (Stuart Rackham's) personal blog.
 
-- Hosted on Github at https://srackham.github.io/stuarts-notes/
+- Hosted on Github Pages at custom subdomain https://blog.methods.co.nz
 - Built with [hindsite](https://github.com/srackham/hindsite)
 
 ## History
-- Apr-2018: Ported the blog to Hindsite and hosted the Hindsite-generated blog
-  on Github.
-- Dec-2014: Ported the blog pages to Markdown and website generation to Hugo.
+- **26-Mar-2022**: Configured Github Pages custom subdomain https://blog.methods.co.nz.
+- **14-Mar-2022**: Status: 41 posts spanning from 2008 to 2015. They are all related to Web
+  and software development and most are now well out of date.
+- **Dec-2014**: Ported the blog pages to Markdown and website generation to Hugo.
   Hosted the Hugho-generated blog on my ISP server. Previously the blog was
   hosted on [WordPress.com](https://srackham.wordpress.com/).
-- 14-Mar-2022: Status: 41 posts spanning from 2008 to 2015. They are all related to Web
-  and software development and most are now well out of date.
+- **Apr-2018**: Ported the blog to Hindsite and hosted the Hindsite-generated blog
+  on Github.
 
 
 ## Implementation notes
