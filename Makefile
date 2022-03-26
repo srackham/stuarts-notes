@@ -9,6 +9,9 @@ SHELL := bash
 .SUFFIXES:
 .ONESHELL:
 
+# SITE_URL = https://srackham.github.io/stuarts-notes
+SITE_URL = https://blog.methods.co.nz
+
 .PHONY: build
 build:
 	hindsite build . -build docs
@@ -44,10 +47,10 @@ build-sitemap:
 	cd docs
 	(find ./posts/ -maxdepth 2 -name '*.html'; find . -maxdepth 1 -name '*.html') \
 	| grep -v './google' \
-	| sed -e 's/^\./https:\/\/srackham.github.io\/stuarts-notes/g' \
+	| sed -e 's|^.|$(SITE_URL)|g' \
 	> sitemap.txt
 
 # Submit site map to Google (see https://developers.google.com/search/docs/advanced/sitemaps/build-sitemap#addsitemap)
 .PHONY: submit-sitemap
 submit-sitemap:
-	curl https://www.google.com/ping?sitemap=https://srackham.github.io/stuarts-notes/sitemap.txt
+	curl https://www.google.com/ping?sitemap=$(SITE_URL)/sitemap.txt
