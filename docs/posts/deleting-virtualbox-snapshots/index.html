@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width" />
     <title>Deleting VirtualBox Snapshots</title>
-    <link type="text/css" rel="stylesheet" href="https://srackham.github.io/stuarts-notes/main.css">
+    <link type="text/css" rel="stylesheet" href="https://blog.methods.co.nz/main.css">
     <link type="text/css" rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
 </head>
 <body>
     <div class="banner no-print">
-        <a href="https://srackham.github.io/stuarts-notes/index.html">srackham | blog</a>
+        <a href="https://blog.methods.co.nz/index.html">srackham | blog</a>
     </div>
     <ul class="menu no-print">
-        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/docs-1.html">Posts</a></li>
-        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags.html">Tags</a></li>
-        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/all/docs-1.html">All</a></li>
-        <li><a href="https://srackham.github.io/stuarts-notes/about.html">About</a></li>
-        <li><a href="https://srackham.github.io/stuarts-notes/search.html">Search</a></li>
+        <li><a href="https://blog.methods.co.nz/indexes/posts/docs-1.html">Posts</a></li>
+        <li><a href="https://blog.methods.co.nz/indexes/posts/tags.html">Tags</a></li>
+        <li><a href="https://blog.methods.co.nz/indexes/posts/all/docs-1.html">All</a></li>
+        <li><a href="https://blog.methods.co.nz/about.html">About</a></li>
+        <li><a href="https://blog.methods.co.nz/search.html">Search</a></li>
     </ul>
     <div id="main">
         
@@ -27,7 +27,7 @@
 <span class="sans-font">Jun 19, 2010</span> 
 <span class="doctags">
     
-    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/virtualbox-1.html">VirtualBox</a>
+    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/virtualbox-1.html">VirtualBox</a>
     
 </span>
 
@@ -41,28 +41,28 @@ Throughout this post I use the word <em>delete</em> to mean removing both the sn
 
 <ol>
 <li><p>Here&rsquo;s our starting point &ndash; the goal is to delete snapshots 3 and 4. <br>
-<img src="https://srackham.github.io/stuarts-notes/images/deleting-vbox-snapshots-1.png" alt="deleting-vbox-snapshots-1.png" /></p></li>
+<img src="https://blog.methods.co.nz/images/deleting-vbox-snapshots-1.png" alt="deleting-vbox-snapshots-1.png" /></p></li>
 
 <li><p>Restore to snapshot 2. <br>
-<img src="https://srackham.github.io/stuarts-notes/images/deleting-vbox-snapshots-2.png" alt="deleting-vbox-snapshots-2.png" /></p></li>
+<img src="https://blog.methods.co.nz/images/deleting-vbox-snapshots-2.png" alt="deleting-vbox-snapshots-2.png" /></p></li>
 
 <li><p>Graft a snapshot (snapshot 5) to snapshot 2. <br>
-<img src="https://srackham.github.io/stuarts-notes/images/deleting-vbox-snapshots-3.png" alt="deleting-vbox-snapshots-3.png" /></p></li>
+<img src="https://blog.methods.co.nz/images/deleting-vbox-snapshots-3.png" alt="deleting-vbox-snapshots-3.png" /></p></li>
 
 <li><p>Restore back to snapshot 4. <br>
-<img src="https://srackham.github.io/stuarts-notes/images/deleting-vbox-snapshots-4.png" alt="deleting-vbox-snapshots-4.png" /></p></li>
+<img src="https://blog.methods.co.nz/images/deleting-vbox-snapshots-4.png" alt="deleting-vbox-snapshots-4.png" /></p></li>
 
 <li><p>Merge snapshot 4 (i.e. use the VirtualBox <em>Delete Snapshot</em> command). <br>
-<img src="https://srackham.github.io/stuarts-notes/images/deleting-vbox-snapshots-5.png" alt="deleting-vbox-snapshots-5.png" /></p></li>
+<img src="https://blog.methods.co.nz/images/deleting-vbox-snapshots-5.png" alt="deleting-vbox-snapshots-5.png" /></p></li>
 
 <li><p>Merge snapshot 3 (i.e. use the VirtualBox <em>Delete Snapshot</em> command). <br>
-<img src="https://srackham.github.io/stuarts-notes/images/deleting-vbox-snapshots-6.png" alt="deleting-vbox-snapshots-6.png" /></p></li>
+<img src="https://blog.methods.co.nz/images/deleting-vbox-snapshots-6.png" alt="deleting-vbox-snapshots-6.png" /></p></li>
 
 <li><p>Restore to the empty snapshot 5. <br>
-<img src="https://srackham.github.io/stuarts-notes/images/deleting-vbox-snapshots-7.png" alt="deleting-vbox-snapshots-7.png" /></p></li>
+<img src="https://blog.methods.co.nz/images/deleting-vbox-snapshots-7.png" alt="deleting-vbox-snapshots-7.png" /></p></li>
 
 <li><p>Merge the empty snapshot 5 (i.e. use the VirtualBox <em>Delete Snapshot</em> command). This last step effectively deletes snapshots 3 and 4 disk state from snapshot 2. <br>
-<img src="https://srackham.github.io/stuarts-notes/images/deleting-vbox-snapshots-8.png" alt="deleting-vbox-snapshots-8.png" /></p></li>
+<img src="https://blog.methods.co.nz/images/deleting-vbox-snapshots-8.png" alt="deleting-vbox-snapshots-8.png" /></p></li>
 </ol>
 
 <p>That&rsquo;s it!</p>
@@ -74,12 +74,12 @@ Throughout this post I use the word <em>delete</em> to mean removing both the sn
     <div>
         <span class="left">
             
-            « <a href="https://srackham.github.io/stuarts-notes/posts/minimalist-machine-clone/">Previous</a>
+            « <a href="https://blog.methods.co.nz/posts/minimalist-machine-clone/">Previous</a>
             
         </span>
         <span class="right">
             
-            <a href="https://srackham.github.io/stuarts-notes/posts/merging-and-compacting-virtualbox-snapshots/">Next</a> »
+            <a href="https://blog.methods.co.nz/posts/merging-and-compacting-virtualbox-snapshots/">Next</a> »
             
         </span>
     </div>
