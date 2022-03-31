@@ -42,12 +42,14 @@ push: build
 	make submit-sitemap
 
 # Build Google search engine site map (see https://support.google.com/webmasters/answer/183668)
+# The index.html file URLs are converted to the canonical format with trailing slash character.
 .PHONY: build-sitemap
 build-sitemap:
 	cd docs
 	(find ./posts/ -maxdepth 2 -name '*.html'; find . -maxdepth 1 -name '*.html') \
 	| grep -v './google' \
 	| sed -e 's|^.|$(HOMEPAGE)|g' \
+	| sed -e 's|\/index.html$$|/|' \
 	> sitemap.txt
 
 # Submit site map to Google (see https://developers.google.com/search/docs/advanced/sitemaps/build-sitemap#addsitemap)
