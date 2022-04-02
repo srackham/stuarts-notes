@@ -51,6 +51,7 @@ build-sitemap:
 	| sed -e 's|^.|$(HOMEPAGE)|g' \
 	| sed -e 's|\/index.html$$|/|' \
 	> sitemap.txt
+	cd ..
 
 # Submit site map to Google (see https://developers.google.com/search/docs/advanced/sitemaps/build-sitemap#addsitemap)
 .PHONY: submit-sitemap
