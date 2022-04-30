@@ -16,7 +16,7 @@ This small GTK+ example application demonstrates how to populate a [GtkTreeView]
 
 The application loads and presents a list of people in a TreeView list, when a list item is selected or double-clicked the selection is displayed along the bottom of the application window. Here's a screenshot:
 
-![treeview-list.png]({{.urlprefix}}/images/treeview-list.png)
+![treeview-list.png](/images/treeview-list.png)
 
 The [GtkTreeView](http://library.gnome.org/devel/gtk/2.90/GtkTreeView.html) widget and an associated data store object (either [GtkListStore](http://library.gnome.org/devel/gtk/2.90/GtkListStore.html) or a [GtkTreeStore](http://library.gnome.org/devel/gtk/2.90/GtkTreeStore.html)) implement tree views, lists and combinations of the two.  The TreeView is not your usual widget, it's a monster, more like a spreadsheet, expect a steep learning curve. The good new is that it is incredibly powerful.
 

@@ -1,6 +1,6 @@
 ---
 title: Stuart Rackham’s Blog
-id: urlpath
+id: about
 ---
 
 These posts are mostly just notes I've made while exploring new computer

@@ -14,12 +14,12 @@ HOMEPAGE = https://blog.methods.co.nz
 
 .PHONY: build
 build:
-	hindsite build . -build docs
+	hindsite build -build docs -lint
 	make build-sitemap
 
 .PHONY: serve
 serve:
-	hindsite serve . -build docs -launch -navigate -drafts -v
+	hindsite serve -build docs -launch -navigate -drafts -lint -v
 
 .PHONY: validate
 validate: build

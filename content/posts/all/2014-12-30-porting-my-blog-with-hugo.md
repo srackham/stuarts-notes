@@ -108,8 +108,8 @@ You will probably need to tweak the imported Markdown files:
         perl -i.BAK -ne "print unless /^(author|comments|layout|wordpress_id): /" *.md
 
 - Image URLs were pointing back to the WordPress site, to make them
-  local I copied the images to `./satic{{.urlprefix}}/images/` and adjusted the
-  links in the Markdown source to `{{.urlprefix}}/images/<image-file-name>`.
+  local I copied the images to `./satic/images/` and adjusted the
+  links in the Markdown source to `/images/<image-file-name>`.
 
 ## Things I've learnt
 - If you are deploying to a [non-root base URL](http://ifyoucodeittheywill.com/2009/03/absolute-relative-and-root-relative-urls/) (e.g. `http://srackham.github.io/stuarts-notes/`) you will need to add `canonifyurls: true` to your `config.yaml` file. If you don't, the root-relative URLs (for example, in the CSS file links) will not work. For the same reason, you will also have this problem If you run the `hugo server` command and view the site locally. I no longer have this issue because my base URL is a root URL (`http://blog.srackham.com/`).

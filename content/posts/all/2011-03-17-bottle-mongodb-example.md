@@ -22,7 +22,7 @@ You can find the source on [GitHub](https://github.com/srackham/bottle-mongodb-e
 
 Here's a screenshot:
 
-![bottle-mongodb-example.png]({{.urlprefix}}/images/bottle-mongodb-example.png)
+![bottle-mongodb-example.png](/images/bottle-mongodb-example.png)
 
 To run the application install the prerequisite packages then:
     

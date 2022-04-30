@@ -5,7 +5,7 @@ longdate = "Jan 2, 2006"
 # urlprefix = "https://srackham.github.io/stuarts-notes"
 urlprefix = "https://blog.methods.co.nz"
 author = "Stuart Rackham"
-templates = ".md"
+templates = "*.md"
 id = "optional"
 
 [user]

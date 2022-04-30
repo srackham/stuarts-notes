@@ -24,7 +24,7 @@ In New Zealand we have what amounts to a telecommunications duopoly with mobile 
   1. Go to the Android Market and install the [3G Watchdog](https://market.android.com/details?id=net.rgruet.android.g3watchdog&hl=en) and [APNdroid](https://market.android.com/details?id=com.google.code.apndroid&hl=en) applications (both are great apps). 
   2. Configure _3G Watchdog_ with your data limit and configure it to use _APNdroid_ to turn off. 
 
-![3g-watchdog-config.png]({{.urlprefix}}/images/3g-watchdog-config.png)
+![3g-watchdog-config.png](/images/3g-watchdog-config.png)
 
 _3G Watchdog_ will now use _APNdroid_ to automatically turn off your mobile data connection when the preset level is reached, What's nice is that it will automatically reenable data atically at your next data period.
 
