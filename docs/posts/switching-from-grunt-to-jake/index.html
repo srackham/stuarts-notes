@@ -38,7 +38,7 @@
 </span>
 
 </div>
-<p>This post discusses why I switched my Rimu Markup project&rsquo;s build tool to <a href="http://jakejs.com/">Jake</a>, having previously <a href="/posts/porting-from-make-to-grunt/">ported the same project from Make to Grunt</a>.</p>
+<p>This post discusses why I switched my Rimu Markup project&rsquo;s build tool to <a href="http://jakejs.com/">Jake</a>, having previously <a href="https://blog.methods.co.nz/posts/porting-from-make-to-grunt/">ported the same project from Make to Grunt</a>.</p>
 
 <p><strong>NOTE</strong>: This post has been revised since original publication to more clearly explain Jake synchronicity and to show how I now process task shell commands in parallel.</p>
 
@@ -51,7 +51,7 @@
 <p>Here&rsquo;s why I switched to Jake:</p>
 
 <ul>
-<li>Grunt is plugin-centric &ndash; its default usage paradigm is <em>plugins and configuration over scripting</em> &ndash; this is one of those things that sounds good in theory but is not so good in practice (see my <a href="/posts/porting-from-make-to-grunt/">previous post</a>).</li>
+<li>Grunt is plugin-centric &ndash; its default usage paradigm is <em>plugins and configuration over scripting</em> &ndash; this is one of those things that sounds good in theory but is not so good in practice (see my <a href="https://blog.methods.co.nz/posts/porting-from-make-to-grunt/">previous post</a>).</li>
 <li>Jake files are JavaScript code which is more readable and (crucially) more flexible than Grunt&rsquo;s JSON configuration file format.</li>
 <li>Grunt does not have built-in file dependency management and only rudimentary <a href="https://github.com/gruntjs/grunt/issues/968">task dependency management</a> &ndash; dependency management is what build tools should be all about and these are real deficiencies (especially if you come from Make, Rake or Jake).</li>
 </ul>
@@ -142,7 +142,7 @@ sys     0m5.204s
 
 <h2>Use shell commands not plugins</h2>
 
-<p>Use the <em>ShellJS</em> library to leverage your existing knowledge and to make your Jakefiles easier to read.  Plugins are a systemic problem and I avoid them like the plague &ndash; see <a href="/posts/porting-from-make-to-grunt/">Use ShellJS instead of Grunt plugins</a>.</p>
+<p>Use the <em>ShellJS</em> library to leverage your existing knowledge and to make your Jakefiles easier to read.  Plugins are a systemic problem and I avoid them like the plague &ndash; see <a href="https://blog.methods.co.nz/posts/porting-from-make-to-grunt/">Use ShellJS instead of Grunt plugins</a>.</p>
 
 <h2>What about Gulp?</h2>
 
