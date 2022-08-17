@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width" />
     <title>Minimalist Machine Clone</title>
-    <link type="text/css" rel="stylesheet" href="https://blog.methods.co.nz/main.css">
+    <link type="text/css" rel="stylesheet" href="https://srackham.github.io/stuarts-notes/main.css">
     <link type="text/css" rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
 </head>
 <body>
     <div class="banner no-print">
-        <a href="https://blog.methods.co.nz/index.html">srackham | blog</a>
+        <a href="https://srackham.github.io/stuarts-notes/index.html">srackham | notes</a>
     </div>
     <ul class="menu no-print">
-        <li><a href="https://blog.methods.co.nz/indexes/posts/docs-1.html">Posts</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/tags.html">Tags</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/all/docs-1.html">All</a></li>
-        <li><a href="https://blog.methods.co.nz/about.html">About</a></li>
-        <li><a href="https://blog.methods.co.nz/search.html">Search</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/docs-1.html">Posts</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags.html">Tags</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/all/docs-1.html">All</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/about.html">About</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/search.html">Search</a></li>
     </ul>
     <div id="main">
         
@@ -27,9 +27,9 @@
 <span class="sans-font">Jun 25, 2010</span> 
 <span class="doctags">
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/linux-1.html">Linux</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/linux-1.html">Linux</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/system-administration-1.html">System Administration</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/system-administration-1.html">System Administration</a>
     
 </span>
 
@@ -52,7 +52,7 @@
 <li><p>Most of the commands require superuser privilege &ndash; logon as root or apply a sudo command prefix.</p></li>
 </ul>
 
-<h2>Backup</h2>
+<h2 id="backup">Backup</h2>
 
 <ol>
 <li><p>Mount the USB backup drive:</p>
@@ -97,7 +97,7 @@ I found that compression saved about 40% (will vary depending on free space) but
 </code></pre></li>
 </ul>
 
-<h2>Restore</h2>
+<h2 id="restore">Restore</h2>
 
 <ol>
 <li><p>Go to the target PC and boot the Live CD.</p></li>
@@ -154,7 +154,7 @@ chroot /mnt
 <pre><code>e2fsck -f /dev/sda1
 </code></pre>
 
-<h2>Updating the target drive</h2>
+<h2 id="updating-the-target-drive">Updating the target drive</h2>
 
 <p>Creating partition images involves taking the source PC down and is time consuming. Instead of maintaining up to date  partition images I update the restored target with the latest <a href="http://rsnapshot.org/">rsnapshot</a> backups from an external USB drive and use rsync to restore the latest snapshot, for example:</p>
 
@@ -186,7 +186,7 @@ rsync -aHxv --delete --exclude /var/local/backups/ \
 <li><p>If you were to restore to the live target the rsync -x option ensures you won&rsquo;t delete the contents of the kernel file systems.</p></li>
 </ul>
 
-<h2>Initializing swap space</h2>
+<h2 id="initializing-swap-space">Initializing swap space</h2>
 
 <p>Before rebooting you need to initialize the target swap partition and update the swap UUID in /etc/fstab. If you don&rsquo;t initialize the swap it won&rsquo;t be  mounted and you will get boot errors like <em>unable to canonicalize swap</em> (check for mounted swap with swapon -s). Use mkswap(8) to initialize the swap partition, for example:</p>
 
@@ -200,7 +200,7 @@ rsync -aHxv --delete --exclude /var/local/backups/ \
 
 <p>You can now reboot the target machine.  If your cloned drive is installed on different hardware you will need to read the next section.</p>
 
-<h2>Installing the cloned drive different hardware</h2>
+<h2 id="installing-the-cloned-drive-different-hardware">Installing the cloned drive different hardware</h2>
 
 <p>Here are post restoration configuration tweaks I had to make in order to get my cloned Ubuntu 7.10 server fully operational.</p>
 
@@ -230,12 +230,12 @@ This procedure varies depending on which Linux distribution you are using (see a
     <div>
         <span class="left">
             
-            « <a href="https://blog.methods.co.nz/posts/publishing-ebooks-with-asciidoc/">Previous</a>
+            « <a href="https://srackham.github.io/stuarts-notes/posts/publishing-ebooks-with-asciidoc/">Previous</a>
             
         </span>
         <span class="right">
             
-            <a href="https://blog.methods.co.nz/posts/deleting-virtualbox-snapshots/">Next</a> »
+            <a href="https://srackham.github.io/stuarts-notes/posts/deleting-virtualbox-snapshots/">Next</a> »
             
         </span>
     </div>

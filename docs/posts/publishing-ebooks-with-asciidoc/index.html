@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width" />
     <title>Publishing eBooks with AsciiDoc</title>
-    <link type="text/css" rel="stylesheet" href="https://blog.methods.co.nz/main.css">
+    <link type="text/css" rel="stylesheet" href="https://srackham.github.io/stuarts-notes/main.css">
     <link type="text/css" rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
 </head>
 <body>
     <div class="banner no-print">
-        <a href="https://blog.methods.co.nz/index.html">srackham | blog</a>
+        <a href="https://srackham.github.io/stuarts-notes/index.html">srackham | notes</a>
     </div>
     <ul class="menu no-print">
-        <li><a href="https://blog.methods.co.nz/indexes/posts/docs-1.html">Posts</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/tags.html">Tags</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/all/docs-1.html">All</a></li>
-        <li><a href="https://blog.methods.co.nz/about.html">About</a></li>
-        <li><a href="https://blog.methods.co.nz/search.html">Search</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/docs-1.html">Posts</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags.html">Tags</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/all/docs-1.html">All</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/about.html">About</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/search.html">Search</a></li>
     </ul>
     <div id="main">
         
@@ -27,13 +27,13 @@
 <span class="sans-font">Aug 23, 2010</span> 
 <span class="doctags">
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/asciidoc-1.html">AsciiDoc</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/asciidoc-1.html">AsciiDoc</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/docbook-1.html">DocBook</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/docbook-1.html">DocBook</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/ebook-1.html">eBook</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/ebook-1.html">eBook</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/epub-1.html">EPUB</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/epub-1.html">EPUB</a>
     
 </span>
 
@@ -50,7 +50,7 @@ A number of <em>asciidoc</em> and <em>a2x</em> features used in this article req
 <p><strong>Tip</strong>:
 If you are experiencing <em>xsltproc</em> errors when you run <em>a2x</em> take a look at Francis Shanahan’s <a href="http://francisshanahan.com/index.php/2011/fixing-epub-problem-docbook-xsl-asciidoc-a2x/">Fixing the ePub problem with Docbook-XSL/A2X/Asciidoc</a> blog post.</p>
 
-<h2>Minimal Book</h2>
+<h2 id="minimal-book">Minimal Book</h2>
 
 <p>This didactic example contains a title and two chapters. The AsciiDoc source is a plain text file named minimal-book.txt:</p>
 
@@ -112,7 +112,7 @@ The <a href="http://www.methods.co.nz/asciidoc/a2x.1.html">a2x toolchain wrapper
 <li><p><a href="http://code.google.com/p/epubcheck/">epubcheck</a> (optional EPUB file validator)</p></li>
 </ul>
 
-<h2>The Brothers Karamazov</h2>
+<h2 id="the-brothers-karamazov">The Brothers Karamazov</h2>
 
 <p><em>The Brothers Karamazov</em> is an example of a multi-part book. To generate the AsciiDoc source I downloaded the <a href="http://www.gutenberg.org">Project Gutenberg</a> plain text source and edited it manually (this took around 15 minutes). To generate the brothers-karamazov.epub EPUB file run this command:</p>
 
@@ -205,7 +205,7 @@ Alexey Fyodorovitch Karamazov was the third son of Fyodor Pavlovitch
 </ul></li>
 </ul>
 
-<h2>The Adventures of Sherlock Holmes</h2>
+<h2 id="the-adventures-of-sherlock-holmes">The Adventures of Sherlock Holmes</h2>
 
 <p>This book includes a front cover image and a customized page design. To generate the adventures-of-sherlock-holmes.epub EPUB file run this command:</p>
 
@@ -226,7 +226,7 @@ Alexey Fyodorovitch Karamazov was the third son of Fyodor Pavlovitch
 
 <p>Here’s a screenshot of the first page of the first chapter (rendered by the <a href="http://www.epubread.com/en/">Firefox EPUBReader addon</a>):</p>
 
-<p><img src="https://blog.methods.co.nz/images/epub.png" alt="images/epub.png" /></p>
+<p><img src="https://srackham.github.io/stuarts-notes/images/epub.png" alt="images/epub.png" /></p>
 
 <p>The <a href="http://www.methods.co.nz/misc/examples/books/adventures-of-sherlock-holmes.zip">AsciiDoc source Zip file</a> contains the following files:</p>
 
@@ -295,17 +295,17 @@ To Sherlock Holmes she is always THE woman. I have seldom heard
 == Colophon
 </code></pre>
 
-<h2>Styling your books</h2>
+<h2 id="styling-your-books">Styling your books</h2>
 
 <p>You can customize the appearance of a document with CSS. CSS file. Either create your own or copy and edit the existing default docbook-xsl.css file (located in the AsciiDoc stylesheets configuration directory) then place it in the same directory as your AsciiDoc source file. Use the <em>a2x</em> &ndash;stylesheet option if you want to use a different stylesheet file. Take a look at the adventures-of-sherlock-holmes.css CSS file.</p>
 
 <p>There are some great examples of EPUB book styles at <a href="http://epubzengarden.com/">ePub Zen Garden</a>.</p>
 
-<h2>Including embedded fonts</h2>
+<h2 id="including-embedded-fonts">Including embedded fonts</h2>
 
 <p>See <a href="http://www.methods.co.nz/asciidoc/faq.html#X5">this FAQ</a>.</p>
 
-<h2>Reading EPUB documents</h2>
+<h2 id="reading-epub-documents">Reading EPUB documents</h2>
 
 <p>My current favorite software epub reader is the <a href="http://www.epubread.com/en/">Firefox EPUBReader addon</a>. EPUBReader honors the book’s CSS styling rules and renders the page as the author intended (many EPUB readers only process a sub-set of CSS styling rules).</p>
 
@@ -313,7 +313,7 @@ To Sherlock Holmes she is always THE woman. I have seldom heard
 
 <p>As of writing this article most eBook readers (with the notable exception of Amazon’s Kindle) support the EPUB format.</p>
 
-<h2>Non-fiction Books and Manuals</h2>
+<h2 id="non-fiction-books-and-manuals">Non-fiction Books and Manuals</h2>
 
 <p>AsciiDoc supports a rich set of markup conventions and can generate reference works and technical manuals complete with tables, illustrations, indexes, bibliographies and appendices. All the examples on the <a href="http://www.methods.co.nz/asciidoc/">AsciiDoc web site</a> can be formatted as EPUB eBooks.</p>
 
@@ -322,12 +322,12 @@ To Sherlock Holmes she is always THE woman. I have seldom heard
     <div>
         <span class="left">
             
-            « <a href="https://blog.methods.co.nz/posts/vala-treeview-list-example/">Previous</a>
+            « <a href="https://srackham.github.io/stuarts-notes/posts/vala-treeview-list-example/">Previous</a>
             
         </span>
         <span class="right">
             
-            <a href="https://blog.methods.co.nz/posts/minimalist-machine-clone/">Next</a> »
+            <a href="https://srackham.github.io/stuarts-notes/posts/minimalist-machine-clone/">Next</a> »
             
         </span>
     </div>

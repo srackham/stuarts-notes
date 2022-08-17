@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width" />
     <title>Routeless Backbone Contacts 2.0</title>
-    <link type="text/css" rel="stylesheet" href="https://blog.methods.co.nz/main.css">
+    <link type="text/css" rel="stylesheet" href="https://srackham.github.io/stuarts-notes/main.css">
     <link type="text/css" rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
 </head>
 <body>
     <div class="banner no-print">
-        <a href="https://blog.methods.co.nz/index.html">srackham | blog</a>
+        <a href="https://srackham.github.io/stuarts-notes/index.html">srackham | notes</a>
     </div>
     <ul class="menu no-print">
-        <li><a href="https://blog.methods.co.nz/indexes/posts/docs-1.html">Posts</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/tags.html">Tags</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/all/docs-1.html">All</a></li>
-        <li><a href="https://blog.methods.co.nz/about.html">About</a></li>
-        <li><a href="https://blog.methods.co.nz/search.html">Search</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/docs-1.html">Posts</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags.html">Tags</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/all/docs-1.html">All</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/about.html">About</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/search.html">Search</a></li>
     </ul>
     <div id="main">
         
@@ -27,14 +27,14 @@
 <span class="sans-font">Oct 3, 2011</span> 
 <span class="doctags">
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/backbone-js-1.html">Backbone.js</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/backbone-js-1.html">Backbone.js</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/coffeescript-1.html">coffeescript</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/coffeescript-1.html">coffeescript</a>
     
 </span>
 
 </div>
-<p>This post describes a revamped version 2.0 of my <a href="https://blog.methods.co.nz/posts/routeless-backbone-contacts">original Routeless Backbone Contacts application</a>. The material covered here builds on the original post.</p>
+<p>This post describes a revamped version 2.0 of my <a href="https://srackham.github.io/stuarts-notes/posts/routeless-backbone-contacts">original Routeless Backbone Contacts application</a>. The material covered here builds on the original post.</p>
 
 <ol>
 <li>The basic application functionality and the underlying data remains the same.</li>
@@ -50,26 +50,26 @@
 
 <ul>
 <li>This release described in this post is at the <em>2.0</em> tag.</li>
-<li>A subsequent release includes <a href="https://blog.methods.co.nz/posts/testing-coffeescript-apps-with-selenium/">Selenium tests</a> and is at the <em>3.0.</em> tag.</li>
+<li>A subsequent release includes <a href="https://srackham.github.io/stuarts-notes/posts/testing-coffeescript-apps-with-selenium/">Selenium tests</a> and is at the <em>3.0.</em> tag.</li>
 </ul></li>
 <li>The contacts data is persisted locally using browser <a href="http://en.wikipedia.org/wiki/Web_Storage">Web Storage</a>.</li>
 <li>Templates are written using <a href="http://documentcloud.github.com/underscore/">Underscore.js</a> templates (included with <a href="http://documentcloud.github.com/backbone/">Backbone.js</a>).</li>
-<li>Refer to the <a href="https://blog.methods.co.nz/posts/routeless-backbone-contacts">original Routeless Backbone Contacts 1.0 blog post</a> for more information.</li>
+<li>Refer to the <a href="https://srackham.github.io/stuarts-notes/posts/routeless-backbone-contacts">original Routeless Backbone Contacts 1.0 blog post</a> for more information.</li>
 </ul>
 
-<h2>User Interface</h2>
+<h2 id="user-interface">User Interface</h2>
 
-<p><img src="https://blog.methods.co.nz/images/contacts2-screenshot.png" alt="contacts2-screenshot.png" /></p>
+<p><img src="https://srackham.github.io/stuarts-notes/images/contacts2-screenshot.png" alt="contacts2-screenshot.png" /></p>
 
 <p>The single page user interface combines four <a href="http://documentcloud.github.com/backbone/#View">Backbone.js views</a>. The views subscribe to, and are updated by, <a href="http://documentcloud.github.com/backbone/#Events">events</a> emitted by the contacts collection (<em>add</em>, <em>remove</em>, <em>change</em>, <em>reset</em>, <em>filter</em>, <em>select</em>).</p>
 
-<h2>Models and Collections</h2>
+<h2 id="models-and-collections">Models and Collections</h2>
 
-<h3>ContactModel</h3>
+<h3 id="contactmodel">ContactModel</h3>
 
 <p>The same <a href="http://documentcloud.github.com/backbone/#Model">model</a> as version 1.0.</p>
 
-<h3>ContactsCollection</h3>
+<h3 id="contactscollection">ContactsCollection</h3>
 
 <p>The <em>ContactsCollection</em> <a href="http://documentcloud.github.com/backbone/#Collection">collection</a> has been enhanced:</p>
 
@@ -78,25 +78,25 @@
 <li>The <em>Cursor</em> class provides a cursor object which represents the currently selected model in the contacts collection. The cursor listens for changes to the collection so that it can automatically ensure the cursor points to a valid contact in the filtered collection.  When the cursor changes the contacts collection broadcasts a custom <em>select</em> event to subscribed views.</li>
 </ol>
 
-<h2>Views</h2>
+<h2 id="views">Views</h2>
 
-<h3>RibbonView</h3>
+<h3 id="ribbonview">RibbonView</h3>
 
-<p><img src="https://blog.methods.co.nz/images/contacts2-ribbon.png" alt="contacts2-ribbon.png" /></p>
+<p><img src="https://srackham.github.io/stuarts-notes/images/contacts2-ribbon.png" alt="contacts2-ribbon.png" /></p>
 
-<h3>StatusView</h3>
+<h3 id="statusview">StatusView</h3>
 
-<p><img src="https://blog.methods.co.nz/images/contacts2-status.png" alt="contacts2-status.png" /></p>
+<p><img src="https://srackham.github.io/stuarts-notes/images/contacts2-status.png" alt="contacts2-status.png" /></p>
 
-<h3>ListView</h3>
+<h3 id="listview">ListView</h3>
 
-<p><img src="https://blog.methods.co.nz/images/contacts2-list.png" alt="contacts2-list.png" /></p>
+<p><img src="https://srackham.github.io/stuarts-notes/images/contacts2-list.png" alt="contacts2-list.png" /></p>
 
-<h3>DetailView</h3>
+<h3 id="detailview">DetailView</h3>
 
-<p><img src="https://blog.methods.co.nz/images/contacts2-detail.png" alt="contacts2-detail.png" /></p>
+<p><img src="https://srackham.github.io/stuarts-notes/images/contacts2-detail.png" alt="contacts2-detail.png" /></p>
 
-<h2>Browser Compatibility</h2>
+<h2 id="browser-compatibility">Browser Compatibility</h2>
 
 <p>The markup generated by this tutorial is HTML5 with CSS3, no attempt has been made to accommodate legacy browsers.</p>
 
@@ -107,7 +107,7 @@
 <li>Requires iOS5+ for the names <a href="http://davidbcalhoun.com/2011/new-mobile-safari-stuff-in-ios5-position-fixed-overflow-scroll-new-input-type-support-web-workers-ecmascript-5">list to scroll</a>.</li>
 </ul>
 
-<h2>Backbone.js Tips</h2>
+<h2 id="backbone-js-tips">Backbone.js Tips</h2>
 
 <ul>
 <li><p>The use of the <em>fat arrow</em> function definition operator in event handlers is significant. In the following example, when <em>render</em> is called <em>this</em> will be bound to the callee&rsquo;s <em>this</em> context so the reference to <em>@el</em> will be correct:</p>
@@ -163,12 +163,12 @@ set: (model=null) -&gt;
     <div>
         <span class="left">
             
-            « <a href="https://blog.methods.co.nz/posts/getters-and-setters-for-backbone-model-attributes/">Previous</a>
+            « <a href="https://srackham.github.io/stuarts-notes/posts/getters-and-setters-for-backbone-model-attributes/">Previous</a>
             
         </span>
         <span class="right">
             
-            <a href="https://blog.methods.co.nz/posts/routeless-backbone-contacts/">Next</a> »
+            <a href="https://srackham.github.io/stuarts-notes/posts/routeless-backbone-contacts/">Next</a> »
             
         </span>
     </div>

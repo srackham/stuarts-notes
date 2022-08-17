@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width" />
     <title>Merging and Compacting VirtualBox Snapshots</title>
-    <link type="text/css" rel="stylesheet" href="https://blog.methods.co.nz/main.css">
+    <link type="text/css" rel="stylesheet" href="https://srackham.github.io/stuarts-notes/main.css">
     <link type="text/css" rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
 </head>
 <body>
     <div class="banner no-print">
-        <a href="https://blog.methods.co.nz/index.html">srackham | blog</a>
+        <a href="https://srackham.github.io/stuarts-notes/index.html">srackham | notes</a>
     </div>
     <ul class="menu no-print">
-        <li><a href="https://blog.methods.co.nz/indexes/posts/docs-1.html">Posts</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/tags.html">Tags</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/all/docs-1.html">All</a></li>
-        <li><a href="https://blog.methods.co.nz/about.html">About</a></li>
-        <li><a href="https://blog.methods.co.nz/search.html">Search</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/docs-1.html">Posts</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags.html">Tags</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/all/docs-1.html">All</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/about.html">About</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/search.html">Search</a></li>
     </ul>
     <div id="main">
         
@@ -27,9 +27,9 @@
 <span class="sans-font">Jun 17, 2010</span> 
 <span class="doctags">
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/python-1.html">python</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/python-1.html">python</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/virtualbox-1.html">VirtualBox</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/virtualbox-1.html">VirtualBox</a>
     
 </span>
 
@@ -58,7 +58,7 @@
 
 <p>If you&rsquo;re unfamiliar with the workings of VirtualBox snapshots and VDIs there is a great set of FAQs and <a href="http://forums.virtualbox.org/viewtopic.php?p=29272#29272">Tutorial: All about VDIs</a> in the VBox forums.</p>
 
-<h2>Merging the Snapshots</h2>
+<h2 id="merging-the-snapshots">Merging the Snapshots</h2>
 
 <ul>
 <li>Snapshots are merged starting with the current snapshot, then moving through the parents, until all parent snapshots have been merged into the base VDI. The <code>--skip=N</code> and <code>--count=N</code> options limit the merge to a snapshot subset.</li>
@@ -90,7 +90,7 @@ Backup all your virtual machines before running the script and do dry runs first
 <p><strong><em>Gotcha</em></strong>  :
 If the machine being processed is selected in the VirtualBox GUI then the GUI sometimes throws and error or stops responding. No damage results and the problem can be avoided by selecting another machine in the GUI before you run <em>vboxmerge</em>.</p>
 
-<h2>Compacting VDIs</h2>
+<h2 id="compacting-vdis">Compacting VDIs</h2>
 
 <p>Merging snapshots removes redundant shadowed blocks and will return a lot of space, but it doesn&rsquo;t return blocks that have previously been written but are now no longer used by the guest file system. VirtualBox processes VDIs as block devices, it knows nothing about files and file systems. The VirtualBox compact command compacts blocks of zeros so for compaction to be effective you need to zero free space from the guest operating system <strong>before</strong> compacting the VDI using VirtualBox.</p>
 
@@ -124,7 +124,7 @@ A zeroing utility for ext2 and ext3 file systems is <a href="http://intgat.tigre
 <p><strong>Why create a base snapshot?</strong>:
 Because I never like to write directly to the base VDI &ndash; creating a snapshot effectively leaves the base VDI read-only so even if your machine crashes half way through writing and corrupts the current state you can restore back to the base VDI.</p>
 
-<h2>Prerequisites</h2>
+<h2 id="prerequisites">Prerequisites</h2>
 
 <p>This is the environment I used to develop and test <code>vboxmerge.py</code>:</p>
 
@@ -163,7 +163,7 @@ C:\&gt; C:\Python26\python.exe vboxapisetup.py install
 ...
 </code></pre>
 
-<h2>The vboxmerge.py script</h2>
+<h2 id="the-vboxmerge-py-script">The vboxmerge.py script</h2>
 
 <p><strong><em>Important</em></strong>:
 The script was developed and tested with VirtualBox 3.2.4, it might not work with other versions of VirtualBox (see Prerequisites).</p>
@@ -306,13 +306,13 @@ if __name__ == '__main__':
     vboxmerge(args[0])
 </code></pre>
 
-<h2>Other Resources</h2>
+<h2 id="other-resources">Other Resources</h2>
 
 <ul>
 <li>Virtual Box API constants in <code>C:\Program Files\Oracle\VirtualBox\sdk\install\vboxapi\VirtualBox_constants.py</code>.</li>
 <li><a href="http://dlc.sun.com/virtualbox/vboxsdkdownload.html#sdk">VirtualBox SDK</a>.</li>
 <li><a href="http://gui-at.blogspot.com/2009/09/how-to-clone-virtualbox-virtual-machine.html">an example Python VBox script</a>.</li>
-<li>I discuss deleting Snapshots in <a href="https://blog.methods.co.nz/posts/deleting-virtualbox-snapshots/">this post</a>.</li>
+<li>I discuss deleting Snapshots in <a href="https://srackham.github.io/stuarts-notes/posts/deleting-virtualbox-snapshots/">this post</a>.</li>
 </ul>
 
 
@@ -320,12 +320,12 @@ if __name__ == '__main__':
     <div>
         <span class="left">
             
-            « <a href="https://blog.methods.co.nz/posts/deleting-virtualbox-snapshots/">Previous</a>
+            « <a href="https://srackham.github.io/stuarts-notes/posts/deleting-virtualbox-snapshots/">Previous</a>
             
         </span>
         <span class="right">
             
-            <a href="https://blog.methods.co.nz/posts/command-line-sms-script/">Next</a> »
+            <a href="https://srackham.github.io/stuarts-notes/posts/command-line-sms-script/">Next</a> »
             
         </span>
     </div>

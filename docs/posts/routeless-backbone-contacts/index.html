@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width" />
     <title>Routeless Backbone Contacts</title>
-    <link type="text/css" rel="stylesheet" href="https://blog.methods.co.nz/main.css">
+    <link type="text/css" rel="stylesheet" href="https://srackham.github.io/stuarts-notes/main.css">
     <link type="text/css" rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
 </head>
 <body>
     <div class="banner no-print">
-        <a href="https://blog.methods.co.nz/index.html">srackham | blog</a>
+        <a href="https://srackham.github.io/stuarts-notes/index.html">srackham | notes</a>
     </div>
     <ul class="menu no-print">
-        <li><a href="https://blog.methods.co.nz/indexes/posts/docs-1.html">Posts</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/tags.html">Tags</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/all/docs-1.html">All</a></li>
-        <li><a href="https://blog.methods.co.nz/about.html">About</a></li>
-        <li><a href="https://blog.methods.co.nz/search.html">Search</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/docs-1.html">Posts</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags.html">Tags</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/all/docs-1.html">All</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/about.html">About</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/search.html">Search</a></li>
     </ul>
     <div id="main">
         
@@ -27,9 +27,9 @@
 <span class="sans-font">Sep 23, 2011</span> 
 <span class="doctags">
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/backbone-js-1.html">Backbone.js</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/backbone-js-1.html">Backbone.js</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/coffeescript-1.html">coffeescript</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/coffeescript-1.html">coffeescript</a>
     
 </span>
 
@@ -54,27 +54,27 @@ This release described in this post is at the <em>1.0</em> tag.</p>
 <p><strong><em>Note</em></strong>:
 A second version of this tutorial application [has been posted], it builds on the material covered in this post.</p>
 
-<h2>Screenshots</h2>
+<h2 id="screenshots">Screenshots</h2>
 
-<h3>ListContactView</h3>
+<h3 id="listcontactview">ListContactView</h3>
 
-<p><img src="https://blog.methods.co.nz/images/contacts-list.png" alt="contacts-list.png" /></p>
+<p><img src="https://srackham.github.io/stuarts-notes/images/contacts-list.png" alt="contacts-list.png" /></p>
 
-<h3>ShowContactView</h3>
+<h3 id="showcontactview">ShowContactView</h3>
 
-<p><img src="https://blog.methods.co.nz/images/contacts-show.png" alt="contacts-show.png" /></p>
+<p><img src="https://srackham.github.io/stuarts-notes/images/contacts-show.png" alt="contacts-show.png" /></p>
 
-<h3>EditContactView</h3>
+<h3 id="editcontactview">EditContactView</h3>
 
-<p><img src="https://blog.methods.co.nz/images/contacts-edit.png" alt="contacts-edit.png" /></p>
+<p><img src="https://srackham.github.io/stuarts-notes/images/contacts-edit.png" alt="contacts-edit.png" /></p>
 
-<h2>Going routeless</h2>
+<h2 id="going-routeless">Going routeless</h2>
 
 <p>It&rsquo;s a mindset thing. If you come from a server-side web applications background your first instinct is to use a router and <a href="http://en.wikipedia.org/wiki/Fragment_identifier">fragment identifiers</a> to emulate browser page navigation &ndash; go down this route you soon find that trying to maintain a consistent back-button browser history is time consuming, messy and ultimately unnecessary.  Single page applications don&rsquo;t need a back-button (or any browser chrome), especially if they are bundled as pseudo-native mobile apps with something like <a href="http://www.phonegap.com/">PhoneGap</a> or packaged for the desktop, for example as <a href="http://code.google.com/chrome/extensions/apps.html">Google Chrome Packaged Apps</a>.</p>
 
 <p><em>Routeless Backbone.js Contacts</em> resides at a single <a href="http://en.wikipedia.org/wiki/Fragment_identifier">unfragmented URL</a> &ndash; user interface navigation is managed exclusively by DOM events. Button and link elements deal with the click events client-side (you are not POSTing form data to a server, so <em>form</em> elements and <em>submit</em> buttons are not necessary).  If the application were to persist data externally then then the data POSTS and GETS would be handled transparently by a Backbone database adapter.</p>
 
-<h2>Running the application</h2>
+<h2 id="running-the-application">Running the application</h2>
 
 <p>Once you have downloaded the <a href="https://github.com/srackham/routeless-backbone-contacts">source from Github</a> open the index.html file in your browser. Press the <em>Import Data</em> button to load the example contacts database.</p>
 
@@ -86,7 +86,7 @@ Unlike Google Chrome, neither Firefox 6 or IE9 like persisting Web Storage from 
 <li>Then execute the <em>mongoose</em> command and open your web browser at <em>localhost:8080</em>.</li>
 </ul>
 
-<h2>The source</h2>
+<h2 id="the-source">The source</h2>
 
 <p>This post should be read side-by-side with the source, it&rsquo;s very readable (although a basic understanding of <a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>, HTML and <a href="http://jquery.com/">jQuery</a> is recommended).</p>
 
@@ -109,9 +109,9 @@ Unlike Google Chrome, neither Firefox 6 or IE9 like persisting Web Storage from 
     @render()
 </code></pre>
 
-<h2>Application structure</h2>
+<h2 id="application-structure">Application structure</h2>
 
-<h3>The app object</h3>
+<h3 id="the-app-object">The app object</h3>
 
 <p>There is a single global instance <em>app</em> of the <em>App</em> class which:</p>
 
@@ -121,11 +121,11 @@ Unlike Google Chrome, neither Firefox 6 or IE9 like persisting Web Storage from 
 <li>Starts the application (with app.start()).</li>
 </ul>
 
-<h3>Models and Collections</h3>
+<h3 id="models-and-collections">Models and Collections</h3>
 
 <p>A single app.contacts collection of Contact models is persisted locally using the <a href="https://github.com/jeromegn/Backbone.localStorage">Backbone localStorage Adapter</a>. A single store is instantiated and attached to the <em>ContactModel</em>, the same store is referenced by the <em>ContactCollection</em>.</p>
 
-<h3>Views</h3>
+<h3 id="views">Views</h3>
 
 <p>The CRUD user interface is implemented by three Backbone.js views &ndash; <em>ListView</em>, <em>ShowView</em> and <em>EditView</em> (the <em>EditView</em> is also used to create new contacts).</p>
 
@@ -157,7 +157,7 @@ Unlike Google Chrome, neither Firefox 6 or IE9 like persisting Web Storage from 
 
 <p>It would have been nice to have used the HTML5 DOM dataset property to retrieve the <em>data-id</em> attribute (e.target.dataset.id) but it does not currently work in IE9, Safari or Android browsers.</p>
 
-<h3>Libraries</h3>
+<h3 id="libraries">Libraries</h3>
 
 <p>The app uses the following JavaScript libraries (in the lib directory):</p>
 
@@ -168,17 +168,17 @@ Unlike Google Chrome, neither Firefox 6 or IE9 like persisting Web Storage from 
 <li>The <a href="https://github.com/jeromegn/Backbone.localStorage">Backbone localStorage Adapter</a> persists models to the local disk using the browser <a href="http://dev.w3.org/html5/webstorage/">Web Storage</a> API.</li>
 </ul>
 
-<h2>Techniques</h2>
+<h2 id="techniques">Techniques</h2>
 
-<h3>Load scripts at the end of the page body</h3>
+<h3 id="load-scripts-at-the-end-of-the-page-body">Load scripts at the end of the page body</h3>
 
 <p>Place script tags last in the page body, just before the closing body tag. This ensures the page elements elements have been parsed and can be referenced when the scripts execute and allows you to safely reference page elements from class property initializers. See <a href="http://stackoverflow.com/questions/3037725/is-it-wrong-to-place-the-script-tag-after-the-body-tag">this stackoverflow discussion</a>.</p>
 
-<h3>Intra-application links do not need href&rsquo;s</h3>
+<h3 id="intra-application-links-do-not-need-href-s">Intra-application links do not need href&rsquo;s</h3>
 
 <p>Dropping the <em>href</em> ensures there are no changes to the browser URL or history.</p>
 
-<h2>CSS and HTML Tips</h2>
+<h2 id="css-and-html-tips">CSS and HTML Tips</h2>
 
 <ul>
 <li><p><a href="http://learnboost.github.com/stylus/">Stylus</a> is to CSS as CoffeeScript is to JavaScript, use it to keep your CSS <a href="http://en.wikipedia.org/wiki/Don’t_repeat_yourself">DRY</a> and to maintain your sanity.</p></li>
@@ -240,7 +240,7 @@ readonly=&quot;readonly&quot;                 NO
   }
 </code></pre>
 
-<h2>References</h2>
+<h2 id="references">References</h2>
 
 <ul>
 <li>E. Mathieu Sternberg&rsquo;s <a href="http://www.elfsternberg.com/2011/08/22/backbone-store-version-20-backbonejs-coffeescript-haml-stylus-edition/">The Backbone Store, version 2.0</a>.</li>
@@ -251,12 +251,12 @@ readonly=&quot;readonly&quot;                 NO
     <div>
         <span class="left">
             
-            « <a href="https://blog.methods.co.nz/posts/routeless-backbone-contacts-2-0/">Previous</a>
+            « <a href="https://srackham.github.io/stuarts-notes/posts/routeless-backbone-contacts-2-0/">Previous</a>
             
         </span>
         <span class="right">
             
-            <a href="https://blog.methods.co.nz/posts/switching-from-the-ipad-to-the-asus-transformer/">Next</a> »
+            <a href="https://srackham.github.io/stuarts-notes/posts/switching-from-the-ipad-to-the-asus-transformer/">Next</a> »
             
         </span>
     </div>

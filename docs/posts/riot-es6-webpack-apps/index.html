@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width" />
     <title>Building Apps with Riot, ES6 and Webpack</title>
-    <link type="text/css" rel="stylesheet" href="https://blog.methods.co.nz/main.css">
+    <link type="text/css" rel="stylesheet" href="https://srackham.github.io/stuarts-notes/main.css">
     <link type="text/css" rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
 </head>
 <body>
     <div class="banner no-print">
-        <a href="https://blog.methods.co.nz/index.html">srackham | blog</a>
+        <a href="https://srackham.github.io/stuarts-notes/index.html">srackham | notes</a>
     </div>
     <ul class="menu no-print">
-        <li><a href="https://blog.methods.co.nz/indexes/posts/docs-1.html">Posts</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/tags.html">Tags</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/all/docs-1.html">All</a></li>
-        <li><a href="https://blog.methods.co.nz/about.html">About</a></li>
-        <li><a href="https://blog.methods.co.nz/search.html">Search</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/docs-1.html">Posts</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags.html">Tags</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/all/docs-1.html">All</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/about.html">About</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/search.html">Search</a></li>
     </ul>
     <div id="main">
         
@@ -27,17 +27,17 @@
 <span class="sans-font">Feb 10, 2015</span> 
 <span class="doctags">
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/6to5-1.html">6to5</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/6to5-1.html">6to5</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/es6-1.html">ES6</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/es6-1.html">ES6</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/flux-1.html">Flux</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/flux-1.html">Flux</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/riot-1.html">Riot</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/riot-1.html">Riot</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/riotjs-1.html">Riotjs</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/riotjs-1.html">Riotjs</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/webpack-1.html">Webpack</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/webpack-1.html">Webpack</a>
     
 </span>
 
@@ -60,13 +60,13 @@
 
 <p>If you&rsquo;re not familiar with Riot take a look at the <a href="https://muut.com/riotjs/">Riot website</a> &ndash; the documentation is first class. So rather than discussing how Riot works I&rsquo;ll just list things I&rsquo;ve learnt that may not be obvious reading the documentation.</p>
 
-<h2>Using ES6 with Riot</h2>
+<h2 id="using-es6-with-riot">Using ES6 with Riot</h2>
 
 <p>The <a href="https://github.com/srackham/riot-todo">example app</a> is written in ES6, I use the <a href="http://6to5.org/">6to5</a> transpiler to convert it to ES5 and <a href="http://webpack.github.io/">Webpack</a> to bundle the compiled code along with required libraries. This approach necessitates combining JavaScript modules &ndash; working in ES6 is particularly nice as you get to take advantage of the new ES6 import and export statements (see <a href="https://github.com/srackham/riot-todo/blob/master/src/index.js">this example</a>).</p>
 
 <p>Webpack <a href="https://github.com/srackham/riot-todo/blob/master/webpack.config.js">is configured</a> to use the <code>6to5-loader</code> which automatically converts ES6 source to CommonJS formatted ES5 modules that are then bundled into the single <code>bundle.js</code> distributable file.</p>
 
-<h2>Why I don&rsquo;t use Riot .tag files</h2>
+<h2 id="why-i-don-t-use-riot-tag-files">Why I don&rsquo;t use Riot .tag files</h2>
 
 <p>Riot tag files are HTML templates containing HTML markup along with JavaScript UI logic.
 If you&rsquo;ve looked at the <a href="https://github.com/srackham/riot-todo">Todo app</a> app you are probably wondering where the tag files are &ndash; the answer is that I no longer use them, preferring JavaScript instead. By eliminating <code>.tag</code> files I&rsquo;ve simplified my coding, tooling and workflow. For me, tag file complexity and limitations outweigh any perceived benefits.</p>
@@ -107,7 +107,7 @@ If you&rsquo;ve looked at the <a href="https://github.com/srackham/riot-todo">To
 
 <p>ES6 Template Strings aid the readability of tag HTML templates. Similarly, if you are using CoffeeScript you can use CoffeeScript Block Strings. <a href="http://facebook.github.io/jsx/">JSX</a> is another possibility &ndash; React&rsquo;s JSX transformer could be modified to emit a string literal and you could then take advantage of existing JSX tooling support.</p>
 
-<h2>The fundamental difference between Riot and React</h2>
+<h2 id="the-fundamental-difference-between-riot-and-react">The fundamental difference between Riot and React</h2>
 
 <p>The most significant difference lies in how the UI markup templates are declared:</p>
 
@@ -135,9 +135,9 @@ If you&rsquo;ve looked at the <a href="https://github.com/srackham/riot-todo">To
 
 <p>Steve Luscher explains why he thinks JavaScript is better than custom template DSLs <a href="https://www.youtube.com/watch?v=rI0GQc__0SM#t=1325">towards the end of this video</a> &ndash; not only do you have to learn a custom DSL you are also constrained by the features the DSL offers. For small common use-case examples like ones above there is little to choose between the two approaches, but when it comes to larger highly dynamic UI compositions the power and flexibility of React&rsquo;s JavaScript approach is clearly superior.</p>
 
-<h2>Tips</h2>
+<h2 id="tips">Tips</h2>
 
-<h3>Avoid self-closing XHTML style tags</h3>
+<h3 id="avoid-self-closing-xhtml-style-tags">Avoid self-closing XHTML style tags</h3>
 
 <p>Do not close tags with <code>/&gt;</code> as it does not always immediately close the tag.  When dealing with HTML5 elements <code>&lt;foo /&gt;</code> means <code>&lt;foo&gt;</code> (whereas in XHTML <code>&lt;foo /&gt;</code> means <code>&lt;foo&gt;&lt;/foo&gt;</code>) i.e. HTML5 ignores the <code>/</code> character. See this <a href="http://stackoverflow.com/a/9845124/1136455">Stackoverflow post</a> on the subject. See also:</p>
 
@@ -147,7 +147,7 @@ If you&rsquo;ve looked at the <a href="https://github.com/srackham/riot-todo">To
 <li><p><a href="https://muut.com/riotjs/forum/#!/using:misplaced-form-end-tag">Misplaced form end-tags</a>.</p></li>
 </ul>
 
-<h3>Bind tag event handlers to this</h3>
+<h3 id="bind-tag-event-handlers-to-this">Bind tag event handlers to this</h3>
 
 <p>Bind tag event handlers to <code>this</code> to ensure they are always fired with the tag context (alternatively use the <code>var self = this</code> idiom). For example:</p>
 
@@ -163,7 +163,7 @@ If you&rsquo;ve looked at the <a href="https://github.com/srackham/riot-todo">To
 };
 </code></pre>
 
-<h3>Referencing Loop items</h3>
+<h3 id="referencing-loop-items">Referencing Loop items</h3>
 
 <p>Use the <code>each=&quot;{item in items}&quot;</code> construct to pass the current looped item to a child custom tag. In the following example the code in the custom <code>todo-item</code> tag can refer to the current todo item with <code>opts.todo</code>:</p>
 
@@ -174,15 +174,15 @@ If you&rsquo;ve looked at the <a href="https://github.com/srackham/riot-todo">To
 &lt;/ul&gt;
 </code></pre>
 
-<h3>Namespace event names</h3>
+<h3 id="namespace-event-names">Namespace event names</h3>
 
 <p>Use the colon namespacing convention to group application event names e.g. <code>admin:edit</code>, <code>admin:delete</code>, <code>admin:new</code>.</p>
 
-<h3>You can use custom tag names in CSS files</h3>
+<h3 id="you-can-use-custom-tag-names-in-css-files">You can use custom tag names in CSS files</h3>
 
 <p>Custom tags are rendered into the DOM and so they can be used for CSS selection and DOM interrogation, here&rsquo;s <a href="https://github.com/srackham/riot-todo/blob/master/dist/index.css">an example</a>.</p>
 
-<h2>Debugging</h2>
+<h2 id="debugging">Debugging</h2>
 
 <p>When bundling with Webpack you need to use the <a href="https://github.com/srackham/riot-todo/blob/master/webpack.config.js">devtool source-map configuration option</a> to produce a <a href="http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/">source map</a> file for you bundled app. This allows you to debug from the ES6 source code files.</p>
 
@@ -195,7 +195,7 @@ If you&rsquo;ve looked at the <a href="https://github.com/srackham/riot-todo">To
 
 <p>I&rsquo;m not big on debuggers and break points &ndash; most of the time I just put strategically placed temporary <code>console.log()</code> statements in the code.</p>
 
-<h2>The Big Picture</h2>
+<h2 id="the-big-picture">The Big Picture</h2>
 
 <p>Riot (like React) is a UI library, not a framework. This is good (I prefer a small set of focused libraries to an all encompassing framework) but non-trivial applications need a coherent high-level structure (an architecture) to ease scalability, evolution and maintainability. <a href="https://www.npmjs.com/package/flux">Flux</a> is increasing the architecture of choice for React-like apps. I like Flux because it&rsquo;s easy to understand and because it makes intuitive sense (not out of any theoretical conviction). The <a href="https://github.com/srackham/riot-todo">Riot Todo app</a> uses the <a href="https://github.com/jimsparkman/RiotControl">RiotControl</a> flux-style dispatcher (slightly modified) to implement the Flux architecture.</p>
 
@@ -209,7 +209,7 @@ If you&rsquo;ve looked at the <a href="https://github.com/srackham/riot-todo">To
         </span>
         <span class="right">
             
-            <a href="https://blog.methods.co.nz/posts/easier-terminal-pasting-in-ubuntu/">Next</a> »
+            <a href="https://srackham.github.io/stuarts-notes/posts/easier-terminal-pasting-in-ubuntu/">Next</a> »
             
         </span>
     </div>

@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width" />
     <title>Building heterogeneous TypeScript libraries</title>
-    <link type="text/css" rel="stylesheet" href="https://blog.methods.co.nz/main.css">
+    <link type="text/css" rel="stylesheet" href="https://srackham.github.io/stuarts-notes/main.css">
     <link type="text/css" rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
 </head>
 <body>
     <div class="banner no-print">
-        <a href="https://blog.methods.co.nz/index.html">srackham | blog</a>
+        <a href="https://srackham.github.io/stuarts-notes/index.html">srackham | notes</a>
     </div>
     <ul class="menu no-print">
-        <li><a href="https://blog.methods.co.nz/indexes/posts/docs-1.html">Posts</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/tags.html">Tags</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/all/docs-1.html">All</a></li>
-        <li><a href="https://blog.methods.co.nz/about.html">About</a></li>
-        <li><a href="https://blog.methods.co.nz/search.html">Search</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/docs-1.html">Posts</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags.html">Tags</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/all/docs-1.html">All</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/about.html">About</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/search.html">Search</a></li>
     </ul>
     <div id="main">
         
@@ -27,18 +27,18 @@
 <span class="sans-font">Nov 21, 2012</span> 
 <span class="doctags">
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/typescript-1.html">TypeScript</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/typescript-1.html">TypeScript</a>
     
 </span>
 
 </div>
 <p>A technique for compiling one or more TypeScript source files to a single JavaScript library file that can be used in both the browser and by Node.js applications.</p>
 
-<h2>By way of example</h2>
+<h2 id="by-way-of-example">By way of example</h2>
 
 <p>Our library source consists of a single TypeScript module called <em>Lib</em> spread across multiple source files (<code>lib1.ts</code> and <code>lib2.ts</code>) that exports a public API:</p>
 
-<h4>lib1.ts</h4>
+<h4 id="lib1-ts">lib1.ts</h4>
 
 <pre><code class="language-typescript">module Lib {
     export function f() {}
@@ -50,7 +50,7 @@ if (typeof exports != 'undefined') {
 }
 </code></pre>
 
-<h4>lib2.ts</h4>
+<h4 id="lib2-ts">lib2.ts</h4>
 
 <pre><code class="language-typescript">module Lib {
     export var v = {foo: 42};
@@ -67,7 +67,7 @@ if (typeof exports != 'undefined') {
 <pre><code>tsc --out lib.js lib1.ts lib2.ts
 </code></pre>
 
-<h4>lib.js</h4>
+<h4 id="lib-js">lib.js</h4>
 
 <pre><code class="language-typescript">var Lib;
 (function (Lib) {
@@ -101,7 +101,7 @@ if(typeof exports != 'undefined') {
 
 <p>The APIs are accessed via the module name e.g. <code>Lib.f()</code>, <code>Lib.v</code>.</p>
 
-<h2>Explanatory notes</h2>
+<h2 id="explanatory-notes">Explanatory notes</h2>
 
 <p>The key to being able to import the code into Node.js with <code>require('./lib.js')</code> is conditionally assigning public API objects to properties of the global <code>exports</code> object e.g.</p>
 
@@ -125,7 +125,7 @@ if (typeof exports != 'undefined') {
 </ol></li>
 </ul>
 
-<h2>Scoping function wrapper</h2>
+<h2 id="scoping-function-wrapper">Scoping function wrapper</h2>
 
 <p>A variation of the above technique is to wrap the combined compiled file with a <em>scoping function</em>. This will ensure non-exported top level objects do not pollute the browser global namespace:</p>
 
@@ -145,7 +145,7 @@ else if (typeof window !== 'undefined') {
 }
 </code></pre>
 
-<h2>References</h2>
+<h2 id="references">References</h2>
 
 <ul>
 <li><a href="http://know.cujojs.com/tutorials/modules/authoring-cjs-modules">Authoring CommonJS modules</a>.</li>
@@ -162,12 +162,12 @@ else if (typeof window !== 'undefined') {
     <div>
         <span class="left">
             
-            « <a href="https://blog.methods.co.nz/posts/configuring-nut-for-the-eaton-3s-ups-on-ubuntu-linux/">Previous</a>
+            « <a href="https://srackham.github.io/stuarts-notes/posts/configuring-nut-for-the-eaton-3s-ups-on-ubuntu-linux/">Previous</a>
             
         </span>
         <span class="right">
             
-            <a href="https://blog.methods.co.nz/posts/bash-completion-for-grunt-files/">Next</a> »
+            <a href="https://srackham.github.io/stuarts-notes/posts/bash-completion-for-grunt-files/">Next</a> »
             
         </span>
     </div>

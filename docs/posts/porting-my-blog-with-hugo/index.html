@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width" />
     <title>Porting my blog with Hugo</title>
-    <link type="text/css" rel="stylesheet" href="https://blog.methods.co.nz/main.css">
+    <link type="text/css" rel="stylesheet" href="https://srackham.github.io/stuarts-notes/main.css">
     <link type="text/css" rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
 </head>
 <body>
     <div class="banner no-print">
-        <a href="https://blog.methods.co.nz/index.html">srackham | blog</a>
+        <a href="https://srackham.github.io/stuarts-notes/index.html">srackham | notes</a>
     </div>
     <ul class="menu no-print">
-        <li><a href="https://blog.methods.co.nz/indexes/posts/docs-1.html">Posts</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/tags.html">Tags</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/all/docs-1.html">All</a></li>
-        <li><a href="https://blog.methods.co.nz/about.html">About</a></li>
-        <li><a href="https://blog.methods.co.nz/search.html">Search</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/docs-1.html">Posts</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags.html">Tags</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/all/docs-1.html">All</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/about.html">About</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/search.html">Search</a></li>
     </ul>
     <div id="main">
         
@@ -27,18 +27,18 @@
 <span class="sans-font">Dec 30, 2014</span> 
 <span class="doctags">
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/hugo-1.html">Hugo</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/hugo-1.html">Hugo</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/github-1.html">Github</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/github-1.html">Github</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/jekyll-1.html">Jekyll</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/jekyll-1.html">Jekyll</a>
     
 </span>
 
 </div>
 <p>I&rsquo;ve just ported <a href="http://srackham.wordpress.com/">my Wordpress blog</a> to <a href="https://pages.github.com/">Github Pages</a> using <a href="http://gohugo.io/">Hugo</a>.</p>
 
-<h2>Why not use Jekyll?</h2>
+<h2 id="why-not-use-jekyll">Why not use Jekyll?</h2>
 
 <p><a href="http://jekyllrb.com/">Jekyll</a> is currently the de facto choice for
 building Github hosted static websites, I choose Hugo (after first
@@ -53,7 +53,7 @@ than Jekyll.</li>
 <li>With Jekyll you have to install and maintain the Ruby/Rake/Gems ecosystem &ndash; Hugo is just a single executable with no dependencies.</li>
 </ul>
 
-<h2>Choosing a theme</h2>
+<h2 id="choosing-a-theme">Choosing a theme</h2>
 
 <p>My objective requirements were:</p>
 
@@ -76,13 +76,13 @@ Github</a>.</p>
 
 <p>My blog&rsquo;s Github repository can be found <a href="https://github.com/srackham/stuarts-notes">here</a>.</p>
 
-<h2>Implementation and Deployment</h2>
+<h2 id="implementation-and-deployment">Implementation and Deployment</h2>
 
 <p>Couldn&rsquo;t be easier: All you have to do is read and follow the <a href="http://gohugo.io/tutorials/github_pages_blog/">Hosting
 on GitHub Pages</a>
 tutorial.</p>
 
-<h3>Additional notes</h3>
+<h3 id="additional-notes">Additional notes</h3>
 
 <ul>
 <li><p>Edit URLs in <code>config.yaml</code> and <code>deploy.sh</code> to reflect those of your Github repository.</p></li>
@@ -114,7 +114,7 @@ git push -u origin master
 <li><p>There are <a href="http://gohugo.io/templates/404/">Hugo instruction</a> and <a href="https://help.github.com/articles/custom-404-pages/">Github instructions</a> explaining how to create a custom 404 (page not found) page.</p></li>
 </ul>
 
-<h3>Customization</h3>
+<h3 id="customization">Customization</h3>
 
 <p>Rather than change existing CSS files I customize the look of the site with a separate (<code>./static/css/custom.css</code>) file. Don&rsquo;t forget to add a <code>link</code> tag to the new CSS file in the <code>./layouts/chrome/head_includes.html</code> template.</p>
 
@@ -129,7 +129,7 @@ list-style-type: none;
 }
 </code></pre>
 
-<h3>Importing posts from WordPress</h3>
+<h3 id="importing-posts-from-wordpress">Importing posts from WordPress</h3>
 
 <p>I used <a href="https://github.com/thomasf/exitwp">Exitwp</a> to import the exported WordPress posts to Hugo &ndash; it worked like a charm and saved me hours of drudgery.</p>
 
@@ -154,7 +154,7 @@ local I copied the images to <code>./satic/images/</code> and adjusted the
 links in the Markdown source to <code>/images/&lt;image-file-name&gt;</code>.</p></li>
 </ul>
 
-<h2>Things I&rsquo;ve learnt</h2>
+<h2 id="things-i-ve-learnt">Things I&rsquo;ve learnt</h2>
 
 <ul>
 <li><p>If you are deploying to a <a href="http://ifyoucodeittheywill.com/2009/03/absolute-relative-and-root-relative-urls/">non-root base URL</a> (e.g. <code>http://srackham.github.io/stuarts-notes/</code>) you will need to add <code>canonifyurls: true</code> to your <code>config.yaml</code> file. If you don&rsquo;t, the root-relative URLs (for example, in the CSS file links) will not work. For the same reason, you will also have this problem If you run the <code>hugo server</code> command and view the site locally. I no longer have this issue because my base URL is a root URL (<code>http://blog.srackham.com/</code>).</p></li>
@@ -176,7 +176,7 @@ links in the Markdown source to <code>/images/&lt;image-file-name&gt;</code>.</p
 reading</a>
 philosopy, but it has it&rsquo;s limits. There&rsquo;s a lot more work goes into a readable and useful blog post than just throwing on-the-fly notes over the wall. On the plus side, putting my notes into a blog ensures that I understand them more then six months later.</p>
 
-<h2>Todo list</h2>
+<h2 id="todo-list">Todo list</h2>
 
 <ol>
 <li><p>Enable blog comments <a href="http://gohugo.io/extras/comments/">using Disqus</a> &ndash; maybe.</p></li>
@@ -189,12 +189,12 @@ philosopy, but it has it&rsquo;s limits. There&rsquo;s a lot more work goes into
     <div>
         <span class="left">
             
-            « <a href="https://blog.methods.co.nz/posts/easier-terminal-pasting-in-ubuntu/">Previous</a>
+            « <a href="https://srackham.github.io/stuarts-notes/posts/easier-terminal-pasting-in-ubuntu/">Previous</a>
             
         </span>
         <span class="right">
             
-            <a href="https://blog.methods.co.nz/posts/publishing-a-project-website-to-github-pages/">Next</a> »
+            <a href="https://srackham.github.io/stuarts-notes/posts/publishing-a-project-website-to-github-pages/">Next</a> »
             
         </span>
     </div>

@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width" />
     <title>Testing CoffeeScript apps with Selenium</title>
-    <link type="text/css" rel="stylesheet" href="https://blog.methods.co.nz/main.css">
+    <link type="text/css" rel="stylesheet" href="https://srackham.github.io/stuarts-notes/main.css">
     <link type="text/css" rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
 </head>
 <body>
     <div class="banner no-print">
-        <a href="https://blog.methods.co.nz/index.html">srackham | blog</a>
+        <a href="https://srackham.github.io/stuarts-notes/index.html">srackham | notes</a>
     </div>
     <ul class="menu no-print">
-        <li><a href="https://blog.methods.co.nz/indexes/posts/docs-1.html">Posts</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/tags.html">Tags</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/all/docs-1.html">All</a></li>
-        <li><a href="https://blog.methods.co.nz/about.html">About</a></li>
-        <li><a href="https://blog.methods.co.nz/search.html">Search</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/docs-1.html">Posts</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags.html">Tags</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/all/docs-1.html">All</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/about.html">About</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/search.html">Search</a></li>
     </ul>
     <div id="main">
         
@@ -27,14 +27,14 @@
 <span class="sans-font">Oct 25, 2011</span> 
 <span class="doctags">
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/coffeescript-1.html">coffeescript</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/coffeescript-1.html">coffeescript</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/selenium-1.html">Selenium</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/selenium-1.html">Selenium</a>
     
 </span>
 
 </div>
-<p>This blog entry describes how to write functional tests for CoffeeScript web apps using <a href="http://seleniumhq.org/">Selenium</a>. By way of example I&rsquo;ll describe how I added Selenium tests to the <a href="https://blog.methods.co.nz/posts/routeless-backbone-contacts-2-0/">Routeless Backbone Contacts</a> tutorial app and automated it&rsquo;s execution with a <a href="http://jashkenas.github.com/coffee-script/#cake">Cakefile</a>.</p>
+<p>This blog entry describes how to write functional tests for CoffeeScript web apps using <a href="http://seleniumhq.org/">Selenium</a>. By way of example I&rsquo;ll describe how I added Selenium tests to the <a href="https://srackham.github.io/stuarts-notes/posts/routeless-backbone-contacts-2-0/">Routeless Backbone Contacts</a> tutorial app and automated it&rsquo;s execution with a <a href="http://jashkenas.github.com/coffee-script/#cake">Cakefile</a>.</p>
 
 <p>The source is <a href="https://github.com/srackham/routeless-backbone-contacts">on Github</a>, the tests described in this post are at the <em>3.0</em> tag.</p>
 
@@ -54,7 +54,7 @@
 <li>The Selenese native format is an HTML table but it can also be exported to languages with Selenium binding (<em>Python</em>, <em>Java</em>, <em>C#</em>).</li>
 </ul>
 
-<h2>Requisites</h2>
+<h2 id="requisites">Requisites</h2>
 
 <p>To use the Selenium IDE you will need to install:</p>
 
@@ -71,7 +71,7 @@ IDE plugin.</li>
 
 <p>This post is based on Firefox 7.0.1 (Ubuntu) with Selenium IDE 1.3.0.</p>
 
-<h2>Creating a test</h2>
+<h2 id="creating-a-test">Creating a test</h2>
 
 <p>Creating a Selenese test script is a two step process:</p>
 
@@ -91,7 +91,7 @@ IDE plugin.</li>
 <p><strong><em>Note</em></strong>:
 To run the tests you will need to open the application in a web server (file based URLs won&rsquo;t work). I use the <a href="http://code.google.com/p/mongoose/">Mongoose</a> web server for app testing.</p>
 
-<h3>Mongoose web server</h3>
+<h3 id="mongoose-web-server">Mongoose web server</h3>
 
 <p>The <a href="http://code.google.com/p/mongoose/">Mongoose</a> web server is a neat little configurationless cross-platform web server that&rsquo;s ideal for testing web apps.</p>
 
@@ -122,7 +122,7 @@ make linux
  displayed else you&rsquo;ll be presented with a file browser interface.</p></li>
 </ol>
 
-<h2>Running tests from the command-line</h2>
+<h2 id="running-tests-from-the-command-line">Running tests from the command-line</h2>
 
 <p>There&rsquo;s no easy way to open the Selenium IDE and get it to execute a test from
 the command-line (at least I couldn&rsquo;t find one), but you can export the tests to
@@ -147,7 +147,7 @@ you will be able to copy-and-paste IDE commands as Python code).</p>
 
 <p>The exported Python scripts make use of the Python <a href="http://docs.python.org/library/unittest.html">unit testing framework</a>.</p>
 
-<h3>Export anomalies and omissions</h3>
+<h3 id="export-anomalies-and-omissions">Export anomalies and omissions</h3>
 
 <p>The export of Selenese to Python is not perfect, here are some of the manual edits I had to do:</p>
 
@@ -169,7 +169,7 @@ driver.find_element_by_name(&quot;name&quot;).click()   # Fire search 'change' e
 
 <p><a href="https://github.com/srackham/routeless-backbone-contacts/blob/3.0/test/test.py">Here&rsquo;s the Python test</a> for the tutorial.</p>
 
-<h3>Dynamic user interface controls</h3>
+<h3 id="dynamic-user-interface-controls">Dynamic user interface controls</h3>
 
 <p>Incremental search boxes and auto-completing drop-down lists typically emit
 keystroke events (up/down/press) to dynamically update other elements in
@@ -191,11 +191,11 @@ driver.find_element_by_name(&quot;name&quot;).click()
 
 <p>The <em>click</em> command moves the focus from the search box to trigger a search box DOM <em>change</em> event.</p>
 
-<h2>Setup and Teardown</h2>
+<h2 id="setup-and-teardown">Setup and Teardown</h2>
 
 <p>At the start of testing you will typically create test fixtures to put the
 application in a known state. For data oriented apps this means means populating
-the database with fixed data, the <a href="https://blog.methods.co.nz/posts/routeless-backbone-contacts-2-0/">Routeless Backbone
+the database with fixed data, the <a href="https://srackham.github.io/stuarts-notes/posts/routeless-backbone-contacts-2-0/">Routeless Backbone
 Contacts</a> application has built-in
 <em>Clear All</em> and <em>Import Data</em> commands that serve this purpose.</p>
 
@@ -206,9 +206,9 @@ testing then, you could setup and teardown fixtures in the traditional fashion
 using Python <a href="http://docs.python.org/library/unittest.html#class-and-module-fixtures">unittest class and module
 fixtures</a>.</p>
 
-<h2>Cakefile automation</h2>
+<h2 id="cakefile-automation">Cakefile automation</h2>
 
-<p>The <a href="https://blog.methods.co.nz/posts/routeless-backbone-contacts-2-0/">Routeless Backbone Contacts</a>
+<p>The <a href="https://srackham.github.io/stuarts-notes/posts/routeless-backbone-contacts-2-0/">Routeless Backbone Contacts</a>
 application is written in
 <a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a> so it made sense to
 automate the tests with a
@@ -251,12 +251,12 @@ task 'test', 'Run tests', -&gt;
     <div>
         <span class="left">
             
-            « <a href="https://blog.methods.co.nz/posts/bash-completion-for-cake-files/">Previous</a>
+            « <a href="https://srackham.github.io/stuarts-notes/posts/bash-completion-for-cake-files/">Previous</a>
             
         </span>
         <span class="right">
             
-            <a href="https://blog.methods.co.nz/posts/compiling-coffeescript-with-vim/">Next</a> »
+            <a href="https://srackham.github.io/stuarts-notes/posts/compiling-coffeescript-with-vim/">Next</a> »
             
         </span>
     </div>

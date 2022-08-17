@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width" />
     <title>Using an iPad to access remote Windows desktops</title>
-    <link type="text/css" rel="stylesheet" href="https://blog.methods.co.nz/main.css">
+    <link type="text/css" rel="stylesheet" href="https://srackham.github.io/stuarts-notes/main.css">
     <link type="text/css" rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
 </head>
 <body>
     <div class="banner no-print">
-        <a href="https://blog.methods.co.nz/index.html">srackham | blog</a>
+        <a href="https://srackham.github.io/stuarts-notes/index.html">srackham | notes</a>
     </div>
     <ul class="menu no-print">
-        <li><a href="https://blog.methods.co.nz/indexes/posts/docs-1.html">Posts</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/tags.html">Tags</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/all/docs-1.html">All</a></li>
-        <li><a href="https://blog.methods.co.nz/about.html">About</a></li>
-        <li><a href="https://blog.methods.co.nz/search.html">Search</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/docs-1.html">Posts</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags.html">Tags</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/all/docs-1.html">All</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/about.html">About</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/search.html">Search</a></li>
     </ul>
     <div id="main">
         
@@ -27,11 +27,11 @@
 <span class="sans-font">Jul 16, 2011</span> 
 <span class="doctags">
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/ipad-1.html">ipad</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/ipad-1.html">ipad</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/rdp-1.html">rdp</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/rdp-1.html">rdp</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/vnc-1.html">vnc</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/vnc-1.html">vnc</a>
     
 </span>
 
@@ -49,7 +49,7 @@
 <li>All four have very good RDP (Microsoft Remote Desktop Protocol) clients, the latter two also include VNC clients.  <em>Remote Desktop Lite - RDP</em> is a free app the others are non-free.</li>
 </ul>
 
-<h2>The hard part: getting back into your office</h2>
+<h2 id="the-hard-part-getting-back-into-your-office">The hard part: getting back into your office</h2>
 
 <p>My principle use case is remote Internet access from a wireless iPad tethered to my mobile phone back into desktops running Microsoft Windows on my (Internet connected) office LAN.  The hard part is locating and securely connecting to desktop PCs from an external location on the Internet. This is because most desktop PCs are isolated from the Internet behind a NAT router/firewall with a dynamic IP address, so you can&rsquo;t use DNS to locate the router or the PC. You have two choices:</p>
 
@@ -60,11 +60,11 @@
 
 <p>Manual configuration is time consuming and fiddly. It can be downright dangerous if you&rsquo;re not careful or don&rsquo;t understand what you&rsquo;re doing. Of the four apps I tried only <em>Desktop Connect</em> and <em>Jump Desktop</em> support the automatic configuration option (both use Google Talk to facilitate the connection) &ndash; this is why, for me, the choice was between these two remote access apps.</p>
 
-<h3>How does the auto-connect feature work?</h3>
+<h3 id="how-does-the-auto-connect-feature-work">How does the auto-connect feature work?</h3>
 
 <p>A first it seems like magic &ndash; how can all this manual jiggery-pokery be obviated by your Google login? The answer is that the auto-connect program on your desktop logs into Google&rsquo;s servers and registers your computers address, the remote access client on you iPad also logs into your Google account and retrieves the address of your desktop. Here is <a href="http://support.jumpdesktop.com/entries/223751-general-how-does-jump-desktop-use-my-google-account">some more information</a>.</p>
 
-<h2>Why I choose Jump Desktop over Desktop Connect</h2>
+<h2 id="why-i-choose-jump-desktop-over-desktop-connect">Why I choose Jump Desktop over Desktop Connect</h2>
 
 <p>Both <em>Jump Desktop</em> over <em>Desktop Connect</em> have excellent RDP and VNC iPad clients, but <em>Jump Desktop</em> really shines when it comes to the auto-connect functionality.</p>
 
@@ -80,7 +80,7 @@
 
 <p>I evaluated RDP connections to Windows 7 Pro and Windows XP Pro; VNC on Windows 7 Home.</p>
 
-<h2>RDP or VNC?</h2>
+<h2 id="rdp-or-vnc">RDP or VNC?</h2>
 
 <p>The target desktop PC must run a remote access server. All current versions of Windows (apart from Windows Home and Starter editions) come with an RDP server and I recommend using RDP over VNC for Windows access:</p>
 
@@ -92,7 +92,7 @@
 
 <p>VNC is useful for non-Windows desktops (Linux, OS X) and for Windows Home edition (which does not include an RDP server).</p>
 
-<h2>Jump Desktop tips</h2>
+<h2 id="jump-desktop-tips">Jump Desktop tips</h2>
 
 <p>Unless stated otherwise these comments relate to RDP connections.</p>
 
@@ -111,7 +111,7 @@
 <li>The <a href="http://support.jumpdesktop.com/forums">Jump Desktop Knowledge Base</a> is your friend.</li>
 </ul>
 
-<h2>Q &amp; A</h2>
+<h2 id="q-a">Q &amp; A</h2>
 
 <p><em>What if I don&rsquo;t have an iPad?</em>
      You don&rsquo;t need an iPad for remote access, for example the free <a href="http://support.jumpdesktop.com/entries/20097387-jump-desktop-viewer-for-pc">Jump Desktop Viewer</a> allows you to use a Windows PC in place of an iPad for the remote access client &ndash; an option if you&rsquo;re wanting to dip your toes in the water before deciding on buying an iPad.</p>
@@ -120,7 +120,7 @@
      No, not if you have a mobile phone that supports WiFi tethering. WiFi tethering turns your phone into your own private wireless hotspot, in most new Android phones turning tethering on is a simple one-click option.</p>
 
 <p><em>How can I keep a lid on mobile data costs?</em>
-     Remote access typically uses less data than Web browsing but mobile data is expensive in New Zealand, so only use it when you have to and if, for example, you&rsquo;re at home connect the iPad to the Internet over your home WiFi connection. <a href="https://blog.methods.co.nz/posts/keeping-a-lid-on-mobile-data/">I blogged about this recently</a>.</p>
+     Remote access typically uses less data than Web browsing but mobile data is expensive in New Zealand, so only use it when you have to and if, for example, you&rsquo;re at home connect the iPad to the Internet over your home WiFi connection. <a href="https://srackham.github.io/stuarts-notes/posts/keeping-a-lid-on-mobile-data/">I blogged about this recently</a>.</p>
 
 <p><em>Is it true that remote access won&rsquo;t work on a PC running Windows Home edition?</em>
      Microsoft does not bundle an RDP server with <em>Windows Home</em> editions so you need to install an alternative. Jump Desktop will optionally install a VNC server on Windows Home PCs, but a version of Windows with built-in RDP is preferable.</p>
@@ -136,12 +136,12 @@
     <div>
         <span class="left">
             
-            « <a href="https://blog.methods.co.nz/posts/keeping-a-lid-on-mobile-data/">Previous</a>
+            « <a href="https://srackham.github.io/stuarts-notes/posts/keeping-a-lid-on-mobile-data/">Previous</a>
             
         </span>
         <span class="right">
             
-            <a href="https://blog.methods.co.nz/posts/coffeescript-for-command-line-apps/">Next</a> »
+            <a href="https://srackham.github.io/stuarts-notes/posts/coffeescript-for-command-line-apps/">Next</a> »
             
         </span>
     </div>

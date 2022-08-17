@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width" />
     <title>Moving between VirtualBox Hosts</title>
-    <link type="text/css" rel="stylesheet" href="https://blog.methods.co.nz/main.css">
+    <link type="text/css" rel="stylesheet" href="https://srackham.github.io/stuarts-notes/main.css">
     <link type="text/css" rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
 </head>
 <body>
     <div class="banner no-print">
-        <a href="https://blog.methods.co.nz/index.html">srackham | blog</a>
+        <a href="https://srackham.github.io/stuarts-notes/index.html">srackham | notes</a>
     </div>
     <ul class="menu no-print">
-        <li><a href="https://blog.methods.co.nz/indexes/posts/docs-1.html">Posts</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/tags.html">Tags</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/all/docs-1.html">All</a></li>
-        <li><a href="https://blog.methods.co.nz/about.html">About</a></li>
-        <li><a href="https://blog.methods.co.nz/search.html">Search</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/docs-1.html">Posts</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags.html">Tags</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/all/docs-1.html">All</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/about.html">About</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/search.html">Search</a></li>
     </ul>
     <div id="main">
         
@@ -27,7 +27,7 @@
 <span class="sans-font">Nov 29, 2010</span> 
 <span class="doctags">
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/virtualbox-1.html">VirtualBox</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/virtualbox-1.html">VirtualBox</a>
     
 </span>
 
@@ -49,22 +49,22 @@ Target host
 
 <p>Here are the procedures I used and the issues I encountered.</p>
 
-<h2>Adjust network settings</h2>
+<h2 id="adjust-network-settings">Adjust network settings</h2>
 
 <p>My guest VMs use the <em>Bridged</em> networking mode and found I had to open VBox <em>Settings</em> on each target VM and change the <em>Intel 82567LF-2 Gigabit Network Connection</em> wired adaptor to the <em>Intel WiFi Link 1000 BGN</em> WiFi adaptor option (because the target host had a WiFi network connection whereas the source host had a wired network connection).</p>
 
 <p><strong><em>Note</em></strong>:
 The <em>Microsoft Virtual WiFi Miniport Adaptor</em> was also presented as an option but it did not work.</p>
 
-<h2>Unable to boot Windows VDIs on target host</h2>
+<h2 id="unable-to-boot-windows-vdis-on-target-host">Unable to boot Windows VDIs on target host</h2>
 
 <p>The Windows VMs failed to boot on the target host.</p>
 
-<h3>Symptoms</h3>
+<h3 id="symptoms">Symptoms</h3>
 
 <p>About 3 seconds into the Windows guest boot sequence (just after the splash screen appears) a Blue Screen Of Death appears briefly (to quick to ready anything), then the VM reboots and the cycle repeats.</p>
 
-<h3>Solutions</h3>
+<h3 id="solutions">Solutions</h3>
 
 <p>It took me while to find the solution, but it turned out to be simple: enable virtualization in the host BIOS (the factory setting of the HP TouchSmart tm2 BIOS <em>System Configuration-&gt;Virtualization Technology</em> option is <em>Disabled</em>, I set it to <em>Enabled</em> and the problem went away).</p>
 
@@ -95,7 +95,7 @@ The <em>Microsoft Virtual WiFi Miniport Adaptor</em> was also presented as an op
 
 <p>The second solution is apparently more general in that it will work irrespective of the target host CPU virtualization capabilities, see replies to my post to the VBox forums: <a href="http://forums.virtualbox.org/viewtopic.php?f=6&amp;t=36398">http://forums.virtualbox.org/viewtopic.php?f=6&amp;t=36398</a></p>
 
-<h2>Duplicate Name Exists errors</h2>
+<h2 id="duplicate-name-exists-errors">Duplicate Name Exists errors</h2>
 
 <p>I sometimes got a <em>Duplicate Name Exists</em> error when starting WinXP guest on the new host. This error occurs if two PC with the same Windows computer name exist in the same workgroup &ndash; but not so in this case as I was not running the same VM on the source host.  The problem goes away after rebooting.</p>
 
@@ -104,12 +104,12 @@ The <em>Microsoft Virtual WiFi Miniport Adaptor</em> was also presented as an op
     <div>
         <span class="left">
             
-            « <a href="https://blog.methods.co.nz/posts/android-development-with-virtualbox-and-the-lg-p500-phone/">Previous</a>
+            « <a href="https://srackham.github.io/stuarts-notes/posts/android-development-with-virtualbox-and-the-lg-p500-phone/">Previous</a>
             
         </span>
         <span class="right">
             
-            <a href="https://blog.methods.co.nz/posts/vala-treeview-list-example/">Next</a> »
+            <a href="https://srackham.github.io/stuarts-notes/posts/vala-treeview-list-example/">Next</a> »
             
         </span>
     </div>

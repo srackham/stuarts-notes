@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width" />
     <title>Flux Backbone Todos Example</title>
-    <link type="text/css" rel="stylesheet" href="https://blog.methods.co.nz/main.css">
+    <link type="text/css" rel="stylesheet" href="https://srackham.github.io/stuarts-notes/main.css">
     <link type="text/css" rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
 </head>
 <body>
     <div class="banner no-print">
-        <a href="https://blog.methods.co.nz/index.html">srackham | blog</a>
+        <a href="https://srackham.github.io/stuarts-notes/index.html">srackham | notes</a>
     </div>
     <ul class="menu no-print">
-        <li><a href="https://blog.methods.co.nz/indexes/posts/docs-1.html">Posts</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/tags.html">Tags</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/all/docs-1.html">All</a></li>
-        <li><a href="https://blog.methods.co.nz/about.html">About</a></li>
-        <li><a href="https://blog.methods.co.nz/search.html">Search</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/docs-1.html">Posts</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags.html">Tags</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/all/docs-1.html">All</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/about.html">About</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/search.html">Search</a></li>
     </ul>
     <div id="main">
         
@@ -27,17 +27,17 @@
 <span class="sans-font">Nov 25, 2014</span> 
 <span class="doctags">
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/backbone-1.html">Backbone</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/backbone-1.html">Backbone</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/flux-1.html">Flux</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/flux-1.html">Flux</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/react-1.html">React</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/react-1.html">React</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/reactjs-1.html">Reactjs</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/reactjs-1.html">Reactjs</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/todo-1.html">Todo</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/todo-1.html">Todo</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/todomvc-1.html">todoMVC</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/todomvc-1.html">todoMVC</a>
     
 </span>
 
@@ -55,7 +55,7 @@
 
 <p>The Todo app is implemented using <a href="http://facebook.github.io/react/blog/2014/05/06/flux.html">Flux</a>, <a href="http://backbonejs.org/">Backbone</a> and <a href="http://facebook.github.io/react/index.html">React</a>.</p>
 
-<h2>Architecture and Implementation</h2>
+<h2 id="architecture-and-implementation">Architecture and Implementation</h2>
 
 <p>The Flux/React combination results in a highly decoupled declarative application structure. Here is the actual code:</p>
 
@@ -86,7 +86,7 @@ React.render(
 
 <p>Displaying a second fully synchronized Todo list is a bit nonsensical but it graphically illustrates the power of the Flux architecture &ndash; try doing this in any other framework.</p>
 
-<h2>Data flow</h2>
+<h2 id="data-flow">Data flow</h2>
 
 <p>Data flows unidirectionally in a circular path <em>Dispatcher-&gt;Store-&gt;View-&gt;Dispatcher-&gt; …</em>:</p>
 
@@ -96,7 +96,7 @@ React.render(
 <li>UI components send actions (messages) to the <code>dispatcher</code> in response to user input &ndash; components do not mutate the store directly.</li>
 </ul>
 
-<h2>The Store</h2>
+<h2 id="the-store">The Store</h2>
 
 <ul>
 <li>The store is a Black Box containing the application&rsquo;s state and the logic to execute dispatcher actions which update (mutate) the store.</li>
@@ -111,7 +111,7 @@ React.render(
 
 <p><code>TodoStore</code> collection and <code>TodoItem</code> models are passed a Flux dispatcher when they are instantiated. <code>TodoItem</code> models are instantiated by the Backbone Collection <code>add</code> method which passes the dispatcher option to the <code>TodoItem</code> model&rsquo;s <code>initialize</code> function.</p>
 
-<h2>Building and Running</h2>
+<h2 id="building-and-running">Building and Running</h2>
 
 <p>The app is developed and built in a node/npm environment. To install and run:</p>
 
@@ -142,7 +142,7 @@ npm install
 <li><p>Open your Web browser at <a href="http://localhost:8888/">http://localhost:8888/</a>.</p></li>
 </ol>
 
-<h2>Lessons learnt</h2>
+<h2 id="lessons-learnt">Lessons learnt</h2>
 
 <ul>
 <li><p>As always in JavaScript, when you pass a callback you need to ensure that they are bound to the correct context. In the following example the Backbone Model event handler&rsquo;s context is bound to the current object:</p>
@@ -168,12 +168,12 @@ this.props.store.on(&lsquo;change&rsquo;,
     <div>
         <span class="left">
             
-            « <a href="https://blog.methods.co.nz/posts/publishing-a-project-website-to-github-pages/">Previous</a>
+            « <a href="https://srackham.github.io/stuarts-notes/posts/publishing-a-project-website-to-github-pages/">Previous</a>
             
         </span>
         <span class="right">
             
-            <a href="https://blog.methods.co.nz/posts/switching-from-grunt-to-jake/">Next</a> »
+            <a href="https://srackham.github.io/stuarts-notes/posts/switching-from-grunt-to-jake/">Next</a> »
             
         </span>
     </div>

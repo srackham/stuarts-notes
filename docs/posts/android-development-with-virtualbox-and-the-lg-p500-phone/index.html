@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width" />
     <title>Android Development with VirtualBox and the LG P500 phone</title>
-    <link type="text/css" rel="stylesheet" href="https://blog.methods.co.nz/main.css">
+    <link type="text/css" rel="stylesheet" href="https://srackham.github.io/stuarts-notes/main.css">
     <link type="text/css" rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
 </head>
 <body>
     <div class="banner no-print">
-        <a href="https://blog.methods.co.nz/index.html">srackham | blog</a>
+        <a href="https://srackham.github.io/stuarts-notes/index.html">srackham | notes</a>
     </div>
     <ul class="menu no-print">
-        <li><a href="https://blog.methods.co.nz/indexes/posts/docs-1.html">Posts</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/tags.html">Tags</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/all/docs-1.html">All</a></li>
-        <li><a href="https://blog.methods.co.nz/about.html">About</a></li>
-        <li><a href="https://blog.methods.co.nz/search.html">Search</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/docs-1.html">Posts</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags.html">Tags</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/all/docs-1.html">All</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/about.html">About</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/search.html">Search</a></li>
     </ul>
     <div id="main">
         
@@ -27,16 +27,16 @@
 <span class="sans-font">Jan 7, 2011</span> 
 <span class="doctags">
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/android-1.html">Android</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/android-1.html">Android</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/virtualbox-1.html">VirtualBox</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/virtualbox-1.html">VirtualBox</a>
     
 </span>
 
 </div>
 <p>Having recently acquired my first smart-phone (a new LG P500 Android phone) I decided it was time to learn some Android programming.  This post summarizes my trials and tribulations getting the LG P500 phone to talk to my Android Eclipse development environment (Eclipse plus Android SDK running on a VirtualBox Linux guest).</p>
 
-<h2>Preliminaries</h2>
+<h2 id="preliminaries">Preliminaries</h2>
 
 <p>Development environment:</p>
 
@@ -52,7 +52,7 @@
 
 <p>If you had previously installed the Windows LG USB drive on the host then you will lose host USB mass storage functionality when you uninstall it (my experience on Vista x64) &ndash; but, oddly, if you never install the LG driver then host USB mass storage is retained. The default mass storage functionality seems to be removed by the process of installing then uninstalling the LG driver. Guest USB mass storage functionality is not affected.</p>
 
-<h2>Configuring the USB phone device on the VirtualBox guest</h2>
+<h2 id="configuring-the-usb-phone-device-on-the-virtualbox-guest">Configuring the USB phone device on the VirtualBox guest</h2>
 
 <ol>
 <li><p>Configure the VirtualBox guest USB filter as explained <a href="http://forum.xda-developers.com/showthread.php?t=570452g">here</a>. The phone&rsquo;s USB filter will appear as <em>LG Electronics Inc. LG Android USB Device [0226]</em>.</p></li>
@@ -115,7 +115,7 @@ List of devices attached
 <li>Finally, run your Android application from Eclipse, you should be prompted with an <em>Android Device Chooser</em> dialog that includes your Android phone device (identified by the phone&rsquo;s serial number).</li>
 </ol>
 
-<h2>Mounting the phone&rsquo;s USB drive on the VirtualBox guest</h2>
+<h2 id="mounting-the-phone-s-usb-drive-on-the-virtualbox-guest">Mounting the phone&rsquo;s USB drive on the VirtualBox guest</h2>
 
 <p>It&rsquo;s important to realize that there are actually two mutually exclusive USB drivers: one for USB storage, the other (a USB serial interface) for debugging. The debug driver is activated when the phone is in debug mode. The phone&rsquo;s USB mass storage device is not available when the phone is in debug mode. To access the phone&rsquo;s USB drive from the VirtualBox guest:</p>
 
@@ -151,7 +151,7 @@ You can use fdisk to determine the drive name e.g.</p>
 <p><strong><em>Note</em></strong>:
 On the Xubuntu 10.04 guest I had to disable the Thunar file manager&rsquo;s volume management (in <em>Edit-&gt;Preferences-&gt;Advanced</em> uncheck the <em>Enable volume Management</em> option). If this was not done Thunar would spontaneously close while scanning the auto-mounted drive.</p>
 
-<h2>To reinstall the LG phone driver on the Windows host</h2>
+<h2 id="to-reinstall-the-lg-phone-driver-on-the-windows-host">To reinstall the LG phone driver on the Windows host</h2>
 
 <p>Here&rsquo;s what to do if you ever need to (re)install the Windows host USB phone driver.  This will reinstate host USB functionality but you will lose guest USB functionality.</p>
 
@@ -173,12 +173,12 @@ On the Xubuntu 10.04 guest I had to disable the Thunar file manager&rsquo;s volu
     <div>
         <span class="left">
             
-            « <a href="https://blog.methods.co.nz/posts/bottle-mongodb-example/">Previous</a>
+            « <a href="https://srackham.github.io/stuarts-notes/posts/bottle-mongodb-example/">Previous</a>
             
         </span>
         <span class="right">
             
-            <a href="https://blog.methods.co.nz/posts/moving-between-virtualbox-hosts/">Next</a> »
+            <a href="https://srackham.github.io/stuarts-notes/posts/moving-between-virtualbox-hosts/">Next</a> »
             
         </span>
     </div>

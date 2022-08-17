@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width" />
     <title>Porting from Make to Grunt</title>
-    <link type="text/css" rel="stylesheet" href="https://blog.methods.co.nz/main.css">
+    <link type="text/css" rel="stylesheet" href="https://srackham.github.io/stuarts-notes/main.css">
     <link type="text/css" rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
 </head>
 <body>
     <div class="banner no-print">
-        <a href="https://blog.methods.co.nz/index.html">srackham | blog</a>
+        <a href="https://srackham.github.io/stuarts-notes/index.html">srackham | notes</a>
     </div>
     <ul class="menu no-print">
-        <li><a href="https://blog.methods.co.nz/indexes/posts/docs-1.html">Posts</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/tags.html">Tags</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/all/docs-1.html">All</a></li>
-        <li><a href="https://blog.methods.co.nz/about.html">About</a></li>
-        <li><a href="https://blog.methods.co.nz/search.html">Search</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/docs-1.html">Posts</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags.html">Tags</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/all/docs-1.html">All</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/about.html">About</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/search.html">Search</a></li>
     </ul>
     <div id="main">
         
@@ -27,20 +27,20 @@
 <span class="sans-font">Aug 16, 2014</span> 
 <span class="doctags">
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/grunt-1.html">grunt</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/grunt-1.html">grunt</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/javascript-1.html">JavaScript</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/javascript-1.html">JavaScript</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/make-1.html">Make</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/make-1.html">Make</a>
     
 </span>
 
 </div>
 <p>This post documents my experience porting a <a href="https://github.com/srackham/rimu/blob/v3.0.7/Makefile">Makefile</a> to a <a href="https://github.com/srackham/rimu/blob/c1e37b408e0a31d4051229654c2331c6cbc9a49b/Gruntfile.js">Gruntfile</a> in my <a href="https://github.com/srackham/rimu">Rimu Markup project</a>.</p>
 
-<p><strong>NOTE</strong>: Since first writing this post I have <a href="https://blog.methods.co.nz/posts/switching-from-grunt-to-jake/">switched the same project from Grunt to Jake</a>.</p>
+<p><strong>NOTE</strong>: Since first writing this post I have <a href="https://srackham.github.io/stuarts-notes/posts/switching-from-grunt-to-jake/">switched the same project from Grunt to Jake</a>.</p>
 
-<h2>Why Grunt</h2>
+<h2 id="why-grunt">Why Grunt</h2>
 
 <p>My reasons for porting were to:</p>
 
@@ -51,7 +51,7 @@
 <li>End up with a build script that is easier to write, maintain and test.</li>
 </ol>
 
-<h2>What differentiates Grunt from Make</h2>
+<h2 id="what-differentiates-grunt-from-make">What differentiates Grunt from Make</h2>
 
 <ul>
 <li><a href="http://gruntjs.com/">Grunt</a> is similar to Make in that it provides a mechanism for running tasks (JavaScript functions) along with <a href="http://gruntjs.com/api/grunt">helpers</a> that assist the definition and execution of tasks.</li>
@@ -60,7 +60,7 @@
 <li>Gruntfiles can be written in JavaScript or CoffeeScript &ndash; for me this is the biggest advantage over Makefiles (which are an arcane mix of UNIX shell script and Makefile syntax). There&rsquo;s just no comparison between the two when it comes to writing non-trivial scripts especially when coupled with the huge ecosystem of nodejs libraries.</li>
 </ul>
 
-<h2>Use ShellJS instead of Grunt plugins</h2>
+<h2 id="use-shelljs-instead-of-grunt-plugins">Use ShellJS instead of Grunt plugins</h2>
 
 <p>My first porting attempt was based on the de facto Grunt scripting model i.e.  <em>use <a href="http://gruntjs.com/plugins">Grunt Plugins</a> to run development tools</em>. I soon became frustrated, for every build tool I wanted to run I had to:</p>
 
@@ -104,7 +104,7 @@ grunt.loadNpmTasks('grunt-contrib-jshint');
 
 <p>See the full <a href="https://github.com/srackham/rimu/blob/c1e37b408e0a31d4051229654c2331c6cbc9a49b/Gruntfile.js">Gruntfile.js</a> for more examples of the use of ShellJS functions.</p>
 
-<h2>Lessons Learnt</h2>
+<h2 id="lessons-learnt">Lessons Learnt</h2>
 
 <ol>
 <li>Do not use Grunt plugins that are just wrappers for existing command-line tools (I&rsquo;m not the only one who thinks this way, see <a href="http://blog.millermedeiros.com/node-js-ant-grunt-and-other-build-tools/">here</a> and <a href="http://blog.keithcirkel.co.uk/why-we-should-stop-using-grunt/">here</a>.</li>
@@ -117,12 +117,12 @@ grunt.loadNpmTasks('grunt-contrib-jshint');
     <div>
         <span class="left">
             
-            « <a href="https://blog.methods.co.nz/posts/switching-from-grunt-to-jake/">Previous</a>
+            « <a href="https://srackham.github.io/stuarts-notes/posts/switching-from-grunt-to-jake/">Previous</a>
             
         </span>
         <span class="right">
             
-            <a href="https://blog.methods.co.nz/posts/hello-world-written-in-kotlin-using-android-studio/">Next</a> »
+            <a href="https://srackham.github.io/stuarts-notes/posts/hello-world-written-in-kotlin-using-android-studio/">Next</a> »
             
         </span>
     </div>

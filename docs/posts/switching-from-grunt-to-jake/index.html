@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width" />
     <title>Switching from Grunt to Jake</title>
-    <link type="text/css" rel="stylesheet" href="https://blog.methods.co.nz/main.css">
+    <link type="text/css" rel="stylesheet" href="https://srackham.github.io/stuarts-notes/main.css">
     <link type="text/css" rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
 </head>
 <body>
     <div class="banner no-print">
-        <a href="https://blog.methods.co.nz/index.html">srackham | blog</a>
+        <a href="https://srackham.github.io/stuarts-notes/index.html">srackham | notes</a>
     </div>
     <ul class="menu no-print">
-        <li><a href="https://blog.methods.co.nz/indexes/posts/docs-1.html">Posts</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/tags.html">Tags</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/all/docs-1.html">All</a></li>
-        <li><a href="https://blog.methods.co.nz/about.html">About</a></li>
-        <li><a href="https://blog.methods.co.nz/search.html">Search</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/docs-1.html">Posts</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags.html">Tags</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/all/docs-1.html">All</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/about.html">About</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/search.html">Search</a></li>
     </ul>
     <div id="main">
         
@@ -27,22 +27,22 @@
 <span class="sans-font">Aug 23, 2014</span> 
 <span class="doctags">
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/grunt-1.html">grunt</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/grunt-1.html">grunt</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/jake-1.html">jake</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/jake-1.html">jake</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/javascript-1.html">JavaScript</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/javascript-1.html">JavaScript</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/make-1.html">Make</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/make-1.html">Make</a>
     
 </span>
 
 </div>
-<p>This post discusses why I switched my Rimu Markup project&rsquo;s build tool to <a href="http://jakejs.com/">Jake</a>, having previously <a href="https://blog.methods.co.nz/posts/porting-from-make-to-grunt/">ported the same project from Make to Grunt</a>.</p>
+<p>This post discusses why I switched my Rimu Markup project&rsquo;s build tool to <a href="http://jakejs.com/">Jake</a>, having previously <a href="https://srackham.github.io/stuarts-notes/posts/porting-from-make-to-grunt/">ported the same project from Make to Grunt</a>.</p>
 
 <p><strong>NOTE</strong>: This post has been revised since original publication to more clearly explain Jake synchronicity and to show how I now process task shell commands in parallel.</p>
 
-<h2>Why Jake instead of Grunt</h2>
+<h2 id="why-jake-instead-of-grunt">Why Jake instead of Grunt</h2>
 
 <p>Jake (like Grunt) is a JavaScript application for building JavaScript projects. Jake is modeled after <a href="https://github.com/jimweirich/rake">Rake</a> (a Make-like program implemented in Ruby). If you know Rake or Make you&rsquo;ll be right at home with Jake.</p>
 
@@ -51,7 +51,7 @@
 <p>Here&rsquo;s why I switched to Jake:</p>
 
 <ul>
-<li>Grunt is plugin-centric &ndash; its default usage paradigm is <em>plugins and configuration over scripting</em> &ndash; this is one of those things that sounds good in theory but is not so good in practice (see my <a href="https://blog.methods.co.nz/posts/porting-from-make-to-grunt/">previous post</a>).</li>
+<li>Grunt is plugin-centric &ndash; its default usage paradigm is <em>plugins and configuration over scripting</em> &ndash; this is one of those things that sounds good in theory but is not so good in practice (see my <a href="https://srackham.github.io/stuarts-notes/posts/porting-from-make-to-grunt/">previous post</a>).</li>
 <li>Jake files are JavaScript code which is more readable and (crucially) more flexible than Grunt&rsquo;s JSON configuration file format.</li>
 <li>Grunt does not have built-in file dependency management and only rudimentary <a href="https://github.com/gruntjs/grunt/issues/968">task dependency management</a> &ndash; dependency management is what build tools should be all about and these are real deficiencies (especially if you come from Make, Rake or Jake).</li>
 </ul>
@@ -60,7 +60,7 @@
 
 <p>Here&rsquo;s the full <a href="https://github.com/srackham/rimu/blob/v3.0.10/Jakefile.js">Jakefile.js</a> and here&rsquo;s the legacy <a href="https://github.com/srackham/rimu/blob/c1e37b408e0a31d4051229654c2331c6cbc9a49b/Gruntfile.js">Gruntfile.js</a>.</p>
 
-<h2>Task synchronicity</h2>
+<h2 id="task-synchronicity">Task synchronicity</h2>
 
 <p><strong>Tasks should execute serially, but shell commands within a task should be run in parallel</strong>.</p>
 
@@ -116,14 +116,14 @@ task('tslint', {async: true}, function() {
 
 <p>By default <code>exec</code> executes the Jake <code>complete</code> function once all shell commands have finished. The above example runs over seven times faster than it would if the <code>tslint</code> commands were run sequentially.</p>
 
-<h2>Use jake.exec to run interactive tasks</h2>
+<h2 id="use-jake-exec-to-run-interactive-tasks">Use jake.exec to run interactive tasks</h2>
 
 <p>For example if you want your Git commit task to solicit your commit message using the editor:</p>
 
 <pre><code class="language-js">jake.exec('git commit -a', {interactive: true}, complete);
 </code></pre>
 
-<h2>Use file tasks to suppress unnecessary commands</h2>
+<h2 id="use-file-tasks-to-suppress-unnecessary-commands">Use file tasks to suppress unnecessary commands</h2>
 
 <p>Use Jake <a href="http://jakejs.com/docs#tasks_file-tasks">file tasks</a> to avoid rerunning commands whose prerequisite files have not changed &ndash; typically doing things like compiling and documention generation. For example the Rimu project build command executes up to twice as fast using file tasks (the Jake <code>-B</code> option forces unconditional task execution):</p>
 
@@ -140,11 +140,11 @@ user    0m4.112s
 sys     0m5.204s
 </code></pre>
 
-<h2>Use shell commands not plugins</h2>
+<h2 id="use-shell-commands-not-plugins">Use shell commands not plugins</h2>
 
-<p>Use the <em>ShellJS</em> library to leverage your existing knowledge and to make your Jakefiles easier to read.  Plugins are a systemic problem and I avoid them like the plague &ndash; see <a href="https://blog.methods.co.nz/posts/porting-from-make-to-grunt/">Use ShellJS instead of Grunt plugins</a>.</p>
+<p>Use the <em>ShellJS</em> library to leverage your existing knowledge and to make your Jakefiles easier to read.  Plugins are a systemic problem and I avoid them like the plague &ndash; see <a href="https://srackham.github.io/stuarts-notes/posts/porting-from-make-to-grunt/">Use ShellJS instead of Grunt plugins</a>.</p>
 
-<h2>What about Gulp?</h2>
+<h2 id="what-about-gulp">What about Gulp?</h2>
 
 <p>Gulp is the new kid on the block and is kind of interesting:</p>
 
@@ -155,7 +155,7 @@ sys     0m5.204s
 
 <p>I ported my Rimu Jake file to Gulp but abandoned the effort because of plugin problems.</p>
 
-<h2>References</h2>
+<h2 id="references">References</h2>
 
 <ul>
 <li><a href="http://howtonode.org/intro-to-jake">Intro to Jake</a>.</li>
@@ -168,12 +168,12 @@ sys     0m5.204s
     <div>
         <span class="left">
             
-            « <a href="https://blog.methods.co.nz/posts/flux-backbone-todos-example/">Previous</a>
+            « <a href="https://srackham.github.io/stuarts-notes/posts/flux-backbone-todos-example/">Previous</a>
             
         </span>
         <span class="right">
             
-            <a href="https://blog.methods.co.nz/posts/porting-from-make-to-grunt/">Next</a> »
+            <a href="https://srackham.github.io/stuarts-notes/posts/porting-from-make-to-grunt/">Next</a> »
             
         </span>
     </div>

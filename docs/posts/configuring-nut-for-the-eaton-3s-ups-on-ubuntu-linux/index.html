@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width" />
     <title>Configuring NUT for the Eaton 3S UPS on Ubuntu Linux</title>
-    <link type="text/css" rel="stylesheet" href="https://blog.methods.co.nz/main.css">
+    <link type="text/css" rel="stylesheet" href="https://srackham.github.io/stuarts-notes/main.css">
     <link type="text/css" rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css">
 </head>
 <body>
     <div class="banner no-print">
-        <a href="https://blog.methods.co.nz/index.html">srackham | blog</a>
+        <a href="https://srackham.github.io/stuarts-notes/index.html">srackham | notes</a>
     </div>
     <ul class="menu no-print">
-        <li><a href="https://blog.methods.co.nz/indexes/posts/docs-1.html">Posts</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/tags.html">Tags</a></li>
-        <li><a href="https://blog.methods.co.nz/indexes/posts/all/docs-1.html">All</a></li>
-        <li><a href="https://blog.methods.co.nz/about.html">About</a></li>
-        <li><a href="https://blog.methods.co.nz/search.html">Search</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/docs-1.html">Posts</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags.html">Tags</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/indexes/posts/all/docs-1.html">All</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/about.html">About</a></li>
+        <li><a href="https://srackham.github.io/stuarts-notes/search.html">Search</a></li>
     </ul>
     <div id="main">
         
@@ -27,13 +27,13 @@
 <span class="sans-font">Feb 27, 2013</span> 
 <span class="doctags">
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/linux-1.html">Linux</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/linux-1.html">Linux</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/nut-1.html">NUT</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/nut-1.html">NUT</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/ubuntu-1.html">Ubuntu</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/ubuntu-1.html">Ubuntu</a>
     
-    ・ <a href="https://blog.methods.co.nz/indexes/posts/tags/ups-1.html">UPS</a>
+    ・ <a href="https://srackham.github.io/stuarts-notes/indexes/posts/tags/ups-1.html">UPS</a>
     
 </span>
 
@@ -44,7 +44,7 @@
 
 <p><a href="http://www.networkupstools.org/">Network UPS Tools (NUT)</a> seems to be the most widely supported and used UPS management package for Linux. It is extremely flexible and caters for a wide range of UPS makes, models and deployment scenarios. The sheer scope and flexibility of NUT makes UPS selection and configuration daunting. The purpose of this article is to illustrate a minimal configuration to achieve stand-alone UPS management of a single Ubuntu 12.04 based PC.</p>
 
-<h2>NUT configuration</h2>
+<h2 id="nut-configuration">NUT configuration</h2>
 
 <p>Here&rsquo;s how this configuration works: when power has dropped out for more than 3 minutes NUT triggers a shutdown. The shutdown sequence closes down Ubuntu; commands the UPS to commence shutdown; and then turns off the PC. Once the PC is off the UPS turns off to conserve the UPS battery. When power is reestablished the UPS powers up and reapplies power to the PC (whether your PC turns on automatically at power resumption is determined by it&rsquo;s BIOS settings).</p>
 
@@ -125,7 +125,7 @@ then
 fi
 </code></pre>
 
-<h2>Testing the UPS</h2>
+<h2 id="testing-the-ups">Testing the UPS</h2>
 
 <ul>
 <li><p>Check NUT status:</p>
@@ -213,7 +213,7 @@ Feb 19 11:38:14 nas1 upsmon[3044]: UPS eaton3s@localhost on line power
 </code></pre></li>
 </ul>
 
-<h2>UPS selection</h2>
+<h2 id="ups-selection">UPS selection</h2>
 
 <p>The key to using a UPS with NUT is getting a UPS that is fully supported by the NUT version you are using (Ubuntu 12.04 has NUT 2.6.3).  Here&rsquo;s why I chose the Eaton 3S:</p>
 
@@ -224,7 +224,7 @@ Feb 19 11:38:14 nas1 upsmon[3044]: UPS eaton3s@localhost on line power
 <li>Other users report <a href="http://askubuntu.com/questions/107883/how-to-use-a-eaton-3s-700va-ups-with-ubuntu-server">it works with Ubuntu 12.04</a>.</li>
 </ol>
 
-<h2>Ubuntu 14.04</h2>
+<h2 id="ubuntu-14-04">Ubuntu 14.04</h2>
 
 <p>Since this post was originally published I&rsquo;ve installed and tested Nut on Ubuntu Server 14.04 (Nut version 2.7.1) where I encountered an intermittent startup error viz. about one boot in six the UPS driver failed to connect leaving the following error in the <em>syslog</em>:</p>
 
@@ -244,12 +244,12 @@ Feb 19 11:38:14 nas1 upsmon[3044]: UPS eaton3s@localhost on line power
     <div>
         <span class="left">
             
-            « <a href="https://blog.methods.co.nz/posts/writing-android-event-handlers-in-kotlin/">Previous</a>
+            « <a href="https://srackham.github.io/stuarts-notes/posts/writing-android-event-handlers-in-kotlin/">Previous</a>
             
         </span>
         <span class="right">
             
-            <a href="https://blog.methods.co.nz/posts/building-heterogeneous-typescript-libraries/">Next</a> »
+            <a href="https://srackham.github.io/stuarts-notes/posts/building-heterogeneous-typescript-libraries/">Next</a> »
             
         </span>
     </div>
