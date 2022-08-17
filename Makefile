@@ -9,8 +9,8 @@ SHELL := bash
 .SUFFIXES:
 .ONESHELL:
 
-# HOMEPAGE = https://srackham.github.io/stuarts-notes
-HOMEPAGE = https://blog.methods.co.nz
+HOMEPAGE = https://srackham.github.io/stuarts-notes
+# HOMEPAGE = https://blog.methods.co.nz
 
 .PHONY: build
 build:

@@ -1,16 +1,14 @@
 exclude = "config.rmu"
 homepage = "indexes/posts/docs-1.html"
 longdate = "Jan 2, 2006"
-# 26-Mar-2022: Github redirects to blog.methods.co.nz so do not need to change the urlprefix.
-# urlprefix = "https://srackham.github.io/stuarts-notes"
-urlprefix = "https://blog.methods.co.nz"
+urlprefix = "https://srackham.github.io/stuarts-notes"
 author = "Stuart Rackham"
 templates = "*.md"
 id = "optional"
 
 [user]
 # Header text at the top of each page.
-banner = "srackham | blog"
+banner = "srackham | notes"
 
 # Default HTML title element text.
 title = "Stuart's Notes"
