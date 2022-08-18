@@ -2,7 +2,7 @@
 <h1>All {{.count}} Blog Posts</h1>
 <div class="docslist">
     {{range .docs}}
-        <h3 style="margin-top:0.5rem"><a href="{{.url}}">{{.shortdate}} ・ {{.title}}</a></h3>
+        <h3 style="margin-top:0.5rem"><a href="{{.url}}">{{.shortdate}} &middot; {{.title}}</a></h3>
     {{end}}
 </div>
 {{template "footer" .}}
