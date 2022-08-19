@@ -7,8 +7,8 @@ title: Search blog posts
 </style>
 <!-- Google Programmable Search Engine code. -->
 <!-- See https://developers.google.com/custom-search -->
-<script async src="https://cse.google.com/cse.js?cx=75d6143489db4483d">
-</script>
+<script async src="https://cse.google.com/cse.js?cx=75d6143489db4483d"></script>
+<script>
 window.onload = function() {
   document.getElementsByName("search")[0].focus(); // Focus search box.
 };
