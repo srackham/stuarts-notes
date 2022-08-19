@@ -2,10 +2,11 @@
 
 This is my (Stuart Rackham's) personal blog.
 
-- Hosted on Github Pages at custom subdomain https://blog.methods.co.nz
+- Hosted on Github Pages at https://srackham.github.io/stuarts-notes
 - Built with [hindsite](https://github.com/srackham/hindsite)
 
 ## History
+- **19-Aug-2022**: Dropped custom domain and reverted to Github Pages Web address https://srackham.github.io/stuarts-notes
 - **26-Mar-2022**: Configured Github Pages custom subdomain https://blog.methods.co.nz.
 - **14-Mar-2022**: Status: 41 posts spanning from 2008 to 2015. They are all related to Web
   and software development and most are now well out of date.
